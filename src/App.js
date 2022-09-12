@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+
+import data from "./assets/data.json";
+
+import Header from "./Components/Header";
+import Search from "./Components/Search";
+import List from "./Components/List";
 
 function App() {
+  const [menus, setMenus] = useState(data);
+  const [nowId, setNowId] = useState(data.length+1);
+
+  const addMenuHandler = (newMenu) => {
+    setNowId(nowId + 1);
+    newMenu.id = nowId;
+    setMenus([...menus, newMenu])
+  };
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header></Header>
+      <Search></Search>
+      <List menus={menus} addMenu={addMenuHandler}></List>
     </div>
   );
 }

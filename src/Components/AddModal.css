@@ -1,0 +1,154 @@
+.closedModalContainer {
+  display: none;
+}
+
+.openedNodalContainer {
+  display: inline-block;
+  position: relative;
+  width: 80vw;
+  height: 80vh;
+  border-radius: 20px blue;
+  background-color: yellow;
+}
+
+
+.closedModal {
+  display: none;
+}
+
+.openModal {
+  display: flex;
+  flex-direction: column;
+  
+  position: relative;
+  margin: auto auto;
+  padding: auto auto;
+  width: 423px;
+  height: 260px;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+
+}
+
+.modalTitle {
+  align-self: center;
+  width: 323px;
+  height: 30px;
+  text-align: left;
+}
+
+.inputCon {
+    align-self: center;
+    width: 323px;
+    height: 30px;
+    margin: 5px 0px;
+    align-items: center;
+    
+}
+
+.label {
+    width: 75px;
+    height: 18px;
+    top: 6px;
+    float: left;
+    display: flex;
+    padding-top: 5px;
+    
+}
+
+.inputBox {
+    width: 200px;
+    height: 20px;
+    float: right;
+}
+
+
+.buttonCon {
+    display: flex;
+    justify-content: flex-end;
+    margin: 12px 50px;
+}
+
+
+.greenButton {
+  margin: 5px 5px;
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  gap: 5px;
+
+  background: #d3ffc4;
+}
+
+.button {
+  margin: 5px 5px;
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  gap: 5px;
+}
+
+
+
+
+
+
+
+
+
+#modal-animation {
+	transform: scale(1);
+}
+#modal-animation {
+	animation: fadeIn .5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+#modal-animation {
+	/* 콘텐츠를 초기에 보여주지 않음 */
+	opacity: 0;
+	animation: scaleUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+/* Dimmed showing */
+@keyframes fadeIn {
+	0% {
+		background: transparent;
+	}
+	100% {
+		background: rgba(0, 0, 0, .7);
+	}
+}
+/* Show modal content from bottom to top */
+@keyframes scaleUp {
+	0% {
+		/* 모달 콘텐츠를 하단에 위치시킴 */
+		transform: scale(.8) translateY(1000px);
+		opacity: 0;
+	}
+	100% {
+		/* 모달 콘텐츠를 본래 위치로 돌려놓음 */
+		transform: scale(1) translateY(0);
+		opacity: 1;
+	}
+}
+/* Shrink content */
+@keyframes scaleBack {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(.8);
+	}
+}

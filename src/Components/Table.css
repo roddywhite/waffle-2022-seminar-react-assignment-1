@@ -1,0 +1,41 @@
+.container .table {
+    border-collapse: collapse;
+    position: absolute;
+    overflow: auto;
+    width: 90vw;
+}
+
+.container .table .th {
+    border-bottom: 1px solid;
+    height: 40px;
+    text-align: left;
+}
+
+.container .table .tb {
+    width: 90vw;
+    height: 40px;
+}
+
+.container .table .tr {
+    border-bottom: 1px solid;
+    height: 40px;
+    
+}
+
+.container .table .tdId {
+    padding: 7px 15px;
+    height: 40px;
+    text-align: left;
+}
+
+.container .table .tdName {
+    padding: 7px 80px 7px 15px;
+    height: 40px;
+    text-align: left;
+}
+
+.container .table .tdPrice {
+    padding: 7px 100px 7px 10px;
+    height: 40px;
+    text-align: left;
+}

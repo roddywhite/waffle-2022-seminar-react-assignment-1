@@ -1,0 +1,19 @@
+.container {
+
+    display: flex;
+    width: 95vw;
+    height: 600px;
+
+    margin: 10px auto;
+
+    border-radius: 15px;
+    border: solid 1px;
+
+    justify-content: center;
+
+    overflow: auto;
+    
+    position: relative;
+
+}
+
