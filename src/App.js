@@ -16,12 +16,16 @@ function App() {
     setMenus([...menus, newMenu])
   };
 
+  const [enteredSearch, setEnteredSearch] = useState("");
+  const doSearch = (e) => setEnteredSearch(e.target.value);
+
+  
 
   return (
     <div>
       <Header></Header>
-      <Search></Search>
-      <List menus={menus} addMenu={addMenuHandler}></List>
+      <Search enteredSearch={enteredSearch} setEnteredSearch={setEnteredSearch}></Search>
+      <List menus={menus} addMenu={addMenuHandler} enteredSearch={enteredSearch}></List>
     </div>
   );
 }

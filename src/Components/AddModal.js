@@ -20,7 +20,19 @@ const AddModal = ({ isOpened, openModal, closeModal, addMenu }) => {
     setEnteredNum(removedCommaValue.toLocaleString());
   };
 
+
+  const onlyKor = (t) => {
+    var regexp = /[a-z0-9]|[ \[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g;
+    t.onkeyup = function(e){
+      e.value = e.value.replace(regexp,'');
+    }
+  }
+
+
+
   const submitHandler = (e) => {
+
+
     e.preventDefault();
 
     const newMenu = {
@@ -36,6 +48,7 @@ const AddModal = ({ isOpened, openModal, closeModal, addMenu }) => {
     setEnteredNum("");
     setEnteredUrl("");
     closeModal();
+
   };
 
 

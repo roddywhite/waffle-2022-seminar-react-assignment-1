@@ -1,29 +1,38 @@
+import { useEffect, useRef } from "react";
+
+import Item from './Item';
+
 import "./Table.css";
 
-const Table = ({ menus }) => {
+
+const Table = ({ menus, enteredSearch }) => {
+  /*
+  const handleOverMenu = (e) => {
+    e.target.parentElement.style.backgroundColor = 'yellow'
+  }
+
+  const handleClickMenu = (e) => {
+    e.target.parentElement.style.backgroundColor = 'orange'
+  }
+*/
 
   return (
-      <table className="table">
-        <thead className="th">
-          <tr>
-            <th>ID</th>
-            <th>이름</th>
-            <th>가격</th>
-          </tr>
-        </thead>
+    <div>
+      <header>
+        <span>id</span>
+        <span>이름</span>
+        <span>가격</span>
+      </header>
+    {menus.filter((menu) => menu.name.includes(enteredSearch)) 
+    .map((menu) => (
+      <Item
+        key={menu.id}
+        menu={menu}
+        />
+    ))}
+    </div>
+  )
+    }
 
-        <tbody className="tb">
-          {menus.map((menu) => (
-            <tr className="tr" onClick={select}>
-              <td className="tdId">{menu.id}</td>
-              <td className="tdName">{menu.name}</td>
-              <td className='tdPrice'>{menu.price}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-  );
-};
 
 export default Table;

@@ -17,10 +17,18 @@
 }
 
 .container .table .tr {
+    z-index: 1;
     border-bottom: 1px solid;
     height: 40px;
-    
 }
+
+.container .table .trSelected {
+    z-index: 1;
+    background-color: orange;
+    border-bottom: 1px solid;
+    height: 40px;
+}
+
 
 .container .table .tdId {
     padding: 7px 15px;
