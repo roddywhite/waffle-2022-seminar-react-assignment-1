@@ -3,10 +3,10 @@
 }
 
 .openedNodalContainer {
-  display: inline-block;
+  display: fixed;
   position: relative;
-  width: 80vw;
-  height: 80vh;
+  width: 100vw;
+  height: 100vh;
   border-radius: 20px blue;
   background-color: yellow;
 }
@@ -19,10 +19,10 @@
 .openModal {
   display: flex;
   flex-direction: column;
+  position: absolute;
+  top: 25%;
+  left: 30%;
   
-  position: relative;
-  margin: auto auto;
-  padding: auto auto;
   width: 423px;
   height: 260px;
   border-radius: 10px;

@@ -1,9 +1,9 @@
 import "./Header.css";
-import logo from '../assets/logo.svg';
+import logo from "../assets/logo.svg";
 
-const Header = (props) => {
+const Header = () => {
   return (
-    <div className='header'>
+    <div className="header">
       <a href="https://wafflestudio.com">
         <img className="logo" src={logo} alt="waffle logo" />
       </a>

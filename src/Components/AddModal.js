@@ -20,19 +20,14 @@ const AddModal = ({ isOpened, openModal, closeModal, addMenu }) => {
     setEnteredNum(removedCommaValue.toLocaleString());
   };
 
-
   const onlyKor = (t) => {
     var regexp = /[a-z0-9]|[ \[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g;
-    t.onkeyup = function(e){
-      e.value = e.value.replace(regexp,'');
-    }
-  }
-
-
+    t.onkeyup = function (e) {
+      e.value = e.value.replace(regexp, "");
+    };
+  };
 
   const submitHandler = (e) => {
-
-
     e.preventDefault();
 
     const newMenu = {
@@ -48,20 +43,17 @@ const AddModal = ({ isOpened, openModal, closeModal, addMenu }) => {
     setEnteredNum("");
     setEnteredUrl("");
     closeModal();
-
   };
 
-
   const addModalRef = useRef();
-  useEffect( () => {
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   });
 
   const handleClickOutside = (e) => {
     !addModalRef.current.contains(e.target) ? closeModal() : openModal();
-  }
-
+  };
 
   /*
   const closeModalOutside = (e) => {
@@ -72,55 +64,56 @@ const AddModal = ({ isOpened, openModal, closeModal, addMenu }) => {
   */
 
   return (
-      <div
-        id="modal-animation"
-        className={isOpened ? "openModal" : "closedModal"}
-        ref={addModalRef}
-        value={isOpened}
-      >
-        <h3 className="modalTitle">메뉴 추가</h3>
-        <div className="inputCon">
-          <label className="label">이름</label>
-          <input
-            className="inputBox"
-            type="text"
-            minLength="1"
-            maxLength="20"
-            placeholder="맛있는와플"
-            value={enteredTitle}
-            onChange={titleChangeHandler}
-          />
-        </div>
-        <div className="inputCon">
-          <label className="label">가격</label>
-          <input
-            className="inputBox"
-            type="text"
-            placeholder="5,000"
-            value={enteredNum}
-            onChange={changeEnteredNum}
-          />
-        </div>
-        <div className="inputCon">
-          <label className="label">상품 이미지</label>
-          <input
-            className="inputBox"
-            type="text"
-            placeholder="https://foobar/baz.png"
-            value={enteredUrl}
-            onChange={urlChangeHandler}
-          />
-        </div>
-        <div className="buttonCon">
-          <button className="greenButton" onClick={submitHandler}>
-            추가
-          </button>
-          <button className="button" onClick={closeModal}>
-            취소
-          </button>
-        </div>
+    <div className={isOpened ? "openModalContainer" : "closedModalContainer"}>
+    <div
+      id="modal-animation"
+      className={isOpened ? "openModal" : "closedModal"}
+      ref={addModalRef}
+      value={isOpened}
+    >
+      <h3 className="modalTitle">메뉴 추가</h3>
+      <div className="inputCon">
+        <label className="label">이름</label>
+        <input
+          className="inputBox"
+          type="text"
+          minLength="1"
+          maxLength="20"
+          placeholder="맛있는와플"
+          value={enteredTitle}
+          onChange={titleChangeHandler}
+        />
       </div>
-
+      <div className="inputCon">
+        <label className="label">가격</label>
+        <input
+          className="inputBox"
+          type="text"
+          placeholder="5,000"
+          value={enteredNum}
+          onChange={changeEnteredNum}
+        />
+      </div>
+      <div className="inputCon">
+        <label className="label">상품 이미지</label>
+        <input
+          className="inputBox"
+          type="text"
+          placeholder="https://foobar/baz.png"
+          value={enteredUrl}
+          onChange={urlChangeHandler}
+        />
+      </div>
+      <div className="buttonCon">
+        <button className="greenButton" onClick={submitHandler}>
+          추가
+        </button>
+        <button className="button" onClick={closeModal}>
+          취소
+        </button>
+      </div>
+    </div>
+    </div>
   );
 };
 

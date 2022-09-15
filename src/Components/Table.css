@@ -1,49 +1,49 @@
-.container .table {
-    border-collapse: collapse;
-    position: absolute;
-    overflow: auto;
-    width: 90vw;
+.theader {
+  width: 95%;
+  height: 40px;
+  margin-top: 10px;
+  align-self: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  border-bottom: 1px solid black;
 }
 
-.container .table .th {
-    border-bottom: 1px solid;
-    height: 40px;
-    text-align: left;
+.theader .id {
+  padding: 7px 20px 7px 0px;
+  height: 40px;
+  text-align: left;
+  margin-top: auto;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 18px;
 }
 
-.container .table .tb {
-    width: 90vw;
-    height: 40px;
+.theader .name {
+  padding: 7px 315px 7px 5px;
+  height: 40px;
+  text-align: left;
+  margin-top: auto;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 18px;
 }
 
-.container .table .tr {
-    z-index: 1;
-    border-bottom: 1px solid;
-    height: 40px;
-}
+.theader .price {
+  padding: 7px 100px 7px 10px;
+  height: 40px;
+  text-align: left;
+  margin-top: auto;
 
-.container .table .trSelected {
-    z-index: 1;
-    background-color: orange;
-    border-bottom: 1px solid;
-    height: 40px;
-}
-
-
-.container .table .tdId {
-    padding: 7px 15px;
-    height: 40px;
-    text-align: left;
-}
-
-.container .table .tdName {
-    padding: 7px 80px 7px 15px;
-    height: 40px;
-    text-align: left;
-}
-
-.container .table .tdPrice {
-    padding: 7px 100px 7px 10px;
-    height: 40px;
-    text-align: left;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 18px;
 }

@@ -5,27 +5,27 @@ import { useState, useEffect } from "react";
 import Table from "./Table";
 import AddModal from "./AddModal";
 import AddButton from "./AddButton";
+import DetailView from "./DetailView";
 
 const List = ({ menus, addMenu, enteredSearch }) => {
   const [modalOpened, setModalOpened] = useState(false);
   const openModal = () => setModalOpened(true);
   const closeModal = () => setModalOpened(false);
 
-  const [selectedRow, setSelectedRow] = useState(-1);
-  const handleRowClicked = (e) => {
-      e.preventDefault();
-      const id = e.target.parentElement.id;
-      setSelectedRow(id);
-      console.log(e.target.parentElement);
-      console.log(selectedRow);
+  const [selectedMenu, setSelectedMenu] = useState(null);
+  const handleSelectMenu = (menu) => {
+    const isSelectedMenu = selectedMenu && selectedMenu.id === menu.id;
+    setSelectedMenu(isSelectedMenu ? null : menu);
+
   };
 
   return (
+    <div className='bigContainer'>
     <div className="container">
       <Table
         menus={menus}
-        selectedRow={selectedRow}
-        handleRowClicked={handleRowClicked}
+        selectedMenu={selectedMenu}
+        handleSelectMenu={handleSelectMenu}
         enteredSearch={enteredSearch}
       ></Table>
       <AddButton openModal={openModal}></AddButton>
@@ -35,6 +35,8 @@ const List = ({ menus, addMenu, enteredSearch }) => {
         closeModal={closeModal}
         addMenu={addMenu}
       ></AddModal>
+    </div>
+    <DetailView></DetailView>
     </div>
   );
 };

@@ -1,19 +1,23 @@
-.container {
-
+.bigContainer {
     display: flex;
-    width: 95vw;
-    height: 600px;
-
-    margin: 10px auto;
-
-    border-radius: 15px;
-    border: solid 1px;
-
-    justify-content: center;
-
-    overflow: auto;
-    
-    position: relative;
-
+    flex-direction: row;
 }
 
+.container {
+  display: flex;
+  width: 95vw;
+  height: 70vh;
+
+  position: absolute;
+
+  margin: 10px 0 10px 10px;
+
+  border-radius: 15px;
+  border: solid 1px;
+
+  flex-direction: column;
+
+  overflow: auto;
+
+  position: relative;
+}
