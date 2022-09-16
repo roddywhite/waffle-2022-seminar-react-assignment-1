@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import data from "./assets/data.json";
 
@@ -17,20 +17,19 @@ function App() {
   };
 
   const [enteredSearch, setEnteredSearch] = useState("");
-  const doSearch = (e) => setEnteredSearch(e.target.value);
 
   return (
     <div>
-      <Header></Header>
+      <Header/>
       <Search
         enteredSearch={enteredSearch}
         setEnteredSearch={setEnteredSearch}
-      ></Search>
+      />
       <List
         menus={menus}
         addMenu={addMenuHandler}
         enteredSearch={enteredSearch}
-      ></List>
+      />
     </div>
   );
 }

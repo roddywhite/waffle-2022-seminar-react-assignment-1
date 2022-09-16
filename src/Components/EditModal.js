@@ -1,25 +1,24 @@
 import "./AddModal.css";
-import "./AddButton";
 import { useEffect, useState, useRef } from "react";
 
-const AddModal = ({
+const EditModal = ({
   isOpened,
   openModal,
   closeModal,
   menus,
-  addMenu,
+  selectedMenu,
   setSelectedMenu,
 }) => {
   // 이름, 이미지url State 만들기
-  const [enteredTitle, setEnteredTitle] = useState("");
-  const [enteredUrl, setEnteredUrl] = useState("");
+  const [enteredTitle, setEnteredTitle] = useState(selectedMenu.name);
+  const [enteredUrl, setEnteredUrl] = useState(selectedMenu.image);
 
   const titleChangeHandler = (e) => setEnteredTitle(e.target.value);
   const urlChangeHandler = (e) => setEnteredUrl(e.target.value);
 
   // 숫자 세 자리마다 콤마 넣기 (콤마로 바꿔주는 과정에서 price State도 update)
-  const [enteredPrice, setEnteredPrice] = useState("");
-  const [enteredNum, setEnteredNum] = useState("");
+  const [enteredPrice, setEnteredPrice] = useState(selectedMenu.price);
+  const [enteredNum, setEnteredNum] = useState('');
   const changeEnteredNum = (e) => {
     const value = e.target.value + "0";
     setEnteredPrice(value);
@@ -36,7 +35,7 @@ const AddModal = ({
     e.preventDefault();
 
     const newMenu = {
-      id: 0,
+      id: selectedMenu.id,
       name: enteredTitle,
       price: enteredPrice,
       image: enteredUrl,
@@ -48,7 +47,8 @@ const AddModal = ({
     } else if (enteredPrice === "") {
       window.alert("가격을 입력해주세요.");
     } else {
-      addMenu(newMenu);
+
+      
       setEnteredTitle("");
       setEnteredPrice("");
       setEnteredNum("");
@@ -59,33 +59,26 @@ const AddModal = ({
     }
   };
 
-  const addModalRef = useRef();
+  const editModalRef = useRef();
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   });
 
   const handleClickOutside = (e) => {
-    !addModalRef.current.contains(e.target) ? closeModal() : openModal();
+    !editModalRef.current.contains(e.target) ? closeModal() : openModal();
   };
 
-  /*
-  const closeModalOutside = (e) => {
-    console.log(e.target);
-    console.log(e.currentTarget);
-    if (e.target === e.currentTarget) closeModal();
-  };
-  */
 
   return (
     <div className={isOpened ? "openModalContainer" : "closedModalContainer"}>
       <div
         id="modal-animation"
         className={isOpened ? "openModal" : "closedModal"}
-        ref={addModalRef}
+        ref={editModalRef}
         value={isOpened}
       >
-        <h3 className="modalTitle">메뉴 추가</h3>
+        <h3 className="modalTitle">메뉴 수정</h3>
         <div className="inputCon">
           <label className="label">이름</label>
           <input
@@ -121,7 +114,7 @@ const AddModal = ({
         </div>
         <div className="buttonCon">
           <button className="greenButton" onClick={submitHandler}>
-            추가
+            저장
           </button>
           <button className="button" onClick={closeModal}>
             취소
@@ -132,4 +125,4 @@ const AddModal = ({
   );
 };
 
-export default AddModal;
+export default EditModal;
