@@ -14,16 +14,23 @@ const AddModal = ({
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredUrl, setEnteredUrl] = useState("");
 
-  const titleChangeHandler = (e) => setEnteredTitle(e.target.value);
+  // 한글만 입력받도록
+  const titleChangeHandler = (e) => {
+    const koreanOnly = e.target.value.replace(
+      /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,
+      ""
+    );
+    setEnteredTitle(koreanOnly);
+  };
   const urlChangeHandler = (e) => setEnteredUrl(e.target.value);
 
   // 숫자 세 자리마다 콤마 넣기 (콤마로 바꿔주는 과정에서 price State도 update)
   const [enteredPrice, setEnteredPrice] = useState("");
   const [enteredNum, setEnteredNum] = useState("");
   const changeEnteredNum = (e) => {
-    const value = e.target.value + "0";
-    setEnteredPrice(value);
+    const value = e.target.value;
     const removedCommaValue = Number(value.replaceAll(",", ""));
+    setEnteredPrice(removedCommaValue);
     setEnteredNum(removedCommaValue.toLocaleString());
   };
 
@@ -34,31 +41,43 @@ const AddModal = ({
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    const newMenu = {
-      id: 0,
-      name: enteredTitle,
-      price: enteredPrice,
-      image: enteredUrl,
-    };
+    const regex = /^[ㄱ-ㅎ|가-힣]+$/;
     if (enteredTitle === "") {
       window.alert("메뉴명을 입력해주세요.");
+    } else if (!regex.test(enteredTitle)) {
+      window.alert("메뉴명은 한글로만 입력해주세요.");
     } else if (isNameExist(enteredTitle)) {
       window.alert("해당 메뉴명이 이미 존재합니다.");
     } else if (enteredPrice === "") {
       window.alert("가격을 입력해주세요.");
+    } else if (enteredNum.slice(-1) !== "0") {
+      window.alert("가격은 10원 단위로만 입력해주세요.");
     } else {
+      const newMenu = {
+        id: 0,
+        name: enteredTitle,
+        price: enteredPrice,
+        image: enteredUrl,
+      };
+
       addMenu(newMenu);
       setEnteredTitle("");
       setEnteredPrice("");
       setEnteredNum("");
       setEnteredUrl("");
       closeModal();
-
       setSelectedMenu(newMenu);
     }
   };
-
+  // Modal 닫을 때 입력값 초기화해주기 위해
+  const closeTheModal = () => {
+    setEnteredTitle("");
+    setEnteredPrice("");
+    setEnteredNum("");
+    setEnteredUrl("");
+    closeModal();
+  };
+  //모달 영역 지정해서 바깥 클릭하면 닫히도록
   const addModalRef = useRef();
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -66,16 +85,10 @@ const AddModal = ({
   });
 
   const handleClickOutside = (e) => {
-    !addModalRef.current.contains(e.target) ? closeModal() : openModal();
+    if (isOpened) {
+      !addModalRef.current.contains(e.target) ? closeTheModal() : openModal();
+    }
   };
-
-  /*
-  const closeModalOutside = (e) => {
-    console.log(e.target);
-    console.log(e.currentTarget);
-    if (e.target === e.currentTarget) closeModal();
-  };
-  */
 
   return (
     <div className={isOpened ? "openModalContainer" : "closedModalContainer"}>
@@ -123,7 +136,7 @@ const AddModal = ({
           <button className="greenButton" onClick={submitHandler}>
             추가
           </button>
-          <button className="button" onClick={closeModal}>
+          <button className="button" onClick={closeTheModal}>
             취소
           </button>
         </div>

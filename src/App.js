@@ -20,13 +20,14 @@ function App() {
 
   return (
     <div>
-      <Header/>
+      <Header />
       <Search
         enteredSearch={enteredSearch}
         setEnteredSearch={setEnteredSearch}
       />
       <List
         menus={menus}
+        setMenus={setMenus}
         addMenu={addMenuHandler}
         enteredSearch={enteredSearch}
       />

@@ -5,7 +5,12 @@ import altImg from "../assets/logo.svg";
 import editButton from "../assets/editButton.svg";
 import deleteButton from "../assets/deleteButton.svg";
 
-const DetailView = ({ selectedMenu, closeView, openModal }) => {
+const DetailView = ({
+  selectedMenu,
+  closeView,
+  openEditModal,
+  openDeleteModal,
+}) => {
   return (
     <div className="detailView">
       <img
@@ -22,8 +27,18 @@ const DetailView = ({ selectedMenu, closeView, openModal }) => {
       <h3>{selectedMenu.name}</h3>
       <span>{selectedMenu.price.toLocaleString()}원</span>
       <div className="viewButtonContainer">
-        <img className="editButton" onClick={openModal} src={editButton} alt="Edit" />
-        <img className="deleteButton" src={deleteButton} alt="Delete" />
+        <img
+          className="editButton"
+          onClick={openEditModal}
+          src={editButton}
+          alt="Edit"
+        />
+        <img
+          className="deleteButton"
+          onClick={openDeleteModal}
+          src={deleteButton}
+          alt="Delete"
+        />
       </div>
     </div>
   );

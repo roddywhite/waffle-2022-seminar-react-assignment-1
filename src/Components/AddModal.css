@@ -1,16 +1,3 @@
-.closedModalContainer {
-  display: none;
-}
-
-.openedNodalContainer {
-  display: fixed;
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  border-radius: 20px blue;
-  background-color: yellow;
-}
-
 .closedModal {
   display: none;
 }
@@ -18,11 +5,10 @@
 .openModal {
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: fixed;
 
-  top: 50%;
-  left: 50%;
-  margin: -200px 0 0 -210px;
+  top: 30%;
+  left: 33%;
 
   width: 423px;
   height: 260px;
@@ -31,8 +17,23 @@
   color: white;
 
   z-index: 5;
+}
 
-  /* 팝업이 열릴때 스르륵 열리는 효과 */
+.openDeleteModal {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+
+  top: 35%;
+  left: 33%;
+
+  width: 423px;
+  height: 200px;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+
+  z-index: 5;
 }
 
 .modalTitle {
@@ -57,6 +58,13 @@
   float: left;
   display: flex;
   padding-top: 5px;
+}
+
+.deleteDescription {
+  align-self: center;
+  width: 323px;
+  height: 30px;
+  text-align: left;
 }
 
 .inputBox {
