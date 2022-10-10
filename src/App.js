@@ -11,9 +11,10 @@ function App() {
   const [nowId, setNowId] = useState(data.length + 1);
 
   const addMenuHandler = (newMenu) => {
+    console.log(newMenu)
     setNowId(nowId + 1);
-    newMenu.id = nowId;
-    setMenus([...menus, newMenu]);
+    let tmpMenu = {...newMenu, id: nowId}
+    setMenus([...menus, tmpMenu]);
   };
 
   const [enteredSearch, setEnteredSearch] = useState("");

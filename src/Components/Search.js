@@ -13,7 +13,7 @@ const Search = ({ enteredSearch, setEnteredSearch }) => {
           value={enteredSearch}
           onChange={(e) => setEnteredSearch(e.target.value)}
           placeholder="검색어 입력"
-        ></input>
+        />
       </label>
       <img className="searchImg" src={searchImg} />
     </div>

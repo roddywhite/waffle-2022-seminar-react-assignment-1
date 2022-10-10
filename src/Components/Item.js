@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./Item.css";
 
 const Item = ({ menu, selectedMenu, handleSelectMenu }) => {
@@ -6,7 +7,7 @@ const Item = ({ menu, selectedMenu, handleSelectMenu }) => {
     <div className="menuContainer">
       <article
         className={`menu${isSelected ? "Selected" : ""}`}
-        onClick={handleSelectMenu}
+        onClick={()=>handleSelectMenu(menu)}
       >
         <span className="menuId">{menu.id}</span>
         <span className="menuName">{menu.name}</span>

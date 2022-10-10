@@ -1,6 +1,6 @@
 import "./List.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Table from "./Table";
 import AddModal from "./AddModal";
@@ -24,7 +24,7 @@ const List = ({ menus, setMenus, addMenu, enteredSearch }) => {
 
   const handleSelectMenu = (menu) => {
     const isSelectedMenu = selectedMenu && menu.id === selectedMenu.id;
-    setSelectedMenu(() => isSelectedMenu ? null : menu);
+    setSelectedMenu(() => (isSelectedMenu ? null : menu));
   };
 
   return (

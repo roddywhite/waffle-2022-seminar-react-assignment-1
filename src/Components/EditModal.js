@@ -14,6 +14,9 @@ const EditModal = ({
   const [enteredTitle, setEnteredTitle] = useState(selectedMenu.name);
   const [enteredUrl, setEnteredUrl] = useState(selectedMenu.image);
 
+  useEffect(() => setEnteredTitle(selectedMenu.name), [selectedMenu]);
+  useEffect(() => setEnteredUrl(selectedMenu.image), [selectedMenu]);
+
   // 한글만 입력받도록
   const titleChangeHandler = (e) => {
     const koreanOnly = e.target.value.replace(
@@ -36,6 +39,11 @@ const EditModal = ({
     setEnteredPrice(removedCommaValue);
     setEnteredNum(removedCommaValue.toLocaleString());
   };
+
+  useEffect(
+    () => setEnteredNum(selectedMenu.price.toLocaleString()),
+    [selectedMenu]
+  );
 
   const resetEntered = () => {
     setEnteredTitle(selectedMenu.name);
@@ -74,9 +82,12 @@ const EditModal = ({
       };
 
       const editedMenus = [...menus];
-      editedMenus[selectedMenu.id - 1].name = enteredTitle;
-      editedMenus[selectedMenu.id - 1].price = enteredPrice;
-      editedMenus[selectedMenu.id - 1].image = enteredUrl;
+      const menuIdx = editedMenus.findIndex(
+        (menu) => menu.id === editedMenu.id
+      );
+      editedMenus[menuIdx].name = enteredTitle;
+      editedMenus[menuIdx].price = enteredPrice;
+      editedMenus[menuIdx].image = enteredUrl;
 
       setMenus(editedMenus);
       resetEntered();
@@ -104,6 +115,8 @@ const EditModal = ({
       !editModalRef.current.contains(e.target) ? closeTheModal() : openModal();
     }
   };
+
+  console.log(selectedMenu);
 
   return (
     <div className={isOpened ? "openModalContainer" : "closedModalContainer"}>

@@ -13,12 +13,11 @@ const DeleteModal = ({
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const deletedMenus = [...menus];
-    deletedMenus.splice(selectedMenu.id - 1, 1);
-
-    setMenus(deletedMenus);
+    setMenus(menus.filter((menu) => selectedMenu.id !== menu.id));
     closeModal();
     setSelectedMenu(null);
+
+    console.log(menus);
   };
 
   //모달 영역 지정해서 바깥 클릭하면 닫히도록
