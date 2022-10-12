@@ -21,7 +21,7 @@ export const UserContextProvider = (props) => {
   };
 
   return (
-    <UserContextProvider
+    <UserContext.Provider
       value={{
         user: user,
         isLoggedIn: isLoggedIn,
@@ -30,7 +30,7 @@ export const UserContextProvider = (props) => {
       }}
     >
       {props.children}
-    </UserContextProvider>
+    </UserContext.Provider>
   );
 };
 

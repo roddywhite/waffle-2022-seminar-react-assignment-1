@@ -1,43 +1,31 @@
 import { useState, createContext, useContext } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import data from "./assets/data.json";
 
 import Header from "./Components/Header";
+import Home from "./Components/Home";
 import Search from "./Components/Search";
 import List from "./Components/List";
+import LoginForm from "./Components/LoginForm";
 import UserContext from "./Contexts/user-context";
 
 function App() {
-  
   const userCtx = useContext(UserContext);
 
-  // const [menus, setMenus] = useState(data);
-  // const [nowId, setNowId] = useState(data.length + 1);
-
-  // const addMenuHandler = (newMenu) => {
-  //   console.log(newMenu)
-  //   setNowId(nowId + 1);
-  //   let tmpMenu = {...newMenu, id: nowId}
-  //   setMenus([...menus, tmpMenu]);
-  // };
-
-  const [enteredSearch, setEnteredSearch] = useState("");
+  console.log(userCtx.isLoggedIn)
 
   return (
     <div>
-      <UserContext.Provider value={{ user: user }}>
-        <Header />
-        <Search
-          enteredSearch={enteredSearch}
-          setEnteredSearch={setEnteredSearch}
-        />
-        <List
-          menus={menus}
-          setMenus={setMenus}
-          addMenu={addMenuHandler}
-          enteredSearch={enteredSearch}
-        />
-      </UserContext.Provider>
+        {/* {userCtx.isLoggedIn ? ( */}
+          <Routes>
+            <Route exact path="/" component={Home} />
+          </Routes>
+        {/* ) : (
+          <Routes>
+            <Route path="/login" component={LoginForm} />
+          </Routes>
+        )} */}
     </div>
   );
 }
