@@ -116,8 +116,6 @@ const EditModal = ({
     }
   };
 
-  console.log(selectedMenu);
-
   return (
     <div className={isOpened ? "openModalContainer" : "closedModalContainer"}>
       <div

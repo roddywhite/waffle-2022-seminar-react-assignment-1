@@ -1,31 +1,33 @@
 import { useState, createContext, useContext } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import data from "./assets/data.json";
+import UserContext from "./Contexts/user-context";
 
 import Header from "./Components/Header";
 import Home from "./Components/Home";
+import Store1 from "./Components/Store1";
+import LoginForm from "./Components/LoginForm";
 import Search from "./Components/Search";
 import List from "./Components/List";
-import LoginForm from "./Components/LoginForm";
-import UserContext from "./Contexts/user-context";
+import AddModal from "./Components/AddModal";
+import EditModal from "./Components/EditModal";
+import DetailView from "./Components/DetailView";
+
 
 function App() {
   const userCtx = useContext(UserContext);
 
-  console.log(userCtx.isLoggedIn)
-
   return (
     <div>
-        {/* {userCtx.isLoggedIn ? ( */}
-          <Routes>
-            <Route exact path="/" component={Home} />
-          </Routes>
-        {/* ) : (
-          <Routes>
-            <Route path="/login" component={LoginForm} />
-          </Routes>
-        )} */}
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/stores/1" element={<Store1 />} />
+        <Route path="/login" element={!userCtx.isLoggedIn ? <LoginForm /> : <Navigate replace to="/" />} />
+        <Route path="/menus/:menuId" element={<DetailView />} />
+        <Route path="/menus/:menuId/edit" element={<EditModal />} />
+        <Route path="/menus/new" element={<AddModal />} />
+      </Routes>
     </div>
   );
 }

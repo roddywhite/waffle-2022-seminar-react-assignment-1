@@ -1,47 +1,15 @@
-import "./DetailView.css";
+import { useContext } from "react";
+import UserContext from "../Contexts/user-context";
+import { Link } from "react-router-dom";
 
-import closeButton from "../assets/closeButton.svg";
-import altImg from "../assets/logo.svg";
-import editButton from "../assets/editButton.svg";
-import deleteButton from "../assets/deleteButton.svg";
+import Header from "./Header";
 
-const DetailView = ({
-  selectedMenu,
-  closeView,
-  openEditModal,
-  openDeleteModal,
-}) => {
-  return (
-    <div className="detailView">
-      <img
-        className="closeButton"
-        onClick={() => closeView(selectedMenu)}
-        src={closeButton}
-        alt="닫기"
-      />
-      <img
-        className="menuImg"
-        src={selectedMenu.image}
-        onError={(e) => (e.target.src = altImg)}
-      />
-      <h3>{selectedMenu.name}</h3>
-      <span>{selectedMenu.price.toLocaleString()}원</span>
-      <div className="viewButtonContainer">
-        <img
-          className="editButton"
-          onClick={openEditModal}
-          src={editButton}
-          alt="Edit"
-        />
-        <img
-          className="deleteButton"
-          onClick={openDeleteModal}
-          src={deleteButton}
-          alt="Delete"
-        />
-      </div>
-    </div>
-  );
-};
+const DetailView = () => {
+    return(
+        <>
+        <Header />
+        </>
+    )
+}
 
 export default DetailView;

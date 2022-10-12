@@ -1,15 +1,17 @@
 import "./List.css";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import UserContext from "../Contexts/user-context";
+import MenuContext from "../Contexts/menu-context";
 
 import Table from "./Table";
 import AddModal from "./AddModal";
 import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
 import AddButton from "./AddButton";
-import DetailView from "./DetailView";
+import SelectedView from "./SelectedView";
 
-const List = ({ menus, setMenus, addMenu, enteredSearch }) => {
+const List = ({ menus, setMenus, addMenu }) => {
   const [addModalOpened, setAddModalOpened] = useState(false);
   const openAddModal = () => setAddModalOpened(true);
   const closeAddModal = () => setAddModalOpened(false);
@@ -20,16 +22,11 @@ const List = ({ menus, setMenus, addMenu, enteredSearch }) => {
   const openDeleteModal = () => setDeleteModalOpened(true);
   const closeDeleteModal = () => setDeleteModalOpened(false);
 
-  const [selectedMenu, setSelectedMenu] = useState(null);
-
-  const handleSelectMenu = (menu) => {
-    const isSelectedMenu = selectedMenu && menu.id === selectedMenu.id;
-    setSelectedMenu(() => (isSelectedMenu ? null : menu));
-  };
+  const menuCtx = useContext(MenuContext);
 
   return (
     <div className="bigContainer">
-      <AddModal
+      {/* <AddModal
         isOpened={addModalOpened}
         openModal={openAddModal}
         closeModal={closeAddModal}
@@ -37,7 +34,7 @@ const List = ({ menus, setMenus, addMenu, enteredSearch }) => {
         addMenu={addMenu}
         setSelectedMenu={setSelectedMenu}
       />
-      {selectedMenu && (
+      {menuCtx.selectedMenu && (
         <EditModal
           isOpened={editModalOpened}
           openModal={openEditModal}
@@ -56,25 +53,13 @@ const List = ({ menus, setMenus, addMenu, enteredSearch }) => {
         setMenus={setMenus}
         selectedMenu={selectedMenu}
         setSelectedMenu={setSelectedMenu}
-      />
+      /> */}
 
       <div className="container">
-        <Table
-          menus={menus}
-          selectedMenu={selectedMenu}
-          handleSelectMenu={handleSelectMenu}
-          enteredSearch={enteredSearch}
-        />
-        <AddButton openModal={openAddModal} />
+        <Table />
+        {/* <AddButton openModal={openAddModal} /> */}
       </div>
-      {selectedMenu && (
-        <DetailView
-          selectedMenu={selectedMenu}
-          closeView={handleSelectMenu}
-          openEditModal={openEditModal}
-          openDeleteModal={openDeleteModal}
-        />
-      )}
+      {menuCtx.selectedMenu && <SelectedView />}
     </div>
   );
 };
