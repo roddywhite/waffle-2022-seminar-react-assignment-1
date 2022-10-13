@@ -1,31 +1,20 @@
 import "./AddModal.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import MenuContext from "../Contexts/menu-context";
 
-const EditModal = ({
-  isOpened,
-  openModal,
-  closeModal,
-  menus,
-  setMenus,
-  selectedMenu,
-  setSelectedMenu,
-}) => {
-  // 이름, 이미지url State 만들기
-  const [enteredTitle, setEnteredTitle] = useState(selectedMenu.name);
+const EditModal = () => {
+  const { menuId } = useParams();
+  const navigate = useNavigate();
+  const menuCtx = useContext(MenuContext);
+  const selectedMenu = menuCtx.selectedMenu;
+
+  // 이미지url, 설명 State 만들기
   const [enteredUrl, setEnteredUrl] = useState(selectedMenu.image);
+  const [enteredDesc, setEnteredDesc] = useState(selectedMenu.description);
 
-  useEffect(() => setEnteredTitle(selectedMenu.name), [selectedMenu]);
   useEffect(() => setEnteredUrl(selectedMenu.image), [selectedMenu]);
-
-  // 한글만 입력받도록
-  const titleChangeHandler = (e) => {
-    const koreanOnly = e.target.value.replace(
-      /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,
-      ""
-    );
-    setEnteredTitle(koreanOnly);
-  };
-  const urlChangeHandler = (e) => setEnteredUrl(e.target.value);
+  useEffect(() => setEnteredDesc(selectedMenu.description), [selectedMenu]);
 
   // 숫자 세 자리마다 콤마 넣기 (콤마로 바꿔주는 과정에서 price State도 update)
   const [enteredPrice, setEnteredPrice] = useState(selectedMenu.price);
@@ -45,31 +34,17 @@ const EditModal = ({
     [selectedMenu]
   );
 
+  // 수정 취소할 때 입력값 초기화
   const resetEntered = () => {
-    setEnteredTitle(selectedMenu.name);
     setEnteredPrice(selectedMenu.price);
     setEnteredNum(selectedMenu.price.toLocaleString());
     setEnteredUrl(selectedMenu.image);
-  };
-
-  const isNameExist = (enteredTitle) => {
-    const menusNameArr = menus.map((menu) => menu.name);
-    return menusNameArr.includes(enteredTitle);
+    setEnteredDesc(selectedMenu.description);
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const regex = /^[ㄱ-ㅎ|가-힣]+$/;
-    if (enteredTitle === "") {
-      window.alert("메뉴명을 입력해주세요.");
-    } else if (!regex.test(enteredTitle)) {
-      window.alert("메뉴명은 한글로만 입력해주세요.");
-    } else if (
-      isNameExist(enteredTitle) &&
-      enteredTitle !== selectedMenu.name
-    ) {
-      window.alert("해당 메뉴명이 이미 존재합니다.");
-    } else if (enteredPrice === "") {
+    if (enteredPrice === "") {
       window.alert("가격을 입력해주세요.");
     } else if (enteredNum.slice(-1) !== "0") {
       window.alert("가격은 10원 단위로만 입력해주세요.");
@@ -81,93 +56,68 @@ const EditModal = ({
         image: enteredUrl,
       };
 
-      const editedMenus = [...menus];
-      const menuIdx = editedMenus.findIndex(
-        (menu) => menu.id === editedMenu.id
-      );
-      editedMenus[menuIdx].name = enteredTitle;
-      editedMenus[menuIdx].price = enteredPrice;
-      editedMenus[menuIdx].image = enteredUrl;
-
-      setMenus(editedMenus);
+      menuCtx.onEditMenu(editedMenu);
       resetEntered();
-      closeModal();
-      setSelectedMenu(editedMenu);
+      navigate(-1);
     }
   };
-
-  // Modal 닫을 때 입력값 초기화해주기 위해
-  const closeTheModal = () => {
+  
+  const cancelHandler = () => {
     resetEntered();
-    closeModal();
-  };
-
-  //모달 영역 지정해서 바깥 클릭하면 닫히도록
-  const editModalRef = useRef();
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  });
-
-  //모달이 열리지 않았을 때 메뉴를 클릭해도 closeTheModal이 실행되어 수정시 default 입력값(기존 값)이 초기화되는 것 방지
-  const handleClickOutside = (e) => {
-    if (isOpened) {
-      !editModalRef.current.contains(e.target) ? closeTheModal() : openModal();
-    }
-  };
+    navigate(-1);
+  }
 
   return (
-    <div className={isOpened ? "openModalContainer" : "closedModalContainer"}>
-      <div
-        id="modal-animation"
-        className={isOpened ? "openModal" : "closedModal"}
-        ref={editModalRef}
-        value={isOpened}
-      >
-        <h3 className="modalTitle">메뉴 수정</h3>
-        <div className="inputCon">
-          <label className="label">이름</label>
-          <input
-            className="inputBox"
-            type="text"
-            minLength="1"
-            maxLength="20"
-            placeholder="맛있는와플"
-            value={enteredTitle}
-            onChange={titleChangeHandler}
-          />
-        </div>
-        <div className="inputCon">
-          <label className="label">가격</label>
-          <input
-            className="inputBox"
-            type="text"
-            maxLength="7"
-            placeholder="5,000"
-            value={enteredNum}
-            onChange={changeEnteredNum}
-          />
-        </div>
-        <div className="inputCon">
-          <label className="label">상품 이미지</label>
-          <input
-            className="inputBox"
-            type="text"
-            placeholder="https://foobar/baz.png"
-            value={enteredUrl}
-            onChange={urlChangeHandler}
-          />
-        </div>
-        <div className="buttonCon">
+    <>
+      <h3 className="modalTitle">메뉴 수정</h3>
+      <div className="inputCon">
+        <label className="label">이름</label>
+        <a>{selectedMenu.name}</a>
+      </div>
+      <div className="inputCon">
+        <label className="label">종류</label>
+        <a>{selectedMenu.type}</a>
+      </div>
+      <div className="inputCon">
+        <label className="label">가격</label>
+        <input
+          className="inputBox"
+          type="text"
+          maxLength="7"
+          placeholder="5,000"
+          value={enteredNum}
+          onChange={changeEnteredNum}
+        />
+      </div>
+      <div className="inputCon">
+        <label className="label">상품 이미지</label>
+        <input
+          className="inputBox"
+          type="text"
+          placeholder="https://foobar/baz.png"
+          value={enteredUrl}
+          onChange={(e) => setEnteredUrl(e.target.value)}
+        />
+      </div>
+      <div className="inputCon">
+        <label className="label">설명</label>
+        <input
+          className="inputBox"
+          type="text"
+          placeholder="상품에 대한 자세한 설명을 입력해주세요"
+          value={enteredDesc}
+          onChange={(e) => setEnteredDesc(e.target.value)}
+        />
+      </div>
+      <div className="buttonCon">
           <button className="greenButton" onClick={submitHandler}>
             저장
           </button>
-          <button className="button" onClick={closeTheModal}>
+          <button className="button" onClick={cancelHandler}>
             취소
           </button>
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 

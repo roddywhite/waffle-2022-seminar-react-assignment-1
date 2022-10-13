@@ -13,13 +13,14 @@ import List from "./Components/List";
 import AddModal from "./Components/AddModal";
 import EditModal from "./Components/EditModal";
 import DetailView from "./Components/DetailView";
+import NotFound from "./Components/NotFound";
 
 
 function App() {
   const userCtx = useContext(UserContext);
 
   return (
-    <div>
+    <>
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/stores/1" element={<Store1 />} />
@@ -27,8 +28,10 @@ function App() {
         <Route path="/menus/:menuId" element={<DetailView />} />
         <Route path="/menus/:menuId/edit" element={<EditModal />} />
         <Route path="/menus/new" element={<AddModal />} />
+        <Route path="/404-not-found" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
-    </div>
+    </>
   );
 }
 

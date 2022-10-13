@@ -10,8 +10,6 @@ import MenuContext from "../Contexts/menu-context";
 
 const Store1 = () => {
 
-  const menuCtx = useContext(MenuContext);
-
   return (
     <div>
       <Header />
