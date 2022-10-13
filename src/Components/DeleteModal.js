@@ -1,23 +1,20 @@
 import "./AddModal.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import ModalContext from "../Contexts/modal-context";
+import MenuContext from "../Contexts/menu-context";
 
-const DeleteModal = ({
-  isOpened,
-  openModal,
-  closeModal,
-  menus,
-  setMenus,
-  selectedMenu,
-  setSelectedMenu,
-}) => {
+const DeleteModal = () => {
+
+  const menuCtx = useContext(MenuContext);
+  const modalCtx = useContext(ModalContext);
+
   const submitHandler = (e) => {
     e.preventDefault();
 
-    setMenus(menus.filter((menu) => selectedMenu.id !== menu.id));
-    closeModal();
-    setSelectedMenu(null);
+    menuCtx.onDeleteMenu()
+    modalCtx.onCloseDeleteModal()
 
-    console.log(menus);
+    console.log(menuCtx.menus);
   };
 
   //모달 영역 지정해서 바깥 클릭하면 닫히도록
@@ -28,18 +25,18 @@ const DeleteModal = ({
   });
 
   const handleClickOutside = (e) => {
-    if (isOpened) {
-      !deleteModalRef.current.contains(e.target) ? closeModal() : openModal();
+    if (modalCtx.deleteModalOpened) {
+      !deleteModalRef.current.contains(e.target) ? modalCtx.onCloseDeleteModal() : modalCtx.onOpenDeleteModal();
     }
   };
 
   return (
-    <div className={isOpened ? "openModalContainer" : "closedModalContainer"}>
+    <div className={modalCtx.deleteModalOpened ? "openModalContainer" : "closedModalContainer"}>
       <div
         id="modal-animation"
-        className={isOpened ? "openDeleteModal" : "closedModal"}
+        className={modalCtx.deleteModalOpened ? "openDeleteModal" : "closedModal"}
         ref={deleteModalRef}
-        value={isOpened}
+        value={modalCtx.deleteModalOpened}
       >
         <h3 className="modalTitle">메뉴 삭제</h3>
         <h5 className="deleteDescription">정말로 삭제하시겠습니까?</h5>
@@ -47,7 +44,7 @@ const DeleteModal = ({
           <button className="greenButton" onClick={submitHandler}>
             삭제
           </button>
-          <button className="button" onClick={closeModal}>
+          <button className="button" onClick={modalCtx.onCloseDeleteModal}>
             취소
           </button>
         </div>

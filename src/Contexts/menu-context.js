@@ -6,6 +6,7 @@ const MenuContext = createContext({
   nowId: 0,
   selectedMenu: null,
   onAddMenu: () => {},
+  onDeleteMenu: () => {},
   onSelectMenu: () => {},
 });
 
@@ -31,6 +32,11 @@ export const MenuContextProvider = (props) => {
     setMenus([...menus, tmpMenu]);
   };
 
+  const deleteMenuHandler = () => {
+    setMenus(menus.filter((menu) => selectedMenu.id !== menu.id));
+    setSelectedMenu(null);
+  }
+
   const selectMenuHandler = (menu) => {
     const isSelectedMenu = selectedMenu && menu.id === selectedMenu.id;
     setSelectedMenu(() => (isSelectedMenu ? null : menu));
@@ -43,6 +49,7 @@ export const MenuContextProvider = (props) => {
         nowId: nowId,
         selectedMenu: selectedMenu,
         onAddMenu: addMenuHandler,
+        onDeleteMenu: deleteMenuHandler,
         onSelectMenu: selectMenuHandler,
       }}
     >

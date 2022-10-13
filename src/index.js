@@ -6,16 +6,19 @@ import { UserContextProvider } from "./Contexts/user-context";
 import { BrowserRouter } from "react-router-dom";
 import { SearchContextProvider } from "./Contexts/search-context";
 import { MenuContextProvider } from "./Contexts/menu-context";
+import { ModalContextProvider } from "./Contexts/modal-context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <UserContextProvider>
-      <SearchContextProvider>
-        <MenuContextProvider>
-          <App />
-        </MenuContextProvider>
-      </SearchContextProvider>
+      <ModalContextProvider>
+        <SearchContextProvider>
+          <MenuContextProvider>
+            <App />
+          </MenuContextProvider>
+        </SearchContextProvider>
+      </ModalContextProvider>
     </UserContextProvider>
   </BrowserRouter>
 );

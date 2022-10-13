@@ -1,15 +1,15 @@
 import "./AddModal.css";
 import "./AddButton";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import MenuContext from "../Contexts/menu-context";
+import ModalContext from "../Contexts/modal-context";
 
-const AddModal = ({
-  isOpened,
-  openModal,
-  closeModal,
-  menus,
-  addMenu,
-  setSelectedMenu,
-}) => {
+
+const AddModal = () => {
+
+  const menuCtx = useContext(MenuContext);
+  const modalCtx = useContext(ModalContext);
+
   // 이름, 이미지url State 만들기
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredUrl, setEnteredUrl] = useState("");
@@ -35,8 +35,17 @@ const AddModal = ({
   };
 
   const isNameExist = (enteredTitle) => {
-    const menusNameArr = menus.map((menu) => menu.name);
+    const menusNameArr = menuCtx.menus.map((menu) => menu.name);
     return menusNameArr.includes(enteredTitle);
+  };
+
+  // Modal 닫을 때 입력값 초기화해주기 위해
+  const closeTheModal = () => {
+    setEnteredTitle("");
+    setEnteredPrice("");
+    setEnteredNum("");
+    setEnteredUrl("");
+    modalCtx.onCloseAddModal;
   };
 
   const submitHandler = (e) => {
@@ -60,23 +69,12 @@ const AddModal = ({
         image: enteredUrl,
       };
 
-      addMenu(newMenu);
-      setEnteredTitle("");
-      setEnteredPrice("");
-      setEnteredNum("");
-      setEnteredUrl("");
-      closeModal();
-      setSelectedMenu(newMenu);
+      menuCtx.onAddMenu(newMenu);
+      closeTheModal();
+      menuCtx.onSelectMenu(newMenu);
     }
   };
-  // Modal 닫을 때 입력값 초기화해주기 위해
-  const closeTheModal = () => {
-    setEnteredTitle("");
-    setEnteredPrice("");
-    setEnteredNum("");
-    setEnteredUrl("");
-    closeModal();
-  };
+  
   //모달 영역 지정해서 바깥 클릭하면 닫히도록
   const addModalRef = useRef();
   useEffect(() => {
@@ -85,18 +83,18 @@ const AddModal = ({
   });
 
   const handleClickOutside = (e) => {
-    if (isOpened) {
-      !addModalRef.current.contains(e.target) ? closeTheModal() : openModal();
+    if (modalCtx.addModalOpened) {
+      !addModalRef.current.contains(e.target) ? closeTheModal() : modalCtx.onOpenAddModal();
     }
   };
 
   return (
-    <div className={isOpened ? "openModalContainer" : "closedModalContainer"}>
+    <div className={modalCtx.addModalOpened ? "openModalContainer" : "closedModalContainer"}>
       <div
         id="modal-animation"
-        className={isOpened ? "openModal" : "closedModal"}
+        className={modalCtx.addModalOpened ? "openModal" : "closedModal"}
         ref={addModalRef}
-        value={isOpened}
+        value={modalCtx.addModalOpened}
       >
         <h3 className="modalTitle">메뉴 추가</h3>
         <div className="inputCon">
