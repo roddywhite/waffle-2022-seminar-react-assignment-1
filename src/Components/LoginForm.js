@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../Contexts/user-context";
 
 import Header from "./Header";
@@ -7,6 +7,7 @@ import "./LoginForm.css";
 
 const LoginForm = () => {
   const userCtx = useContext(UserContext);
+  let navigate = useNavigate();
 
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -16,6 +17,7 @@ const LoginForm = () => {
 
     if (userId && userPassword) {
       userCtx.onLogin(userId);
+      navigate(-1);
     } else {
       alert("아이디 혹은 패스워드를 확인하세요");
       setUserId("");
@@ -27,6 +29,8 @@ const LoginForm = () => {
     <>
       <Header/>
       <div className="loginBox">
+        <a className="title">로그인</a>
+        <div className='leftBox'>
         <div className="inputCon">
       <label className="label">ID</label>
       <input
@@ -44,6 +48,7 @@ const LoginForm = () => {
         onChange={(e) => setUserPassword(e.target.value)}
         placeholder="블루베리스무디"
       />
+      </div>
       </div>
       <button className="loginButton" onClick={submitHandler}>로그인</button>
       </div>

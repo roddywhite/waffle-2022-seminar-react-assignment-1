@@ -7,12 +7,13 @@ import { useNavigate } from "react-router-dom";
 const AddMenu = () => {
   const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
+  const { selectedMenu } = menuCtx;
 
   // 이름, 종류, 이미지url, 설명 State 만들기
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredType, setEnteredType] = useState("");
   const [enteredUrl, setEnteredUrl] = useState("");
-  const [enteredDesc, setEnteredDesc] = useState(selectedMenu.description);
+  const [enteredDesc, setEnteredDesc] = useState("");
 
   // 한글만 입력받도록
   const titleChangeHandler = (e) => {
@@ -148,11 +149,9 @@ const AddMenu = () => {
         <button className="greenButton" onClick={submitHandler}>
           추가
         </button>
-        <Link to="/stores/1">
           <button className="button" onClick={cancelHandler}>
             취소
           </button>
-        </Link>
       </div>
     </>
   );

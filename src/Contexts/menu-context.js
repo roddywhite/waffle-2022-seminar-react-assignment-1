@@ -36,9 +36,9 @@ export const MenuContextProvider = (props) => {
   const editMenuHandler = (editedMenu) => {
     const editedMenus = [...menus];
     const menuIdx = editedMenus.findIndex((menu) => menu.id === editedMenu.id);
-    editedMenus[menuIdx].name = enteredTitle;
-    editedMenus[menuIdx].price = enteredPrice;
-    editedMenus[menuIdx].image = enteredUrl;
+    editedMenus[menuIdx].price = editedMenu.price;
+    editedMenus[menuIdx].image = editedMenu.image;
+    editedMenus[menuIdx].description = editedMenu.description;
 
     setMenus(editedMenus);
     setSelectedMenu(editedMenu);

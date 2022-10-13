@@ -1,21 +1,52 @@
 .loginBox {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    
-    width: 600px;
-    height: 170px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 
-    margin: 250px auto;
+  width: 550px;
+  height: 130px;
 
-    border: 1px solid black;
-    border-radius: 8px;
+  margin: 350px auto;
+
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+.loginBox .title {
+  padding-left: 15px;
+  padding-top: 15px;
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .loginBox .inputCon {
-    align-self: center;
-    width: 323px;
-    height: 30px;
-    margin: 5px 0px;
-    align-items: center;
-  }
+  align-self: center;
+  width: 470px;
+  height: 30px;
+  margin: 5px 0px;
+  align-items: center;
+}
+
+.loginBox .label {
+  width: 75px;
+  height: 18px;
+  top: 6px;
+  float: left;
+  display: flex;
+  padding-top: 5px;
+  padding-left: 18px;
+  padding-right: 20px;
+}
+
+.loginBox .idBox {
+    width: 320px;
+}
+
+.loginBox .loginButton {
+    position: absolute;
+    width: 80px;
+    height: 60px;
+    top: 50px;
+    right: 15px;
+    
+}

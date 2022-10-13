@@ -13,9 +13,11 @@ const Header = () => {
       <Link to="/">
         <img className="logo" src={logo} alt="waffle logo" />
       </Link>
-      <a className="title" href="https://wafflestudio.com" target="_blank">
-        <h1>와플스튜디오 메뉴 관리</h1>
-      </a>
+      <Link to="/">
+        <a className="title" target="_blank">
+          <h1>와플스튜디오 메뉴 관리</h1>
+        </a>
+      </Link>
       {!userCtx.isLoggedIn ? (
         <Link to="/login" className="logoutBox">
           <button className="login">로그인</button>

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import UserContext from "../Contexts/user-context";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
@@ -8,6 +8,7 @@ import MenuContext from "../Contexts/menu-context";
 
 import editButton from "../assets/editButton.svg";
 import deleteButton from "../assets/deleteButton.svg";
+import altImg from "../assets/logo.svg";
 import ModalContext from "../Contexts/modal-context";
 
 const DetailView = () => {
@@ -18,37 +19,46 @@ const DetailView = () => {
   const navigate = useNavigate();
   const { menuId } = useParams();
   const { menus, selectedMenu } = menuCtx;
-  console.log(useParams());
+  
+//   const [isValid, setIsValid] = useState(false);
+//   const idList = [];
 
   // 유효한 주소인지 검증
-  const isValid = () => {
-    for (let i = 0; i < menus.length; i++) {
-      if (menus[i].id === menuId) {
-        return 1;
-      }
-    }
-  };
+//   useEffect(() => {
+//     for (let i = 0; i < menus.length; i++) {
+//       idList.push(menus[i].id);
+//     }
+//     setIsValid(idList.includes(Number(menuId)));
+//   }, [menuId]);
 
-  // 메뉴 목록에 없는 번호를 주소에 입력했을시 not found 페이지로 redirect
-  if (!isValid()) {
-    navigate("/404-not-found");
-  }
+//   useEffect(() => {
+//     if (isValid) {
+//         navigate(`/menus/${menuId}`)
+//     } else {
+//       navigate("/404-not-found");
+//     }
+//   });
+
 
   return (
-    <>
+    <div>
       <Header />
       <DeleteModal />
-      <button onClick={() => navigate(-1)}>메뉴 목록</button>
-      <img
-        className="menuImg"
-        src={selectedMenu.image}
-        onError={(e) => (e.target.src = altImg)}
-      />
-      <h3>{selectedMenu.name}</h3>
-      <span>{selectedMenu.type}</span>
-      <span>{selectedMenu.price.toLocaleString()}원</span>
-      <a>{selectedMenu.description}</a>
+      <button onClick={() => navigate('/stores/1')}>메뉴 목록</button>
 
+      {selectedMenu && (
+        <div>
+          <img
+            className="menuImg"
+            src={selectedMenu.image}
+            onError={(e) => (e.target.src = altImg)}
+          />
+          <h3>{selectedMenu.name}</h3>
+          <span>{selectedMenu.type}</span>
+          <span>{selectedMenu.price.toLocaleString()}원</span>
+          <a>{selectedMenu.description}</a>
+        </div>
+      )}
       {userCtx.isLoggedIn && (
         <div className="viewButtonContainer">
           <Link to={`/menus/${menuId}/edit`}>
@@ -62,7 +72,7 @@ const DetailView = () => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

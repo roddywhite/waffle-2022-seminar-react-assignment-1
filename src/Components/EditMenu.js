@@ -50,9 +50,11 @@ const EditMenu = () => {
     } else {
       const editedMenu = {
         id: selectedMenu.id,
-        name: enteredTitle,
+        name: selectedMenu.name,
+        type: selectedMenu.type,
         price: enteredPrice,
         image: enteredUrl,
+        description: enteredDesc
       };
 
       menuCtx.onEditMenu(editedMenu);
