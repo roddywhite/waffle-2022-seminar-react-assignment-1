@@ -1,14 +1,10 @@
-import { useEffect, useState, useContext } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 
-import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
-
 import "./SelectedView.css";
 import closeButton from "../assets/closeButton.svg";
 import altImg from "../assets/logo.svg";
-import editButton from "../assets/editButton.svg";
-import deleteButton from "../assets/deleteButton.svg";
 
 const SelectedView = () => {
   const menuCtx = useContext(MenuContext);

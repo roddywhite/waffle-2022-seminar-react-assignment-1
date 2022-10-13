@@ -1,5 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
-import UserContext from "../Contexts/user-context";
+import { useContext } from "react";
 import MenuContext from "../Contexts/menu-context";
 import SearchContext from "../Contexts/search-context";
 
@@ -21,10 +20,7 @@ const Table = () => {
       {menuCtx.menus
         .filter((menu) => menu.name.includes(searchCtx.enteredSearch))
         .map((menu) => (
-          <Item
-            key={menu.id}
-            menu={menu}
-          />
+          <Item key={menu.id} menu={menu} />
         ))}
     </>
   );

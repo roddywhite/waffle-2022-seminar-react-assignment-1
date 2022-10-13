@@ -4,7 +4,7 @@ import { useState, useContext } from "react";
 import MenuContext from "../Contexts/menu-context";
 import { useNavigate } from "react-router-dom";
 
-const AddModal = () => {
+const AddMenu = () => {
   const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
 
@@ -158,4 +158,4 @@ const AddModal = () => {
   );
 };
 
-export default AddModal;
+export default AddMenu;

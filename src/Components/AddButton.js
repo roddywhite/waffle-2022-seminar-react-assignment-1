@@ -1,10 +1,10 @@
 import "./AddButton.css";
 import buttonImg from "../assets/buttonImg.svg";
 
-const AddButton = ({ openModal }) => {
+const AddButton = () => {
   return (
     <div>
-      <img className="addButton" src={buttonImg} onClick={openModal}></img>
+      <img className="addButton" src={buttonImg}></img>
     </div>
   );
 };

@@ -29,6 +29,7 @@ const DetailView = () => {
     }
   };
 
+  // 메뉴 목록에 없는 번호를 주소에 입력했을시 not found 페이지로 redirect
   if (!isValid()) {
     navigate("/404-not-found");
   }
@@ -36,9 +37,7 @@ const DetailView = () => {
   return (
     <>
       <Header />
-
       <DeleteModal />
-
       <button onClick={() => navigate(-1)}>메뉴 목록</button>
       <img
         className="menuImg"

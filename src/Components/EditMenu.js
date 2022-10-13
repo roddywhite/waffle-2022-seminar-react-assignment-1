@@ -1,10 +1,9 @@
 import "./AddModal.css";
 import { useEffect, useState, useRef, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MenuContext from "../Contexts/menu-context";
 
-const EditModal = () => {
-  const { menuId } = useParams();
+const EditMenu = () => {
   const navigate = useNavigate();
   const menuCtx = useContext(MenuContext);
   const selectedMenu = menuCtx.selectedMenu;
@@ -121,4 +120,4 @@ const EditModal = () => {
   );
 };
 
-export default EditModal;
+export default EditMenu;

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import SearchContext from "../Contexts/search-context";
 import "./Search.css";
 import searchImg from "../assets/search.png";
