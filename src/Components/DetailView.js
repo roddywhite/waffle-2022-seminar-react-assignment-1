@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import UserContext from "../Contexts/user-context";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
+import "./DetailView.css";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeleteModal from "./DeleteModal";
@@ -22,11 +23,12 @@ const DetailView = () => {
   const { menus, selectedMenu } = menuCtx;
 
   return (
-    <div>
+    <>
       <Header />
       <DeleteModal />
       <div className="bigContainer">
         {!menuCtx.isValidParams(menuId) && <NotFound />}
+
         <div className="leftContainer">
           <button onClick={() => navigate("/stores/1")}>메뉴 목록</button>
 
@@ -64,7 +66,7 @@ const DetailView = () => {
           <a>TODO</a>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

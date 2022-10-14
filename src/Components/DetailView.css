@@ -1,3 +1,10 @@
+.full {
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 80vh;
+  position: relative;
+}
 
 .leftContainer {
   display: flex;
@@ -5,9 +12,11 @@
   position: relative;
   margin: 10px 10px 10px 20px;
 
-  width: 50vw;
-  height: 70vh;
+  width: 50%;
+  height: 80vh;
   border: 0px solid transparent;
+
+  z-index: 1;
 }
 
 .leftContainer .detailView {
@@ -23,16 +32,23 @@
 
   align-items: center;
   justify-content: center;
+
+  z-index: 1;
 }
 
 .rightContainer {
+  display: flex;
+  flex-direction: column;
   position: relative;
   margin: 10px 10px 10px 20px;
-  width: 50vw;
-  height: 90vh;
 
+  width: 40vw;
+  height: 70vh;
   border: 1px solid black;
   border-radius: 15px;
 
-  padding: 20px;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1;
 }

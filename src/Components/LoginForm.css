@@ -6,7 +6,9 @@
   width: 550px;
   height: 130px;
 
-  margin: 350px auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   border: 1px solid black;
   border-radius: 8px;
@@ -39,14 +41,13 @@
 }
 
 .loginBox .idBox {
-    width: 320px;
+  width: 320px;
 }
 
 .loginBox .loginButton {
-    position: absolute;
-    width: 80px;
-    height: 60px;
-    top: 50px;
-    right: 15px;
-    
+  position: absolute;
+  width: 80px;
+  height: 60px;
+  top: 50px;
+  right: 15px;
 }

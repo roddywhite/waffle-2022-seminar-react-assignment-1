@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import data from "../assets/data.json";
 
 const MenuContext = createContext({
@@ -32,6 +32,7 @@ export const MenuContextProvider = (props) => {
     setNowId(nowId + 1);
     let tmpMenu = { ...newMenu, id: nowId };
     setMenus([...menus, tmpMenu]);
+    setSelectedMenu(tmpMenu);
   };
 
   const editMenuHandler = (editedMenu) => {

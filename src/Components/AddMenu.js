@@ -78,7 +78,6 @@ const AddMenu = () => {
 
       menuCtx.onAddMenu(newMenu);
       resetEntered();
-      menuCtx.onSelectMenu(newMenu);
       navigate(-1);
     }
   };
@@ -89,12 +88,12 @@ const AddMenu = () => {
   };
 
   return (
-    <>
+    <div className='full'>
       <Header />
-      <div className="addEditContainer">
-        <h3 className="modalTitle">새 메뉴 추가</h3>
+      <div className="addContainer">
+        <h3 className="title">새 메뉴 추가</h3>
 
-          <label className="label">이름</label>
+          <label className="inputLabel">이름</label>
           <input
             className="inputBox"
             type="text"
@@ -106,10 +105,10 @@ const AddMenu = () => {
           />
 
 
-          <label className="label">종류</label>
+          <label className="inputLabel">종류</label>
           <select
             name="type"
-            className="inputBox"
+            className="dropdown"
             onChange={(e) => setEnteredType(e.target.value)}
           >
             <option value="">상품의 종류를 선택하세요</option>
@@ -119,7 +118,7 @@ const AddMenu = () => {
           </select>
 
 
-          <label className="label">가격</label>
+          <label className="inputLabel">가격</label>
           <input
             className="inputBox"
             type="text"
@@ -130,7 +129,7 @@ const AddMenu = () => {
           />
 
 
-          <label className="label">상품 이미지</label>
+          <label className="inputLabel">상품 이미지</label>
           <input
             className="inputBox"
             type="text"
@@ -140,9 +139,9 @@ const AddMenu = () => {
           />
 
 
-          <label className="label">설명</label>
+          <label className="inputLabel">설명</label>
           <input
-            className="inputBox"
+            className="inputBoxDesc"
             type="text"
             placeholder="상품에 대한 자세한 설명을 입력해주세요"
             value={enteredDesc}
@@ -158,7 +157,7 @@ const AddMenu = () => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
