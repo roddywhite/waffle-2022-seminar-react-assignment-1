@@ -1,8 +1,10 @@
-import "./AddModal.css";
+import "./AddMenu.css";
 import "./AddButton";
 import { useState, useContext } from "react";
 import MenuContext from "../Contexts/menu-context";
 import { useNavigate } from "react-router-dom";
+
+import Header from "./Header";
 
 const AddMenu = () => {
   const menuCtx = useContext(MenuContext);
@@ -88,70 +90,73 @@ const AddMenu = () => {
 
   return (
     <>
-      <h3 className="modalTitle">새 메뉴 추가</h3>
-      <div className="inputCon">
-        <label className="label">이름</label>
-        <input
-          className="inputBox"
-          type="text"
-          minLength="1"
-          maxLength="20"
-          placeholder="맛있는와플"
-          value={enteredTitle}
-          onChange={titleChangeHandler}
-        />
-      </div>
-      <div className="inputCon">
-        <label className="label">종류</label>
-        <select
-          name="type"
-          className="inputBox"
-          onChange={(e) => setEnteredType(e.target.value)}
-        >
-          <option value="">상품의 종류를 선택하세요</option>
-          <option value="와플">와플</option>
-          <option value="음료">음료</option>
-          <option value="커피">커피</option>
-        </select>
-      </div>
-      <div className="inputCon">
-        <label className="label">가격</label>
-        <input
-          className="inputBox"
-          type="text"
-          maxLength="7"
-          placeholder="5,000"
-          value={enteredNum}
-          onChange={changeEnteredNum}
-        />
-      </div>
-      <div className="inputCon">
-        <label className="label">상품 이미지</label>
-        <input
-          className="inputBox"
-          type="text"
-          placeholder="https://foobar/baz.png"
-          value={enteredUrl}
-          onChange={(e) => setEnteredUrl(e.target.value)}
-        />
-      </div>
-      <div className="inputCon">
-        <label className="label">설명</label>
-        <input
-          className="inputBox"
-          type="text"
-          placeholder="상품에 대한 자세한 설명을 입력해주세요"
-          value={enteredDesc}
-          onChange={(e) => setEnteredDesc(e.target.value)}
-        />
-      </div>
-      <div className="buttonCon">
-        <button className="greenButton" onClick={submitHandler}>
-          추가
-        </button>
+      <Header />
+      <div className="addEditContainer">
+        <h3 className="modalTitle">새 메뉴 추가</h3>
+
+          <label className="label">이름</label>
+          <input
+            className="inputBox"
+            type="text"
+            minLength="1"
+            maxLength="20"
+            placeholder="맛있는와플"
+            value={enteredTitle}
+            onChange={titleChangeHandler}
+          />
+
+
+          <label className="label">종류</label>
+          <select
+            name="type"
+            className="inputBox"
+            onChange={(e) => setEnteredType(e.target.value)}
+          >
+            <option value="">상품의 종류를 선택하세요</option>
+            <option value="와플">와플</option>
+            <option value="음료">음료</option>
+            <option value="커피">커피</option>
+          </select>
+
+
+          <label className="label">가격</label>
+          <input
+            className="inputBox"
+            type="text"
+            maxLength="7"
+            placeholder="5,000"
+            value={enteredNum}
+            onChange={changeEnteredNum}
+          />
+
+
+          <label className="label">상품 이미지</label>
+          <input
+            className="inputBox"
+            type="text"
+            placeholder="https://foobar/baz.png"
+            value={enteredUrl}
+            onChange={(e) => setEnteredUrl(e.target.value)}
+          />
+
+
+          <label className="label">설명</label>
+          <input
+            className="inputBox"
+            type="text"
+            placeholder="상품에 대한 자세한 설명을 입력해주세요"
+            value={enteredDesc}
+            onChange={(e) => setEnteredDesc(e.target.value)}
+          />
+
+        <div className="buttonCon">
+          <button className="greenButton" onClick={submitHandler}>
+            추가
+          </button>
           <button className="button" onClick={cancelHandler}>
             취소
           </button>
+        </div>
       </div>
     </>
   );

@@ -3,6 +3,7 @@ import UserContext from "../Contexts/user-context";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
 import Header from "./Header";
+import NotFound from "./NotFound";
 import DeleteModal from "./DeleteModal";
 import MenuContext from "../Contexts/menu-context";
 
@@ -19,59 +20,50 @@ const DetailView = () => {
   const navigate = useNavigate();
   const { menuId } = useParams();
   const { menus, selectedMenu } = menuCtx;
-  
-//   const [isValid, setIsValid] = useState(false);
-//   const idList = [];
-
-  // 유효한 주소인지 검증
-//   useEffect(() => {
-//     for (let i = 0; i < menus.length; i++) {
-//       idList.push(menus[i].id);
-//     }
-//     setIsValid(idList.includes(Number(menuId)));
-//   }, [menuId]);
-
-//   useEffect(() => {
-//     if (isValid) {
-//         navigate(`/menus/${menuId}`)
-//     } else {
-//       navigate("/404-not-found");
-//     }
-//   });
-
 
   return (
     <div>
       <Header />
       <DeleteModal />
-      <button onClick={() => navigate('/stores/1')}>메뉴 목록</button>
+      <div className="bigContainer">
+        {!menuCtx.isValidParams(menuId) && <NotFound />}
+        <div className="leftContainer">
+          <button onClick={() => navigate("/stores/1")}>메뉴 목록</button>
 
-      {selectedMenu && (
-        <div>
-          <img
-            className="menuImg"
-            src={selectedMenu.image}
-            onError={(e) => (e.target.src = altImg)}
-          />
-          <h3>{selectedMenu.name}</h3>
-          <span>{selectedMenu.type}</span>
-          <span>{selectedMenu.price.toLocaleString()}원</span>
-          <a>{selectedMenu.description}</a>
+          <div className="detailView">
+            {selectedMenu && (
+              <div>
+                <img
+                  className="menuImg"
+                  src={selectedMenu.image}
+                  onError={(e) => (e.target.src = altImg)}
+                />
+                <h3>{selectedMenu.name}</h3>
+                <span>{selectedMenu.type}</span>
+                <span>{selectedMenu.price.toLocaleString()}원</span>
+                <a>{selectedMenu.description}</a>
+              </div>
+            )}
+            {userCtx.isLoggedIn && (
+              <div className="viewButtonContainer">
+                <Link to={`/menus/${menuId}/edit`}>
+                  <img className="editButton" src={editButton} alt="Edit" />
+                </Link>
+                <img
+                  className="deleteButton"
+                  onClick={modalCtx.onOpenDeleteModal}
+                  src={deleteButton}
+                  alt="Delete"
+                />
+              </div>
+            )}
+          </div>
         </div>
-      )}
-      {userCtx.isLoggedIn && (
-        <div className="viewButtonContainer">
-          <Link to={`/menus/${menuId}/edit`}>
-            <img className="editButton" src={editButton} alt="Edit" />
-          </Link>
-          <img
-            className="deleteButton"
-            onClick={modalCtx.onOpenDeleteModal}
-            src={deleteButton}
-            alt="Delete"
-          />
+
+        <div className="rightContainer">
+          <a>TODO</a>
         </div>
-      )}
+      </div>
     </div>
   );
 };

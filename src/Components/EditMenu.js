@@ -1,7 +1,9 @@
-import "./AddModal.css";
+import "./AddMenu.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import MenuContext from "../Contexts/menu-context";
+
+import Header from "./Header";
 
 const EditMenu = () => {
   const navigate = useNavigate();
@@ -54,7 +56,7 @@ const EditMenu = () => {
         type: selectedMenu.type,
         price: enteredPrice,
         image: enteredUrl,
-        description: enteredDesc
+        description: enteredDesc,
       };
 
       menuCtx.onEditMenu(editedMenu);
@@ -62,61 +64,64 @@ const EditMenu = () => {
       navigate(-1);
     }
   };
-  
+
   const cancelHandler = () => {
     resetEntered();
     navigate(-1);
-  }
+  };
 
   return (
     <>
-      <h3 className="modalTitle">메뉴 수정</h3>
-      <div className="inputCon">
-        <label className="label">이름</label>
-        <a>{selectedMenu.name}</a>
-      </div>
-      <div className="inputCon">
-        <label className="label">종류</label>
-        <a>{selectedMenu.type}</a>
-      </div>
-      <div className="inputCon">
-        <label className="label">가격</label>
-        <input
-          className="inputBox"
-          type="text"
-          maxLength="7"
-          placeholder="5,000"
-          value={enteredNum}
-          onChange={changeEnteredNum}
-        />
-      </div>
-      <div className="inputCon">
-        <label className="label">상품 이미지</label>
-        <input
-          className="inputBox"
-          type="text"
-          placeholder="https://foobar/baz.png"
-          value={enteredUrl}
-          onChange={(e) => setEnteredUrl(e.target.value)}
-        />
-      </div>
-      <div className="inputCon">
-        <label className="label">설명</label>
-        <input
-          className="inputBox"
-          type="text"
-          placeholder="상품에 대한 자세한 설명을 입력해주세요"
-          value={enteredDesc}
-          onChange={(e) => setEnteredDesc(e.target.value)}
-        />
-      </div>
-      <div className="buttonCon">
+      <Header />
+      <div className="addEditContainer">
+        <h3 className="modalTitle">메뉴 수정</h3>
+        <div className="inputCon">
+          <label className="label">이름</label>
+          <a>{selectedMenu.name}</a>
+        </div>
+        <div className="inputCon">
+          <label className="label">종류</label>
+          <a>{selectedMenu.type}</a>
+        </div>
+
+          <label className="label">가격</label>
+          <input
+            className="inputBox"
+            type="text"
+            maxLength="7"
+            placeholder="5,000"
+            value={enteredNum}
+            onChange={changeEnteredNum}
+          />
+
+
+          <label className="label">상품 이미지</label>
+          <input
+            className="inputBox"
+            type="text"
+            placeholder="https://foobar/baz.png"
+            value={enteredUrl}
+            onChange={(e) => setEnteredUrl(e.target.value)}
+          />
+
+
+          <label className="label">설명</label>
+          <input
+            className="inputBox"
+            type="text"
+            placeholder="상품에 대한 자세한 설명을 입력해주세요"
+            value={enteredDesc}
+            onChange={(e) => setEnteredDesc(e.target.value)}
+          />
+
+        <div className="buttonCon">
           <button className="greenButton" onClick={submitHandler}>
             저장
           </button>
           <button className="button" onClick={cancelHandler}>
             취소
           </button>
+        </div>
       </div>
     </>
   );

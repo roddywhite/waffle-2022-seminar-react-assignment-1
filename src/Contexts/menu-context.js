@@ -9,6 +9,7 @@ const MenuContext = createContext({
   onEditMenu: () => {},
   onDeleteMenu: () => {},
   onSelectMenu: () => {},
+  isValidParams: () => {},
 });
 
 export const MenuContextProvider = (props) => {
@@ -54,6 +55,14 @@ export const MenuContextProvider = (props) => {
     setSelectedMenu(() => (isSelectedMenu ? null : menu));
   };
 
+  const isValidParams = (params) => {
+    const idList = [];
+    for (let i = 0; i < menus.length; i++) {
+      idList.push(menus[i].id);
+    }
+    return idList.includes(Number(params))
+  };
+
   return (
     <MenuContext.Provider
       value={{
@@ -64,6 +73,7 @@ export const MenuContextProvider = (props) => {
         onEditMenu: editMenuHandler,
         onDeleteMenu: deleteMenuHandler,
         onSelectMenu: selectMenuHandler,
+        isValidParams: isValidParams,
       }}
     >
       {props.children}

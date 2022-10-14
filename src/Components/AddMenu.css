@@ -1,0 +1,82 @@
+.addEditContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+
+  width: 50vw;
+  height: 80vh;
+
+  border: 1px solid black;
+  border-radius: 15px;
+
+  margin: auto;
+  transform: translate(0, -50%);
+}
+
+.modalTitle {
+  align-self: center;
+  width: 323px;
+  height: 30px;
+  text-align: left;
+}
+
+.inputCon {
+  align-self: center;
+  width: 323px;
+  height: 30px;
+  margin: 5px 0px;
+  align-items: center;
+}
+
+.label {
+  width: 75px;
+  height: 18px;
+  top: 6px;
+  float: left;
+  display: flex;
+  padding-top: 5px;
+}
+
+.inputBox {
+  width: 200px;
+  height: 20px;
+}
+
+.inputBoxDesc {
+  width: 200px;
+  height: 60px;
+}
+
+.buttonCon {
+  display: flex;
+  justify-content: flex-end;
+  margin: 12px 50px;
+}
+
+.greenButton {
+  margin: 5px 5px;
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  gap: 5px;
+
+  background: #d3ffc4;
+}
+
+.button {
+  margin: 5px 5px;
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  gap: 5px;
+}

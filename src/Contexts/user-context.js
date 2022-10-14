@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { getCookie, setCookies } from "../utils/cookie";
 
 const UserContext = createContext({
   user: null,
@@ -15,6 +16,7 @@ export const UserContextProvider = (props) => {
   const loginHandler = (id) => {
     setUser(id)
     setIsLoggedIn(true);
+    setCookies('user', user);
   };
 
   const logoutHandler = () => {

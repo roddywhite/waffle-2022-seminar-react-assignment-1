@@ -1,3 +1,17 @@
+.dimmed {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index:100;
+  background-color: rgba(0,0,0,0,2);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .closedModal {
   display: none;
 }
@@ -34,30 +48,6 @@
   color: white;
 
   z-index: 5;
-}
-
-.modalTitle {
-  align-self: center;
-  width: 323px;
-  height: 30px;
-  text-align: left;
-}
-
-.inputCon {
-  align-self: center;
-  width: 323px;
-  height: 30px;
-  margin: 5px 0px;
-  align-items: center;
-}
-
-.label {
-  width: 75px;
-  height: 18px;
-  top: 6px;
-  float: left;
-  display: flex;
-  padding-top: 5px;
 }
 
 .deleteDescription {
