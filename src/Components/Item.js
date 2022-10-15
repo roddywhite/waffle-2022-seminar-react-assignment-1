@@ -4,12 +4,13 @@ import "./Item.css";
 
 const Item = ({ menu }) => {
   const menuCtx = useContext(MenuContext);
-  const isSelected = menuCtx.selectedMenu && menuCtx.selectedMenu.id === menu.id;
+  const isSelected =
+    menuCtx.selectedMenu && menuCtx.selectedMenu.id === menu.id;
   return (
     <div className="menuContainer">
       <article
         className={`menu${isSelected ? "Selected" : ""}`}
-        onClick={()=>menuCtx.onSelectMenu(menu)}
+        onClick={() => menuCtx.onSelectMenu(menu)}
       >
         <span className="menuId">{menu.id}</span>
         <span className="menuName">{menu.name}</span>

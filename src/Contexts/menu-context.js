@@ -9,10 +9,11 @@ const MenuContext = createContext({
   onEditMenu: () => {},
   onDeleteMenu: () => {},
   onSelectMenu: () => {},
-  isValidParams: () => {},
+  findMenuById: () => {},
 });
 
 export const MenuContextProvider = (props) => {
+  // data 파일에서 type이 영어로 나와있는 것들을 한글로 변경
   const korData = [...data];
   for (let i = 0; i < korData.length; i++) {
     if (korData[i].type === "waffle") {
@@ -56,12 +57,11 @@ export const MenuContextProvider = (props) => {
     setSelectedMenu(() => (isSelectedMenu ? null : menu));
   };
 
-  const isValidParams = (params) => {
-    const idList = [];
+  // id로 특정 메뉴 object 찾아서 반환
+  const findMenuById = (id) => {
     for (let i = 0; i < menus.length; i++) {
-      idList.push(menus[i].id);
+      if (menus[i].id === id) return menus[i];
     }
-    return idList.includes(Number(params))
   };
 
   return (
@@ -74,7 +74,7 @@ export const MenuContextProvider = (props) => {
         onEditMenu: editMenuHandler,
         onDeleteMenu: deleteMenuHandler,
         onSelectMenu: selectMenuHandler,
-        isValidParams: isValidParams,
+        findMenuById: findMenuById,
       }}
     >
       {props.children}

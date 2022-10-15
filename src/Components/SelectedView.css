@@ -1,4 +1,4 @@
-.detailView {
+.selectedView {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -23,9 +23,10 @@
 
 .menuImg {
   position: relative;
-  width: 200px;
-  height: 200px;
-  margin-bottom: 10px;
+  width: 250px;
+  height: 250px;
+  margin-bottom: 15px;
+  border-radius: 30px;
 }
 
 .detailButtonContainer {
@@ -43,19 +44,4 @@
   background-color: white;
   border-radius: 8px;
   border: 1px solid gray;
-  
-}
-
-.editButton {
-  position: relative;
-  width: 30px;
-  height: 30px;
-  margin: auto;
-}
-
-.deleteButton {
-  position: relative;
-  width: 30px;
-  height: 30px;
-  margin: auto;
 }

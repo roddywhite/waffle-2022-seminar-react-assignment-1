@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import Search from "./Search";
+import "./Home.css";
 
 const Home = () => {
   return (
@@ -8,7 +9,7 @@ const Home = () => {
       <Header />
       <Search />
       <div className="bigContainer">
-        <div className="container">
+        <div className="homeContainer">
           <a>TODO: 여기는 가게 목록을 만들 예정</a>
           <Link to="/stores/1">
             <button>Store1로 바로가기</button>

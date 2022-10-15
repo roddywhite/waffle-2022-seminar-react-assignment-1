@@ -14,9 +14,9 @@ export const UserContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const loginHandler = (id) => {
-    setUser(id)
+    setUser(id);
     setIsLoggedIn(true);
-    setCookies('user', user);
+    setCookies("user", user);
   };
 
   const logoutHandler = () => {

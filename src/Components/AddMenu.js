@@ -1,15 +1,16 @@
 import "./AddMenu.css";
 import "./AddButton";
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
+import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
 import { useNavigate } from "react-router-dom";
 
 import Header from "./Header";
 
 const AddMenu = () => {
+  const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
-  const { selectedMenu } = menuCtx;
 
   // 이름, 종류, 이미지url, 설명 State 만들기
   const [enteredTitle, setEnteredTitle] = useState("");
@@ -19,6 +20,8 @@ const AddMenu = () => {
 
   // 한글만 입력받도록
   const titleChangeHandler = (e) => {
+    const regex = /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
+    if (regex.test(e.target.value)) window.alert("한글만 입력해주세요");
     const koreanOnly = e.target.value.replace(
       /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,
       ""
@@ -53,11 +56,8 @@ const AddMenu = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const regex = /^[ㄱ-ㅎ|가-힣]+$/;
     if (enteredTitle === "") {
       window.alert("메뉴명을 입력해주세요.");
-    } else if (!regex.test(enteredTitle)) {
-      window.alert("메뉴명은 한글로만 입력해주세요.");
     } else if (isNameExist(enteredTitle)) {
       window.alert("해당 메뉴명이 이미 존재합니다.");
     } else if (enteredPrice === "") {
@@ -87,11 +87,20 @@ const AddMenu = () => {
     navigate(-1);
   };
 
+  // 로그인 하지 않고 접근했을 때
+  useEffect(() => {
+    if (!userCtx.isLoggedIn) {
+      window.alert("로그인 해주세요");
+      navigate(-1);
+    }
+  });
+
   return (
-    <div className='full'>
+    <>
       <Header />
-      <div className="addContainer">
-        <h3 className="title">새 메뉴 추가</h3>
+      <div className="full">
+        <div className="addContainer">
+          <h3 className="title">새 메뉴 추가</h3>
 
           <label className="inputLabel">이름</label>
           <input
@@ -103,7 +112,6 @@ const AddMenu = () => {
             value={enteredTitle}
             onChange={titleChangeHandler}
           />
-
 
           <label className="inputLabel">종류</label>
           <select
@@ -117,7 +125,6 @@ const AddMenu = () => {
             <option value="커피">커피</option>
           </select>
 
-
           <label className="inputLabel">가격</label>
           <input
             className="inputBox"
@@ -128,7 +135,6 @@ const AddMenu = () => {
             onChange={changeEnteredNum}
           />
 
-
           <label className="inputLabel">상품 이미지</label>
           <input
             className="inputBox"
@@ -137,7 +143,6 @@ const AddMenu = () => {
             value={enteredUrl}
             onChange={(e) => setEnteredUrl(e.target.value)}
           />
-
 
           <label className="inputLabel">설명</label>
           <input
@@ -148,16 +153,17 @@ const AddMenu = () => {
             onChange={(e) => setEnteredDesc(e.target.value)}
           />
 
-        <div className="buttonCon">
-          <button className="greenButton" onClick={submitHandler}>
-            추가
-          </button>
-          <button className="button" onClick={cancelHandler}>
-            취소
-          </button>
+          <div className="buttonCon">
+            <button className="greenButton" onClick={submitHandler}>
+              추가
+            </button>
+            <button className="button" onClick={cancelHandler}>
+              취소
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

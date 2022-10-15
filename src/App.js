@@ -1,8 +1,4 @@
-import { useContext } from "react";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-
-import UserContext from "./Contexts/user-context";
-import MenuContext from "./Contexts/menu-context";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 import Home from "./Components/Home";
 import Store1 from "./Components/Store1";
@@ -13,9 +9,6 @@ import DetailView from "./Components/DetailView";
 import NotFound from "./Components/NotFound";
 
 function App() {
-  const userCtx = useContext(UserContext);
-  const menuCtx = useContext(MenuContext);
-
   return (
     <>
       <Routes>

@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 
 const SearchContext = createContext({
   enteredSearch: "",
-  onSearch: () => {}
+  onSearch: () => {},
 });
 
 export const SearchContextProvider = (props) => {

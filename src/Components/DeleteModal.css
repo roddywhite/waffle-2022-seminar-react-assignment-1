@@ -4,8 +4,8 @@
   top: 0;
   width: 100vw;
   height: 100vh;
-  z-index:-1;
-  background-color: rgba(0,0,0,0,2);
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.6);
 
   display: flex;
   justify-content: center;
@@ -14,23 +14,6 @@
 
 .closedModal {
   display: none;
-}
-
-.openModal {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-
-  top: 30%;
-  left: 33%;
-
-  width: 423px;
-  height: 260px;
-  border-radius: 10px;
-  background-color: black;
-  color: white;
-
-  z-index: 5;
 }
 
 .openDeleteModal {
@@ -44,17 +27,23 @@
   width: 423px;
   height: 200px;
   border-radius: 10px;
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
 
-  z-index: 5;
+  z-index: 15;
 }
 
-.deleteDescription {
-  align-self: center;
-  width: 323px;
-  height: 30px;
+.openDeleteModal h3 {
+  margin-left: 50px;
+  margin-top: 30px;
+}
+
+.openDeleteModal a {
+  margin-top: 20px;
+  margin-left: 50px;
+  margin-bottom: 30px;
   text-align: left;
+  font-size: 15px;
 }
 
 .inputBox {
@@ -63,13 +52,13 @@
   float: right;
 }
 
-.buttonCon {
+.openDeleteModal .buttonCon {
   display: flex;
-  justify-content: flex-end;
-  margin: 12px 50px;
+  align-self: flex-end;
+  margin-right: 50px;
 }
 
-.greenButton {
+.openDeleteModal .redButton {
   margin: 5px 5px;
   border: 1px solid #8a8a8a;
   border-radius: 5px;
@@ -80,11 +69,11 @@
   align-items: center;
   padding: 5px 10px;
   gap: 5px;
-
-  background: #d3ffc4;
+  margin-right: 5px;
+  background-color: #ffcfcf;
 }
 
-.button {
+.openDeleteModal .button {
   margin: 5px 5px;
   border: 1px solid #8a8a8a;
   border-radius: 5px;
