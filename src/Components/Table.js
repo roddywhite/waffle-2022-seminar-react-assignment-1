@@ -16,6 +16,7 @@ const Table = () => {
         <span className="name">이름</span>
         <span className="type">종류</span>
         <span className="price">가격</span>
+        <span className="price">별점</span>
       </div>
       {menuCtx.menus
         .filter((menu) => menu.name.includes(searchCtx.enteredSearch))
