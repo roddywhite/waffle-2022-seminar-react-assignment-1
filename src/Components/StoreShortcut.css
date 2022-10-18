@@ -1,0 +1,37 @@
+.storeBox {
+  position: relative;
+  width: 180px;
+  height: 180px;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid black;
+
+  padding: 10px;
+}
+
+.storeBox label {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.storeBox span {
+  font-size: 12px;
+  color: gray;
+
+  margin-bottom: 20px;
+}
+
+.storeBox a {
+    font-size: 15px;
+}
+
+.storeBox .star {
+  position: absolute;
+
+  width: 20px;
+  height: 20px;
+
+  bottom: 20px;
+}

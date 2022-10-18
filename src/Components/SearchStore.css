@@ -1,0 +1,36 @@
+.search-store {
+  position: relative;
+
+  margin-top: 20px;
+  margin-left: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: none;
+  order: 0;
+  flex-grow: 1;
+}
+
+.search-store .searchBox {
+  width: 369px;
+  height: 20px;
+
+  margin: 5px 10px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.search-store .searchImg {
+  width: 18px;
+  height: 18px;
+  position: relative;
+  left: -35px;
+  top: 0px;
+  background: white;
+}

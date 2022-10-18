@@ -2,16 +2,17 @@ import "./Header.css";
 import logo from "../assets/logo.svg";
 
 import React, { useEffect, useContext } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import UserContext from "../Contexts/user-context";
 
 const Header = () => {
   const userCtx = useContext(UserContext);
 
-  const uri = 'https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com'
+  const end = 'https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com'
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${uri}/owners`)
+      const response = await axios.get(`${end}/owners`)
       const userName = response.username
       console.log(response)
       console.log(userName)
@@ -20,7 +21,6 @@ const Header = () => {
     }
   }
 
-  useEffect(fetchData,[]);
 
   return (
     <div className="header">
