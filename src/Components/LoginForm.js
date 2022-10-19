@@ -16,7 +16,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     if (userId && userPassword) {
-      userCtx.onLogin(userId);
+      userCtx.onLogin(userId, userPassword);
       navigate(-1);
     } else {
       alert("아이디 혹은 패스워드를 확인하세요");

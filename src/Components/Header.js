@@ -9,18 +9,17 @@ import UserContext from "../Contexts/user-context";
 const Header = () => {
   const userCtx = useContext(UserContext);
 
-  const end = 'https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com'
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`${end}/owners`)
-      const userName = response.username
-      console.log(response)
-      console.log(userName)
-    } catch(err) {
-      console.log('error' + err)
-    }
-  }
-
+  // const end = 'https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com'
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get(`${end}/owners`)
+  //     const userName = response.username
+  //     console.log(response)
+  //     console.log(userName)
+  //   } catch(err) {
+  //     console.log('error' + err)
+  //   }
+  // }
 
   return (
     <div className="header">
@@ -38,8 +37,8 @@ const Header = () => {
         </Link>
       ) : (
         <div className="logoutBox">
-          <a>{userCtx.user}님 환영합니다!</a>
-          <Link to="/stores/1">
+          <a>{userCtx.user.username}님 환영합니다!</a>
+          <Link to={`/stores/${userCtx.user.id}`}>
             <button className="market">내 가게</button>
           </Link>
           <button className="logout" onClick={userCtx.onLogout}>

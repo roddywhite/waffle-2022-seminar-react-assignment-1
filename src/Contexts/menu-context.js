@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import axios from "axios";
 import data from "../assets/data.json";
 
 const MenuContext = createContext({
@@ -13,6 +14,9 @@ const MenuContext = createContext({
 });
 
 export const MenuContextProvider = (props) => {
+
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
+
   // data 파일에서 type이 영어로 나와있는 것들을 한글로 변경
   const korData = [...data];
   for (let i = 0; i < korData.length; i++) {
@@ -29,11 +33,26 @@ export const MenuContextProvider = (props) => {
   const [nowId, setNowId] = useState(data.length + 1);
   const [selectedMenu, setSelectedMenu] = useState(null);
 
-  const addMenuHandler = (newMenu) => {
-    setNowId(nowId + 1);
-    let tmpMenu = { ...newMenu, id: nowId };
-    setMenus([...menus, tmpMenu]);
-    setSelectedMenu(tmpMenu);
+  // 현재 접근한 스토어의 메뉴 리스트를 가져옴
+  const fetchMenuData = async (storeId) => {
+    try {
+      const response = await axios.get(`${end}/menus/?owner=${storeId}`);
+      setMenus(response.data)
+    } catch (err) {
+      console.log("error!!!" + err);
+    }
+  };
+
+  // 로그인해있는 오너의 가게 메뉴에
+  const addMenuHandler = async (newMenu) => {
+    try {
+      await axios.post(`${end}/menus`, newMenu);
+      // 메뉴 리스트 업데이트 해줘야함
+      // setMenus([...menus, tmpMenu]);
+      // setSelectedMenu(tmpMenu);
+    } catch (err) {
+      console.log("error!!!" + err);
+    }
   };
 
   const editMenuHandler = (editedMenu) => {

@@ -11,7 +11,9 @@ const Home = () => {
       <SearchStore />
       <div className="bigContainer">
         <div className="homeContainer">
-          <StoreShortcut />
+          <Link to='/stores/1'>
+            <StoreShortcut />
+          </Link>
           <StoreShortcut />
           <StoreShortcut />
           <StoreShortcut />

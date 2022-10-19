@@ -78,6 +78,9 @@ const EditMenu = () => {
     }
   });
 
+  // 내 소유가 아닌 스토어의 메뉴에 접근했을 때
+  // storeId !== userId
+
   return (
     <>
       {!menu && <NotFound />}
