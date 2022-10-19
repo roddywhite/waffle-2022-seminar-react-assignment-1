@@ -6,13 +6,15 @@ import "./DetailView.css";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeleteModal from "./DeleteModal";
+import Review from "./Review";
+
 import MenuContext from "../Contexts/menu-context";
+import ModalContext from "../Contexts/modal-context";
 
 import backArrow from "../assets/backArrow.svg";
 import editButton from "../assets/editButton.svg";
 import deleteButton from "../assets/deleteButton.svg";
 import altImg from "../assets/logo.svg";
-import ModalContext from "../Contexts/modal-context";
 
 const DetailView = () => {
   const userCtx = useContext(UserContext);
@@ -73,7 +75,10 @@ const DetailView = () => {
             </div>
 
             <div className="rightContainer">
-              <a>TODO</a>
+              <div className="starBox">
+                <a>평균 별점</a>
+              </div>
+              <Review />
             </div>
           </div>
         </>

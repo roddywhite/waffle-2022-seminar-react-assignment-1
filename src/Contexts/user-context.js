@@ -30,15 +30,16 @@ export const UserContextProvider = (props) => {
   };
   useEffect(() => {
     fetchOwnersData();
-  }, []);
+  }, [isLoggedIn]);
 
   const loginHandler = async (userId, userPassword) => {
     try {
       const response = await axios.post(`${end}/auth/login`, {
-        username: userId,
-        password: userPassword,
+        'username': userId,
+        'password': userPassword,
       });
-      setUser(response.owner);
+      console.log(response);
+
       setIsLoggedIn(true);
     } catch (err) {
       console.log("login error");

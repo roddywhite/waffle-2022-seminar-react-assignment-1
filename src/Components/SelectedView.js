@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import MenuContext from "../Contexts/menu-context";
 import "./SelectedView.css";
@@ -8,6 +8,7 @@ import altImg from "../assets/logo.svg";
 
 const SelectedView = () => {
   const menuCtx = useContext(MenuContext);
+  const { storeId } = useParams();
   return (
     <div className="selectedView">
       <img
@@ -25,7 +26,7 @@ const SelectedView = () => {
       <span>{menuCtx.selectedMenu.type}</span>
       <span>{menuCtx.selectedMenu.price.toLocaleString()}원</span>
       <div className="detailButtonContainer">
-        <Link to={`/menus/${menuCtx.selectedMenu.id}`}>
+        <Link to={`/stores/${storeId}/menus/${menuCtx.selectedMenu.id}`}>
           <button className="detailButton">자세히</button>
         </Link>
       </div>

@@ -115,8 +115,14 @@
   border: 1px solid black;
   border-radius: 15px;
 
-  align-items: center;
-  justify-content: center;
-
   z-index: 1;
+}
+
+.rightContainer .starBox {
+  margin-top: 15px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+
+  font-size: 18px;
 }
