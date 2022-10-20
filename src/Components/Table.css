@@ -25,8 +25,8 @@
 }
 
 .theader .name {
-  margin-right: 50px;
-  width: 200px;
+  margin-right: 20px;
+  width: 160px;
   height: 40px;
   text-align: left;
   margin-top: auto;
@@ -39,8 +39,8 @@
 }
 
 .theader .type {
-  margin-right: 150px;
-  width: 100px;
+  margin-right: 60px;
+  width: 60px;
   height: 40px;
   text-align: left;
   margin-top: auto;
@@ -53,11 +53,25 @@
 }
 
 .theader .price {
-  margin-right: 100px;
-  width: 100px;
+  margin-right: 60px;
+  width: 80px;
   height: 40px;
   text-align: left;
   margin-top: auto;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 40px;
+}
+
+.theader .rating {
+  width: 160px;
+  height: 40px;
+  text-align: left;
+  margin-top: auto;
+  margin-left: 4px;
 
   font-family: "Inter";
   font-style: normal;

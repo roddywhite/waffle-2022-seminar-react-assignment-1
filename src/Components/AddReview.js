@@ -14,7 +14,7 @@ const AddReview = () => {
         <img className="star" src={rating>=4 ? starFull : starEmpty} onClick={()=>setRating(4)}/>
         <img className="star" src={rating>=5 ? starFull : starEmpty} onClick={()=>setRating(5)}/>
       </div>
-      <input className="addReviewContainer" placeholder="리뷰를 입력하세요" />
+      <textarea className="addReviewContainer" placeholder="리뷰를 입력하세요" />
       <button className="greenBtn">저장</button>
     </div>
   );

@@ -37,7 +37,7 @@ const Header = () => {
         </Link>
       ) : (
         <div className="logoutBox">
-          <a>{userCtx.user.username}님 환영합니다!</a>
+          <a>{userCtx.user}님 환영합니다!</a>
           <Link to={`/stores/${userCtx.user.id}`}>
             <button className="market">내 가게</button>
           </Link>

@@ -35,7 +35,7 @@ export const UserContextProvider = (props) => {
   const loginHandler = async (userId, userPassword) => {
     axios
       .post(
-        `${end}/auth/login`, { withCredentials: true },
+        `${end}/auth/login`, 
         {
           username: userId,
           password: userPassword,
@@ -44,6 +44,7 @@ export const UserContextProvider = (props) => {
       .then((response) => {
         console.log(response);
         setIsLoggedIn(true);
+        setUser(response.data.owner.username);
       });
   };
 

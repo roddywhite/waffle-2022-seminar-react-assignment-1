@@ -39,16 +39,27 @@
 }
 
 .menuName {
-  width: 200px;
-  margin-right: 50px;
+  width: 160px;
+  margin-right: 20px;
 }
 
 .menuType {
-  width: 100px;
-  margin-right: 150px;
+  width: 60px;
+  margin-right: 60px;
 }
 
 .menuPrice {
-  width: 100px;
-  margin-right: 100px;
+  width: 80px;
+  margin-right: 60px;
+}
+
+.menuRating {
+  width: 160px;
+  align-content: center;
+  
+}
+
+.menuRating .rating {
+  width: 20px;
+  height: 20px;
 }
