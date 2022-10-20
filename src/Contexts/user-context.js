@@ -33,17 +33,18 @@ export const UserContextProvider = (props) => {
   }, [isLoggedIn]);
 
   const loginHandler = async (userId, userPassword) => {
-    try {
-      const response = await axios.post(`${end}/auth/login`, {
-        'username': userId,
-        'password': userPassword,
+    axios
+      .post(
+        `${end}/auth/login`, { withCredentials: true },
+        {
+          username: userId,
+          password: userPassword,
+        },
+      )
+      .then((response) => {
+        console.log(response);
+        setIsLoggedIn(true);
       });
-      console.log(response);
-
-      setIsLoggedIn(true);
-    } catch (err) {
-      console.log("login error");
-    }
   };
 
   const logoutHandler = () => {
