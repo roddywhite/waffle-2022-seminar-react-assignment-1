@@ -1,6 +1,6 @@
 import "./EditMenu.css";
 import { useEffect, useState, useRef, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
 
@@ -9,11 +9,12 @@ import NotFound from "./NotFound";
 
 const EditMenu = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
 
   const { menuId } = useParams();
-  const menu = menuCtx.findMenuById(Number(menuId));
+  const menu = location.state.menu;
 
   // 이미지url, 설명 State 만들기
   const [enteredUrl, setEnteredUrl] = useState(menu?.image);
@@ -51,15 +52,12 @@ const EditMenu = () => {
       window.alert("가격은 10원 단위로만 입력해주세요.");
     } else {
       const editedMenu = {
-        id: menu?.id,
-        name: menu?.name,
-        type: menu?.type,
         price: enteredPrice,
         image: enteredUrl,
         description: enteredDesc,
       };
 
-      menuCtx.onEditMenu(editedMenu);
+      userCtx.onEditMenu(menuId, editedMenu);
       resetEntered();
       navigate(-1);
     }

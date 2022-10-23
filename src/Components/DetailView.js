@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import UserContext from "../Contexts/user-context";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 
 import "./DetailView.css";
 import Header from "./Header";
@@ -26,9 +26,10 @@ const DetailView = () => {
   const modalCtx = useContext(ModalContext);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const { menus, storeId } = location.state;
   const { menuId } = useParams();
-  const menu = menuCtx.findMenuById(Number(menuId));
-
+  const menu = menuCtx.findMenuById(menus, Number(menuId));
   // const [rating, setRating] = useState(0)
   const rating = 3.5;
   const stars = [1, 2, 3, 4, 5];
@@ -41,7 +42,7 @@ const DetailView = () => {
       {menu && (
         <>
           <Header />
-          <DeleteModal />
+          <DeleteModal menuId={menuId} />
           <div className="detailView-bigContainer">
             <div className="leftContainer">
               <div className="backContainer">
@@ -49,7 +50,7 @@ const DetailView = () => {
                   className="backArrow"
                   src={backArrow}
                   alt="Back"
-                  onClick={() => navigate("/stores/1")}
+                  onClick={() => navigate(`/stores/${storeId}`)}
                 />
                 <a>메뉴 목록</a>
               </div>
@@ -61,13 +62,24 @@ const DetailView = () => {
                   onError={(e) => (e.target.src = altImg)}
                 />
                 <h3>{menu.name}</h3>
-                <span>{menu.type}</span>
+                <span>
+                  {menu.type === "waffle"
+                    ? "와플"
+                    : menu.type === "beverage"
+                    ? "음료"
+                    : menu.type === "coffee"
+                    ? "커피"
+                    : ""}
+                </span>
                 <span>{menu.price.toLocaleString()}원</span>
                 <span>{menu.description ? menu.description : "설명 없음"}</span>
 
                 {userCtx.isLoggedIn && (
                   <div className="viewButtonContainer">
-                    <Link to={`/menus/${menuId}/edit`}>
+                    <Link
+                      to={`/stores/${storeId}/menus/${menuId}/edit`}
+                      state={{ menu: menu }}
+                    >
                       <img className="editButton" src={editButton} alt="Edit" />
                     </Link>
                     <img

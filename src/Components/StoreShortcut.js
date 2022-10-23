@@ -7,19 +7,15 @@ import starFull from "../assets/starFull.svg";
 import "./StoreShortcut.css";
 import UserContext from "../Contexts/user-context";
 
-const StoreShortcut = () => {
-  const userCtx = useContext(UserContext);
-  const { owners } = userCtx;
+const StoreShortcut = ({ storeName, ownerName, storeDesc }) => {
   return (
     <>
-      {owners && (
         <div className="storeBox">
-          <label>와플천국</label>
-          <span>{owners[1].username}</span>
-          <a>이 가게엔 슬픈 전설이 있습니다다다다다다다다다</a>
+          <label>{storeName}</label>
+          <span>{ownerName}</span>
+          <a>{storeDesc}</a>
           <img className="star" src={starFull}></img>
         </div>
-      )}
     </>
   );
 };

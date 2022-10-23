@@ -63,8 +63,6 @@ const AddMenu = () => {
     e.preventDefault();
     if (enteredTitle === "") {
       window.alert("메뉴명을 입력해주세요.");
-    } else if (isNameExist(enteredTitle)) {
-      window.alert("해당 메뉴명이 이미 존재합니다.");
     } else if (enteredPrice === "") {
       window.alert("가격을 입력해주세요.");
     } else if (enteredNum.slice(-1) !== "0") {
@@ -80,7 +78,7 @@ const AddMenu = () => {
         description: enteredDesc,
       };
 
-      menuCtx.onAddMenu(newMenu);
+      userCtx.onAddMenu(newMenu);
       resetEntered();
       navigate(-1);
     }
@@ -124,9 +122,9 @@ const AddMenu = () => {
             onChange={(e) => setEnteredType(e.target.value)}
           >
             <option value="">상품의 종류를 선택하세요</option>
-            <option value="와플">와플</option>
-            <option value="음료">음료</option>
-            <option value="커피">커피</option>
+            <option value="waffle">와플</option>
+            <option value="beverage">음료</option>
+            <option value="coffee">커피</option>
           </select>
 
           <label className="inputLabel">가격</label>

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import MenuContext from "../Contexts/menu-context";
 import SearchContext from "../Contexts/search-context";
 
@@ -6,9 +6,10 @@ import Item from "./Item";
 
 import "./Table.css";
 
-const Table = () => {
+const Table = ({ menus }) => {
   const menuCtx = useContext(MenuContext);
   const searchCtx = useContext(SearchContext);
+
   return (
     <>
       <div className="theader">
@@ -18,11 +19,10 @@ const Table = () => {
         <span className="price">가격</span>
         <span className="rating">별점</span>
       </div>
-      {menuCtx.menus
-        .filter((menu) => menu.name.includes(searchCtx.enteredSearch))
-        .map((menu) => (
-          <Item key={menu.id} menu={menu} />
-        ))}
+      {menus &&
+        menus
+          .filter((menu) => menu.name.includes(searchCtx.enteredSearch))
+          .map((menu) => <Item key={menu.id} menu={menu} />)}
     </>
   );
 };

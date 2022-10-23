@@ -10,6 +10,7 @@ const MenuContext = createContext({
   onEditMenu: () => {},
   onDeleteMenu: () => {},
   onSelectMenu: () => {},
+  selectResetHandler: () => {},
   findMenuById: () => {},
 });
 
@@ -76,10 +77,15 @@ export const MenuContextProvider = (props) => {
     setSelectedMenu(() => (isSelectedMenu ? null : menu));
   };
 
+  // 스토어 페이지 벗어나면 선택 리셋 시켜주기 위해서
+  const selectResetHandler = () => {
+      setSelectedMenu(null);
+  }
+
   // id로 특정 메뉴 object 찾아서 반환
-  const findMenuById = (id) => {
-    for (let i = 0; i < menus.length; i++) {
-      if (menus[i].id === id) return menus[i];
+  const findMenuById = (menuList, id) => {
+    for (let i = 0; i < menuList.length; i++) {
+      if (menuList[i].id === id) return menuList[i];
     }
   };
 
@@ -93,6 +99,7 @@ export const MenuContextProvider = (props) => {
         onEditMenu: editMenuHandler,
         onDeleteMenu: deleteMenuHandler,
         onSelectMenu: selectMenuHandler,
+        onSelectReset: selectResetHandler,
         findMenuById: findMenuById,
       }}
     >
