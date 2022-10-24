@@ -18,6 +18,7 @@ function App() {
         <Route path="/stores/:storeId/menus/new" element={<AddMenu />} />
         <Route path="/stores/:storeId/menus/:menuId" element={<DetailView />} />
         <Route path="/stores/:storeId/menus/:menuId/edit" element={<EditMenu />} />
+        <Route path="/profile/:ownerId" element={<Profile/>} />
         <Route path="/404-not-found" element={<NotFound />} />
         <Route path="*" element={<Navigate replace to="/404-not-found" />} />
       </Routes>
