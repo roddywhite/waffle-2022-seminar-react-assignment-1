@@ -35,7 +35,7 @@ const List = ({ storeId }) => {
     <div className="bigContainer">
       <div className="container">
         <Table menus={menus} />
-        {userCtx.isLoggedIn && (
+        {userCtx.user?.id === Number(storeId) && (
           <Link to={`/stores/${storeId}/menus/new`}>
             <AddButton />
           </Link>

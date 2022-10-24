@@ -17,13 +17,14 @@
 .reviewContainer label {
     font-size: 12px;
     font-weight: 600;
-    margin-right: 16px;
+    margin-right: 12px;
 }
 
 .reviewContainer span {
     font-size: 10px;
     font-weight: 200;
     color: gray;
+    margin-left: 12px;
 }
 
 .reviewContainer a {
@@ -36,6 +37,11 @@
   width: 100%;
   align-items: center;
   margin-bottom: 6px;
+}
+
+.reviewContainer .head .rating {
+  width: 14px;
+  height: 14px;
 }
 
 .reviewContainer .buttonBox {

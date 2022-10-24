@@ -1,26 +1,33 @@
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../Contexts/user-context";
-import MenuContext from "../Contexts/menu-context";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Header from "./Header";
-import './addMenu.css';
-import axios from "axios";
+import "./AddMenu.css";
 
 const Profile = () => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
-  const {ownerId} = useParams();
+  const { ownerId } = useParams();
 
-  const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredName, setEnteredName] = useState("");
   const [enteredDesc, setEnteredDesc] = useState("");
 
-  const submitHandler = () => {
+  const resetEntered = () => {
+    setEnteredName("");
+    setEnteredDesc("");
+  };
 
-    axios.patch('')
-    
-    navigate(`/stores/${ownerId}`)
-  }
+  const submitHandler = () => {
+    userCtx.onEditProfile(enteredName, enteredDesc);
+    resetEntered();
+    navigate(`/stores/${ownerId}`);
+  };
+
+  const cancelHandler = () => {
+    resetEntered();
+    navigate(-1);
+  };
 
   return (
     <>
@@ -36,8 +43,8 @@ const Profile = () => {
             minLength="1"
             maxLength="20"
             placeholder="가게 이름을 적어주세요"
-            value={enteredTitle}
-            onChange={(e) => setEnteredTitle(e.target.value)}
+            value={enteredName}
+            onChange={(e) => setEnteredName(e.target.value)}
           />
 
           <label className="inputLabel">가게 설명</label>
@@ -51,16 +58,16 @@ const Profile = () => {
 
           <div className="buttonCon">
             <button className="greenButton" onClick={submitHandler}>
-              추가
+              저장
             </button>
             <button className="button" onClick={cancelHandler}>
               취소
             </button>
           </div>
-
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
+export default Profile;

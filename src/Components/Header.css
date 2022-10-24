@@ -43,11 +43,21 @@
 }
 
 .header .logoutBox .market {
-  width: 60px;
+  width: 70px;
   height: 28px;
   font-size: 15px;
   background-color: white;
-  margin: 0 5px 0 15px;
+  margin: 0 5px 0 20px;
+  border: 1px solid gray;
+  border-radius: 7px;
+}
+
+.header .logoutBox .profile {
+  width: 70px;
+  height: 28px;
+  font-size: 15px;
+  background-color: white;
+  margin: 0 5px 0 5px;
   border: 1px solid gray;
   border-radius: 7px;
 }

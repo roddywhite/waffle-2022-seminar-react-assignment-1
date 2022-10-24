@@ -1,60 +1,43 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
-import { getCookie, setCookies } from "../utils/cookie";
 
 const UserContext = createContext({
-  owners: null,
-  stores: null,
   user: null,
   isLoggedIn: false,
   token: "",
-  owners: null,
   onLogin: (userId, userPassword) => {},
   onLogout: () => {},
+  onEditProfile: () => {},
   onAddMenu: () => {},
-  onDeleteMenu: () => {},
   onEditMenu: () => {},
+  onDeleteMenu: () => {},
+  onAddReview: () => {},
+  onEditReview: () => {},
+  onDeleteReview: () => {},
   testtest: () => {},
 });
 
 export const UserContextProvider = (props) => {
-  // user = 로그인한 유저 아이디
-  const [owners, setOwners] = useState(null);
-  const [stores, setStores] = useState(null);
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [rating, setRating] = useState(0);
   const [token, setToken] = useState("");
-
   const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
 
-  const fetchOwnersData = async () => {
+  const loginHandler = async (userName, userPassword) => {
     try {
-      const res = await axios.get(`${end}/owners`);
-      setOwners(res.data);
-      console.log(res.data);
-      setStores(res.data.filter((owner) => owner.store_name !== undefined));
+      axios
+        .post(`${end}/auth/login`, {
+          username: userName,
+          password: userPassword,
+        })
+        .then((res) => {
+          console.log(res);
+          setIsLoggedIn(true);
+          setToken(res.data.access_token);
+        });
     } catch (err) {
-      console.log("error!!!" + err);
+      console.log("로그인 실패" + err);
     }
-  };
-
-  useEffect(() => {
-    fetchOwnersData();
-  }, [isLoggedIn]);
-
-  const loginHandler = async (userId, userPassword) => {
-    axios
-      .post(`${end}/auth/login`, {
-        username: userId,
-        password: userPassword,
-      })
-      .then((res) => {
-        console.log(res);
-        setIsLoggedIn(true);
-        setUser(res.data.owner.username);
-        setToken(res.data.access_token);
-      });
   };
 
   const authAxios = axios.create({
@@ -66,8 +49,23 @@ export const UserContextProvider = (props) => {
   const logoutHandler = () => {
     authAxios.post(`${end}/auth/logout`).then((res) => {
       setIsLoggedIn(false);
+      setToken('');
+      setUser(null);
     });
   };
+
+  const fetchMyProfile = () => {
+    try {
+      authAxios.get(`${end}/owners/me`).then((res) => {
+        setUser(res.data.owner);
+      });
+    } catch (err) {
+      console.log("로그인 필요" + err);
+    }
+  };
+  useEffect(() => {
+    fetchMyProfile();
+  }, [isLoggedIn]);
 
   const addMenuHandler = (newMenu) => {
     authAxios.post(`${end}/menus`, newMenu).then((res) => {
@@ -87,31 +85,67 @@ export const UserContextProvider = (props) => {
     });
   };
 
-  const testHandler = () => {
+  const editProfileHandler = (storeName, storeDesc) => {
     authAxios
       .patch(`${end}/owners/me`, {
-        store_name: "청년 아리랑 와플나라",
-        store_description: "맛이 없으면 환불해드립니다",
+        store_name: storeName,
+        store_description: storeDesc,
       })
       .then((res) => {
         console.log(res);
       });
   };
 
+  const testHandler = () => {
+    axios.get(`${end}/reviews/?menu=9`).then((res) => {
+      console.log(res.data.data);
+    });
+  };
+
+  const addReviewHandler = (content, rating, menuId) => {
+    authAxios
+      .post(`${end}/reviews`, {
+        content: content,
+        rating: rating,
+        menu: menuId,
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
+  const editReviewHandler = (reviewId, content, rating) => {
+    authAxios
+      .patch(`${end}/reviews/${reviewId}`, {
+        content: content,
+        rating: rating,
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
+  const deleteReviewHandler = (reviewId) => {
+    authAxios.delete(`${end}/menus/${reviewId}`).then((res) => {
+      console.log(res);
+    });
+  };
+
   return (
     <UserContext.Provider
       value={{
-        owners: owners,
-        stores: stores,
         user: user,
         isLoggedIn: isLoggedIn,
         token: token,
-        owners: owners,
         onLogin: loginHandler,
         onLogout: logoutHandler,
+        onEditProfile: editProfileHandler,
         onAddMenu: addMenuHandler,
-        onDeleteMenu: deleteMenuHandler,
         onEditMenu: editMenuHandler,
+        onDeleteMenu: deleteMenuHandler,
+        onAddReview: addReviewHandler,
+        onEditReview: editReviewHandler,
+        onDeleteReview: deleteReviewHandler,
         testtest: testHandler,
       }}
     >

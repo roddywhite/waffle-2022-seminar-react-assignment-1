@@ -1,11 +1,12 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import UserContext from "../Contexts/user-context";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 import "./DetailView.css";
 import Header from "./Header";
 import NotFound from "./NotFound";
-import DeleteModal from "./DeleteModal";
+import DeleteMenuModal from "./DeleteMenuModal";
 import Review from "./Review";
 import AddReview from "./AddReview";
 
@@ -30,19 +31,37 @@ const DetailView = () => {
   const { menus, storeId } = location.state;
   const { menuId } = useParams();
   const menu = menuCtx.findMenuById(menus, Number(menuId));
-  // const [rating, setRating] = useState(0)
-  const rating = 3.5;
-  const stars = [1, 2, 3, 4, 5];
 
-  // menu가 params로 찾아지지 않는다면 notfound 렌더 / 찾아진다면 올바른 페이지 렌더
-  // 그리고 로그인시에만 수정버튼 렌더
+  const [reviews, setReviews] = useState(null);
+  const [menuRating, setMenuRating] = useState(0);
+
+  const [rerender, setRerender] = useState(0);
+  const [, updateState] = useState();
+  const makeRender = () => setRerender(Math.random())
+  const forceUpdate = useCallback(()=>updateState({}), [])
+
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
+
+  // 리뷰 데이터 가져오고 평균 별점 계산
+  const fetchReviewData = () => {
+    axios.get(`${end}/reviews/?menu=${menuId}`).then((res) => {
+      console.log(res.data.data);
+      const reviewList = res.data.data;
+      setReviews(reviewList);
+      let ratingSum = 0;
+      reviewList.forEach((x) => (ratingSum += x.rating));
+      setMenuRating(Math.round((2 * ratingSum) / reviewList.length) / 2);
+    });
+  };
+  useEffect(() => fetchReviewData(), []);
+
   return (
     <>
       {!menu && <NotFound />}
       {menu && (
         <>
           <Header />
-          <DeleteModal menuId={menuId} />
+          <DeleteMenuModal menuId={menuId} />
           <div className="detailView-bigContainer">
             <div className="leftContainer">
               <div className="backContainer">
@@ -74,7 +93,7 @@ const DetailView = () => {
                 <span>{menu.price.toLocaleString()}원</span>
                 <span>{menu.description ? menu.description : "설명 없음"}</span>
 
-                {userCtx.isLoggedIn && (
+                {userCtx.user?.id === Number(storeId) && (
                   <div className="viewButtonContainer">
                     <Link
                       to={`/stores/${storeId}/menus/${menuId}/edit`}
@@ -84,7 +103,7 @@ const DetailView = () => {
                     </Link>
                     <img
                       className="deleteButton"
-                      onClick={modalCtx.onOpenDeleteModal}
+                      onClick={modalCtx.onOpenDeleteMenu}
                       src={deleteButton}
                       alt="Delete"
                     />
@@ -97,13 +116,13 @@ const DetailView = () => {
               <div className="starBox">
                 <a>평균 별점</a>
                 <div>
-                  {stars.map((x) => {
+                  {[1, 2, 3, 4, 5].map((x) => {
                     return (
                       <img
                         src={
-                          x <= rating
+                          x <= menuRating
                             ? starFull
-                            : x - 0.5 === rating
+                            : x - 0.5 === menuRating
                             ? starHalf
                             : starEmpty
                         }
@@ -111,22 +130,24 @@ const DetailView = () => {
                     );
                   })}
                 </div>
-                <a>{rating}</a>
+                <a>{reviews?.length ? menuRating : '아직 리뷰가 없습니다'}</a>
               </div>
               <div className="reviewList">
-                <Review />
-                <Review />
-                <Review />
-                <Review />
-                <Review />
-                <Review />
-                <Review />
-                <Review />
-                <Review />
-                <Review />
-                <Review />
+                {reviews && reviews.map((review) => (
+                  <Review
+                    key={review.id}
+                    menuId={menuId}
+                    reviewId={review.id}
+                    author={review.author}
+                    content={review.content}
+                    createdAt={review.created_at}
+                    rating={review.rating}
+                    forceUpdate={forceUpdate}
+                    makeRender={makeRender}
+                  />
+                ))}
               </div>
-              <AddReview />
+              <AddReview menuId={menuId} />
             </div>
           </div>
         </>

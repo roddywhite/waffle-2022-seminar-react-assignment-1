@@ -6,6 +6,7 @@ import LoginForm from "./Components/LoginForm";
 import AddMenu from "./Components/AddMenu";
 import EditMenu from "./Components/EditMenu";
 import DetailView from "./Components/DetailView";
+import Profile from "./Components/Profile";
 import NotFound from "./Components/NotFound";
 
 function App() {

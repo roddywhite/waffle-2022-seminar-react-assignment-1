@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./Review.css";
 import "./AddReview.css";
 
@@ -7,13 +7,34 @@ import editButton from "../assets/editButton.svg";
 import starEmpty from "../assets/starEmpty.svg";
 import starFull from "../assets/starFull.svg";
 
-const Review = () => {
+import UserContext from "../Contexts/user-context";
+import DeleteReviewModal from "./DeleteReviewModal";
+import ModalContext from "../Contexts/modal-context";
+
+const Review = ({ menuId, reviewId, author, content, createdAt, rating, forceUpdate, makeRender }) => {
   const [mouseOver, setMouseOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [rating, setRating] = useState(0);
-  const [enteredReview, setEnteredReview] = useState("");
+  const [enteredContent, setEnteredContent] = useState(content);
+  const [enteredRating, setEnteredRating] = useState(rating);
+  
+
+  useEffect(() => {
+    setEnteredContent(content);
+    setEnteredRating(rating);
+  }, [editMode]);
+
+  const userCtx = useContext(UserContext);
+  const modalCtx = useContext(ModalContext);
+
+  const submitHandler = () => {
+    userCtx.onEditReview(reviewId, enteredContent, enteredRating);
+    setEditMode(false);
+    makeRender();
+  };
+
   return (
     <>
+      <DeleteReviewModal reviewId={reviewId} />
       {!editMode && (
         <div
           className="reviewContainer"
@@ -21,38 +42,72 @@ const Review = () => {
           onMouseLeave={() => setMouseOver(false)}
         >
           <div className="head">
-            <label>아이디와 별점</label>
-            <span>2 hours ago</span>
-            <div className={mouseOver ? "buttonBox" : "hidden"}>
+            <label>{author.username}</label>
+            {[1, 2, 3, 4, 5].map((x) => {
+              return (
+                <img
+                  className="rating"
+                  src={x <= rating ? starFull : starEmpty}
+                />
+              );
+            })}
+            <span>{createdAt}</span>
+            <div className={mouseOver && (author.id === userCtx.user?.id) ? "buttonBox" : "hidden"}>
               <img
                 className="editBtn"
                 src={editButton}
                 onClick={() => setEditMode(true)}
               />
-              <img className="deleteBtn" src={deleteButton} />
+              <img
+                className="deleteBtn"
+                src={deleteButton}
+                onClick={modalCtx.onOpenDeleteReview}
+              />
             </div>
           </div>
-          <a>좋네요</a>
+          <a>{content}</a>
         </div>
       )}
 
       {editMode && (
         <div className="addReviewSection">
           <div className="starBox">
-            <img className="star" src={rating>=1 ? starFull : starEmpty} onClick={()=>setRating(1)}/>
-            <img className="star" src={rating>=2 ? starFull : starEmpty} onClick={()=>setRating(2)}/>
-            <img className="star" src={rating>=3 ? starFull : starEmpty} onClick={()=>setRating(3)}/>
-            <img className="star" src={rating>=4 ? starFull : starEmpty} onClick={()=>setRating(4)}/>
-            <img className="star" src={rating>=5 ? starFull : starEmpty} onClick={()=>setRating(5)}/>
+            <img
+              className="star"
+              src={enteredRating >= 1 ? starFull : starEmpty}
+              onClick={() => setEnteredRating(1)}
+            />
+            <img
+              className="star"
+              src={enteredRating >= 2 ? starFull : starEmpty}
+              onClick={() => setEnteredRating(2)}
+            />
+            <img
+              className="star"
+              src={enteredRating >= 3 ? starFull : starEmpty}
+              onClick={() => setEnteredRating(3)}
+            />
+            <img
+              className="star"
+              src={enteredRating >= 4 ? starFull : starEmpty}
+              onClick={() => setEnteredRating(4)}
+            />
+            <img
+              className="star"
+              src={enteredRating >= 5 ? starFull : starEmpty}
+              onClick={() => setEnteredRating(5)}
+            />
           </div>
           <input
             className="addReviewContainer"
             placeholder="리뷰를 입력하세요"
-            value={enteredReview}
-            onChange={(e) => setEnteredReview(e.target.value)}
+            value={enteredContent}
+            onChange={(e) => setEnteredContent(e.target.value)}
           />
           <div className="btnCon">
-            <button className="greenBtn">저장</button>
+            <button className="greenBtn" onClick={submitHandler}>
+              저장
+            </button>
             <button
               className="cancelBtn"
               onClick={() => {
