@@ -41,6 +41,9 @@ const Header = () => {
           <Link to={`/stores/${userCtx.user.id}`}>
             <button className="market">내 가게</button>
           </Link>
+          <Link to={`/profile/${userCtx.user.id}`}>
+            <button className="market">내 가게</button>
+          </Link>
           <button className="logout" onClick={userCtx.onLogout}>
             로그아웃
           </button>
