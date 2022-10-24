@@ -22,7 +22,15 @@ const Item = ({ menu }) => {
       >
         <span className="menuId">{menu.id}</span>
         <span className="menuName">{menu.name}</span>
-        <span className="menuType">{menu.type}</span>
+        <span className="menuType">
+          {menu.type === "waffle"
+            ? "와플"
+            : menu.type === "beverage"
+            ? "음료"
+            : menu.type === "coffee"
+            ? "커피"
+            : ""}
+        </span>
         <span className="menuPrice">{menu.price}</span>
         <div className="menuRating">
           {stars.map((x) => {

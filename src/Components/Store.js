@@ -6,12 +6,12 @@ import Search from "./Search";
 import List from "./List";
 
 const Store = () => {
-  const { storeId } = Number(useParams());
+  const { storeId } = useParams();
   return (
     <div>
       <Header />
       <Search />
-      <List />
+      <List storeId={storeId}/>
     </div>
   );
 };

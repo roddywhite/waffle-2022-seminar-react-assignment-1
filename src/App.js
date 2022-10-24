@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route exact path="/stores/:storeId" element={<Store />} />
+        <Route path="/stores/:storeId" element={<Store />} />
         <Route path="/stores/:storeId/menus/new" element={<AddMenu />} />
         <Route path="/stores/:storeId/menus/:menuId" element={<DetailView />} />
         <Route path="/stores/:storeId/menus/:menuId/edit" element={<EditMenu />} />

@@ -2,21 +2,18 @@ import "./DeleteModal.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ModalContext from "../Contexts/modal-context";
-import MenuContext from "../Contexts/menu-context";
+import UserContext from "../Contexts/user-context";
 
-const DeleteModal = () => {
-  const menuCtx = useContext(MenuContext);
+const DeleteModal = ({ menuId }) => {
   const modalCtx = useContext(ModalContext);
+  const userCtx = useContext(UserContext);
   const navigate = useNavigate();
-  console.log(useParams());
 
   const submitHandler = (e) => {
     e.preventDefault();
     navigate(-1);
-    menuCtx.onDeleteMenu();
+    userCtx.onDeleteMenu(menuId);
     modalCtx.onCloseDeleteModal();
-
-    console.log(menuCtx.menus);
   };
 
   const cancelHandler = () => {

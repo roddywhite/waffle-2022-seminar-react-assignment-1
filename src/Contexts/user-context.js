@@ -4,16 +4,23 @@ import { getCookie, setCookies } from "../utils/cookie";
 
 const UserContext = createContext({
   owners: null,
+  stores: null,
   user: null,
   isLoggedIn: false,
+  token: "",
+  owners: null,
   onLogin: (userId, userPassword) => {},
   onLogout: () => {},
+  onAddMenu: () => {},
+  onDeleteMenu: () => {},
+  onEditMenu: () => {},
   testtest: () => {},
 });
 
 export const UserContextProvider = (props) => {
   // user = 로그인한 유저 아이디
   const [owners, setOwners] = useState(null);
+  const [stores, setStores] = useState(null);
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [rating, setRating] = useState(0);
@@ -26,10 +33,12 @@ export const UserContextProvider = (props) => {
       const res = await axios.get(`${end}/owners`);
       setOwners(res.data);
       console.log(res.data);
+      setStores(res.data.filter((owner) => owner.store_name !== undefined));
     } catch (err) {
       console.log("error!!!" + err);
     }
   };
+
   useEffect(() => {
     fetchOwnersData();
   }, [isLoggedIn]);
@@ -60,14 +69,29 @@ export const UserContextProvider = (props) => {
     });
   };
 
+  const addMenuHandler = (newMenu) => {
+    authAxios.post(`${end}/menus`, newMenu).then((res) => {
+      console.log(res);
+    });
+  };
+
+  const deleteMenuHandler = (menuId) => {
+    authAxios.delete(`${end}/menus/${menuId}`).then((res) => {
+      console.log(res);
+    });
+  };
+
+  const editMenuHandler = (menuId, editedMenu) => {
+    authAxios.patch(`${end}/menus/${menuId}`, editedMenu).then((res) => {
+      console.log(res);
+    });
+  };
+
   const testHandler = () => {
     authAxios
-      .post(`${end}/menus`, {
-        name: "초생와",
-        type: "waffle",
-        price: 9000,
-        image: "https://example.com/foo.png",
-        description: "맛있네",
+      .patch(`${end}/owners/me`, {
+        store_name: "청년 아리랑 와플나라",
+        store_description: "맛이 없으면 환불해드립니다",
       })
       .then((res) => {
         console.log(res);
@@ -78,10 +102,16 @@ export const UserContextProvider = (props) => {
     <UserContext.Provider
       value={{
         owners: owners,
+        stores: stores,
         user: user,
         isLoggedIn: isLoggedIn,
+        token: token,
+        owners: owners,
         onLogin: loginHandler,
         onLogout: logoutHandler,
+        onAddMenu: addMenuHandler,
+        onDeleteMenu: deleteMenuHandler,
+        onEditMenu: editMenuHandler,
         testtest: testHandler,
       }}
     >
