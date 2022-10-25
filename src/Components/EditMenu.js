@@ -6,15 +6,21 @@ import MenuContext from "../Contexts/menu-context";
 
 import Header from "./Header";
 import NotFound from "./NotFound";
+import axios from "axios";
 
 const EditMenu = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
 
-  const { menuId } = useParams();
-  const menu = location.state.menu;
+  const { storeId, menuId } = useParams();
+  const [menu, setMenu] = useState(
+    menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId))
+  );
+
+  useEffect(() =>
+    setMenu(menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId)))
+  );
 
   // 이미지url, 설명 State 만들기
   const [enteredUrl, setEnteredUrl] = useState(menu?.image);
@@ -44,7 +50,7 @@ const EditMenu = () => {
     setEnteredDesc(menu?.description);
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (enteredPrice === "") {
       window.alert("가격을 입력해주세요.");
@@ -57,7 +63,10 @@ const EditMenu = () => {
         description: enteredDesc,
       };
 
-      userCtx.onEditMenu(menuId, editedMenu);
+      await userCtx.onEditMenu(menuId, editedMenu);
+      await menuCtx.fetchEntireMenus();
+      setMenu(menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId)));
+      menuCtx.onSelectMenu(menu);
       resetEntered();
       navigate(-1);
     }
@@ -94,7 +103,15 @@ const EditMenu = () => {
               </div>
               <div className="fixedCon">
                 <label className="label">종류</label>
-                <a className="fixed">{menu.type}</a>
+                <a className="fixed">
+                  {menu.type === "waffle"
+                    ? "와플"
+                    : menu.type === "beverage"
+                    ? "음료"
+                    : menu.type === "coffee"
+                    ? "커피"
+                    : ""}
+                </a>
               </div>
 
               <label className="inputLabel">가격</label>

@@ -52,6 +52,7 @@ const Home = () => {
               <Link to={`/stores/${owner.id}`}>
                 <StoreShortcut
                   key={owner.id}
+                  storeId={owner.id}
                   storeName={owner.store_name}
                   ownerName={owner.username}
                   storeDesc={owner.store_description}

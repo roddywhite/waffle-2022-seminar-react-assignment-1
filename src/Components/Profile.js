@@ -3,29 +3,38 @@ import UserContext from "../Contexts/user-context";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Header from "./Header";
-import "./AddMenu.css";
+import "./Profile.css";
 
 const Profile = () => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
   const { ownerId } = useParams();
 
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredDesc, setEnteredDesc] = useState("");
+  const my = userCtx.user;
 
-  const resetEntered = () => {
-    setEnteredName("");
-    setEnteredDesc("");
-  };
+  const [enteredName, setEnteredName] = useState(my.store_name);
+  const [enteredDesc, setEnteredDesc] = useState(my.store_description);
 
-  const submitHandler = () => {
-    userCtx.onEditProfile(enteredName, enteredDesc);
-    resetEntered();
-    navigate(`/stores/${ownerId}`);
+  useEffect(()=> {
+    setEnteredName(my.store_name);
+    setEnteredDesc(my.store_description);
+  },[])
+
+  // const resetEntered = () => {
+  //   setEnteredName("");
+  //   setEnteredDesc("");
+  // };
+
+  const submitHandler = async () => {
+    await userCtx.onEditProfile(enteredName, enteredDesc);
+    // resetEntered();
+    // navigate(`/stores/${ownerId}`);
+    navigate(-1);
+    userCtx.fetchMyProfile();
   };
 
   const cancelHandler = () => {
-    resetEntered();
+    // resetEntered();
     navigate(-1);
   };
 
@@ -33,7 +42,7 @@ const Profile = () => {
     <>
       <Header />
       <div className="full">
-        <div className="addContainer">
+        <div className="profileCon">
           <h3 className="title">내 정보 수정</h3>
 
           <label className="inputLabel">가게 이름</label>
@@ -48,7 +57,7 @@ const Profile = () => {
           />
 
           <label className="inputLabel">가게 설명</label>
-          <input
+          <textarea
             className="inputBoxDesc"
             type="text"
             placeholder="가게에 대해 설명해주세요"

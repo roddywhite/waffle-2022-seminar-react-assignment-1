@@ -5,7 +5,8 @@
   align-items: baseline;
   justify-content: baseline;
   align-self: center;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   border: 1px solid black;
   border-radius: 10px;
   width: 90%;

@@ -1,0 +1,118 @@
+.full {
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 80vh;
+  position: relative;
+}
+
+.profileCon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  width: 600px;
+  height: 40vh;
+  max-height: 600px;
+
+  border: 1px solid black;
+  border-radius: 15px;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  overflow: auto;
+}
+
+.profileCon textarea {
+  resize: none;
+}
+
+.profileCon .title {
+  width: 323px;
+  height: 30px;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.profileCon .fixedCon {
+  width: 80%;
+  height: 45px;
+  margin-left: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileCon .fixed {
+  margin-left: 80px;
+}
+
+.profileCon .label {
+  width: 75px;
+  height: 18px;
+  float: left;
+  display: flex;
+
+  font-weight: 600;
+}
+
+.profileCon .inputLabel {
+  width: 100px;
+  height: 25px;
+  float: left;
+  display: flex;
+
+  margin-left: 25px;
+
+  font-weight: 600;
+}
+
+.profileCon .inputBox {
+  width: 90%;
+  height: 20px;
+  margin-left: 25px;
+  margin-bottom: 25px;
+}
+
+.profileCon .dropdown {
+  width: 91%;
+  height: 25px;
+  margin-left: 25px;
+  margin-bottom: 25px;
+}
+
+.profileCon .inputBoxDesc {
+  width: 90%;
+  height: 70px;
+  margin-left: 25px;
+  margin-bottom: 30px;
+  overflow: auto;
+  vertical-align: top;
+}
+
+.profileCon .buttonCon {
+  display: flex;
+  position: relative;
+  align-self: center;
+  margin-bottom: 20px;
+}
+
+.profileCon .greenButton {
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+  background: #d3ffc4;
+
+  width: 45px;
+  height: 30px;
+
+  margin-right: 7px;
+}
+
+.profileCon .button {
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+
+  width: 45px;
+  height: 30px;
+}

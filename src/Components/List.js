@@ -14,22 +14,9 @@ const List = ({ storeId }) => {
   const menuCtx = useContext(MenuContext);
   const userCtx = useContext(UserContext);
 
-  const [menus, setMenus] = useState(null);
+  const { menus, fetchMenuData } = menuCtx;
 
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
-  const fetchMenuData = async () => {
-    try {
-      const res = await axios.get(`${end}/menus/?owner=${storeId}`);
-      console.log(res);
-      setMenus(res.data.data.reverse());
-    } catch (err) {
-      console.log("error!!!" + err);
-    }
-  };
-
-  useEffect(() => {
-    fetchMenuData();
-  }, []);
+  useEffect(() => fetchMenuData(storeId), []);
 
   return (
     <div className="bigContainer">

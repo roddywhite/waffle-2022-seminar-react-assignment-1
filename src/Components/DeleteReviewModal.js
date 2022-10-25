@@ -4,13 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import ModalContext from "../Contexts/modal-context";
 import UserContext from "../Contexts/user-context";
 
-const DeleteReviewModal = ({ reviewId }) => {
+const DeleteReviewModal = ({ reviewId, fetchReviewData }) => {
   const modalCtx = useContext(ModalContext);
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
 
-  const submitHandler = (reviewId) => {
-    userCtx.onDeleteReview(reviewId);
+  const submitHandler = async () => {
+    await userCtx.onDeleteReview(reviewId);
+    fetchReviewData();
     modalCtx.onCloseDeleteReview();
   };
 

@@ -27,18 +27,11 @@ const DetailView = () => {
   const modalCtx = useContext(ModalContext);
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const { menus, storeId } = location.state;
-  const { menuId } = useParams();
-  const menu = menuCtx.findMenuById(menus, Number(menuId));
+  const { storeId, menuId } = useParams();
+  const menu = menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId));
 
   const [reviews, setReviews] = useState(null);
   const [menuRating, setMenuRating] = useState(0);
-
-  const [rerender, setRerender] = useState(0);
-  const [, updateState] = useState();
-  const makeRender = () => setRerender(Math.random())
-  const forceUpdate = useCallback(()=>updateState({}), [])
 
   const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
 
@@ -47,7 +40,7 @@ const DetailView = () => {
     axios.get(`${end}/reviews/?menu=${menuId}`).then((res) => {
       console.log(res.data.data);
       const reviewList = res.data.data;
-      setReviews(reviewList);
+      setReviews([...reviewList]);
       let ratingSum = 0;
       reviewList.forEach((x) => (ratingSum += x.rating));
       setMenuRating(Math.round((2 * ratingSum) / reviewList.length) / 2);
@@ -97,7 +90,6 @@ const DetailView = () => {
                   <div className="viewButtonContainer">
                     <Link
                       to={`/stores/${storeId}/menus/${menuId}/edit`}
-                      state={{ menu: menu }}
                     >
                       <img className="editButton" src={editButton} alt="Edit" />
                     </Link>
@@ -142,12 +134,11 @@ const DetailView = () => {
                     content={review.content}
                     createdAt={review.created_at}
                     rating={review.rating}
-                    forceUpdate={forceUpdate}
-                    makeRender={makeRender}
+                    fetchReviewData={fetchReviewData}
                   />
                 ))}
               </div>
-              <AddReview menuId={menuId} />
+              <AddReview menuId={menuId} fetchReviewData={fetchReviewData} />
             </div>
           </div>
         </>

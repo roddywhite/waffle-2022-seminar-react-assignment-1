@@ -11,12 +11,18 @@ import UserContext from "../Contexts/user-context";
 import DeleteReviewModal from "./DeleteReviewModal";
 import ModalContext from "../Contexts/modal-context";
 
-const Review = ({ menuId, reviewId, author, content, createdAt, rating, forceUpdate, makeRender }) => {
+const Review = ({
+  reviewId,
+  author,
+  content,
+  createdAt,
+  rating,
+  fetchReviewData,
+}) => {
   const [mouseOver, setMouseOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [enteredContent, setEnteredContent] = useState(content);
   const [enteredRating, setEnteredRating] = useState(rating);
-  
 
   useEffect(() => {
     setEnteredContent(content);
@@ -26,15 +32,19 @@ const Review = ({ menuId, reviewId, author, content, createdAt, rating, forceUpd
   const userCtx = useContext(UserContext);
   const modalCtx = useContext(ModalContext);
 
-  const submitHandler = () => {
-    userCtx.onEditReview(reviewId, enteredContent, enteredRating);
+  const submitHandler = async () => {
+    await userCtx.onEditReview(reviewId, enteredContent, enteredRating);
+    setMouseOver(false);
     setEditMode(false);
-    makeRender();
+    fetchReviewData();
   };
 
   return (
     <>
-      <DeleteReviewModal reviewId={reviewId} />
+      <DeleteReviewModal
+        reviewId={reviewId}
+        fetchReviewData={fetchReviewData}
+      />
       {!editMode && (
         <div
           className="reviewContainer"
@@ -52,7 +62,13 @@ const Review = ({ menuId, reviewId, author, content, createdAt, rating, forceUpd
               );
             })}
             <span>{createdAt}</span>
-            <div className={mouseOver && (author.id === userCtx.user?.id) ? "buttonBox" : "hidden"}>
+            <div
+              className={
+                mouseOver && author.id === userCtx.user?.id
+                  ? "buttonBox"
+                  : "hidden"
+              }
+            >
               <img
                 className="editBtn"
                 src={editButton}

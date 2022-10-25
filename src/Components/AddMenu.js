@@ -44,11 +44,6 @@ const AddMenu = () => {
     setEnteredNum(removedCommaValue.toLocaleString());
   };
 
-  const isNameExist = (enteredTitle) => {
-    const menusNameArr = menuCtx.menus.map((menu) => menu.name);
-    return menusNameArr.includes(enteredTitle);
-  };
-
   // 취소할 때 입력값 초기화
   const resetEntered = () => {
     setEnteredTitle("");
@@ -59,7 +54,7 @@ const AddMenu = () => {
     setEnteredDesc("");
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (enteredTitle === "") {
       window.alert("메뉴명을 입력해주세요.");
@@ -78,7 +73,8 @@ const AddMenu = () => {
         description: enteredDesc,
       };
 
-      userCtx.onAddMenu(newMenu);
+      await userCtx.onAddMenu(newMenu);
+      await menuCtx.fetchEntireMenus();
       resetEntered();
       navigate(-1);
     }

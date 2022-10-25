@@ -7,6 +7,7 @@ const UserContext = createContext({
   token: "",
   onLogin: (userId, userPassword) => {},
   onLogout: () => {},
+  fetchMyProfile: () => {},
   onEditProfile: () => {},
   onAddMenu: () => {},
   onEditMenu: () => {},
@@ -49,7 +50,7 @@ export const UserContextProvider = (props) => {
   const logoutHandler = () => {
     authAxios.post(`${end}/auth/logout`).then((res) => {
       setIsLoggedIn(false);
-      setToken('');
+      setToken("");
       setUser(null);
     });
   };
@@ -80,20 +81,14 @@ export const UserContextProvider = (props) => {
   };
 
   const editMenuHandler = (menuId, editedMenu) => {
-    authAxios.patch(`${end}/menus/${menuId}`, editedMenu).then((res) => {
-      console.log(res);
-    });
+    return authAxios.patch(`${end}/menus/${menuId}`, editedMenu);
   };
 
   const editProfileHandler = (storeName, storeDesc) => {
-    authAxios
-      .patch(`${end}/owners/me`, {
-        store_name: storeName,
-        store_description: storeDesc,
-      })
-      .then((res) => {
-        console.log(res);
-      });
+    return authAxios.patch(`${end}/owners/me`, {
+      store_name: storeName,
+      store_description: storeDesc,
+    });
   };
 
   const testHandler = () => {
@@ -102,33 +97,24 @@ export const UserContextProvider = (props) => {
     });
   };
 
+  // 컴포넌트에서 사용할 때 리뷰작성 후 데이터를 다시 불러오기 위해서 promise return하도록
   const addReviewHandler = (content, rating, menuId) => {
-    authAxios
-      .post(`${end}/reviews`, {
-        content: content,
-        rating: rating,
-        menu: menuId,
-      })
-      .then((res) => {
-        console.log(res);
-      });
+    return authAxios.post(`${end}/reviews`, {
+      content: content,
+      rating: rating,
+      menu: menuId,
+    });
   };
 
   const editReviewHandler = (reviewId, content, rating) => {
-    authAxios
-      .patch(`${end}/reviews/${reviewId}`, {
-        content: content,
-        rating: rating,
-      })
-      .then((res) => {
-        console.log(res);
-      });
+    return authAxios.patch(`${end}/reviews/${reviewId}`, {
+      content: content,
+      rating: rating,
+    });
   };
 
   const deleteReviewHandler = (reviewId) => {
-    authAxios.delete(`${end}/menus/${reviewId}`).then((res) => {
-      console.log(res);
-    });
+    return authAxios.delete(`${end}/menus/${reviewId}`);
   };
 
   return (
@@ -139,6 +125,7 @@ export const UserContextProvider = (props) => {
         token: token,
         onLogin: loginHandler,
         onLogout: logoutHandler,
+        fetchMyProfile: fetchMyProfile,
         onEditProfile: editProfileHandler,
         onAddMenu: addMenuHandler,
         onEditMenu: editMenuHandler,

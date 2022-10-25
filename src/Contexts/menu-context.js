@@ -1,75 +1,67 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
-import data from "../assets/data.json";
 
 const MenuContext = createContext({
+  entireMenus: null,
   menus: null,
-  nowId: 0,
   selectedMenu: null,
-  onAddMenu: () => {},
-  onEditMenu: () => {},
-  onDeleteMenu: () => {},
+  storeRatingCalculator: () => {},
+  fetchEntireMenus: () => {},
+  fetchMenuData: () => {},
+  fetchMenuById: () => {},
   onSelectMenu: () => {},
   selectResetHandler: () => {},
   findMenuById: () => {},
 });
 
 export const MenuContextProvider = (props) => {
-
   const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
 
-  // data 파일에서 type이 영어로 나와있는 것들을 한글로 변경
-  const korData = [...data];
-  for (let i = 0; i < korData.length; i++) {
-    if (korData[i].type === "waffle") {
-      korData[i].type = "와플";
-    } else if (korData[i].type === "beverage") {
-      korData[i].type = "음료";
-    } else if (korData[i].type === "coffee") {
-      korData[i].type = "커피";
-    }
-  }
-
-  const [menus, setMenus] = useState(korData);
-  const [nowId, setNowId] = useState(data.length + 1);
+  const [entireMenus, setEntireMenus] = useState([]);
+  const [menus, setMenus] = useState(null);
   const [selectedMenu, setSelectedMenu] = useState(null);
 
-  // 현재 접근한 스토어의 메뉴 리스트를 가져옴
-  const fetchMenuData = async (storeId) => {
-    try {
-      const response = await axios.get(`${end}/menus/?owner=${storeId}`);
-      setMenus(response.data)
-    } catch (err) {
-      console.log("error!!!" + err);
-    }
+  const fetchMenuById = (menuId) => {
+    axios.get(`${end}/menus/${menuId}`).then((res) => {
+      return res.data;
+    });
   };
 
-  // 로그인해있는 오너의 가게 메뉴에
-  const addMenuHandler = async (newMenu) => {
-    try {
-      await axios.post(`${end}/menus`, newMenu);
-      // 메뉴 리스트 업데이트 해줘야함
-      // setMenus([...menus, tmpMenu]);
-      // setSelectedMenu(tmpMenu);
-    } catch (err) {
-      console.log("error!!!" + err);
-    }
+  // 전체메뉴
+  const fetchEntireMenus = () => {
+    axios.get(`${end}/menus/`).then((res) => {
+      console.log(res.data.data);
+      setEntireMenus(res.data.data);
+    });
+  };
+  useEffect(() => fetchEntireMenus(), []);
+
+  // storeId로 메뉴
+  const fetchMenuData = (storeId) => {
+    axios.get(`${end}/menus/?owner=${storeId}`).then((res) => {
+      setMenus(res.data.data.reverse());
+    });
   };
 
-  const editMenuHandler = (editedMenu) => {
-    const editedMenus = [...menus];
-    const menuIdx = editedMenus.findIndex((menu) => menu.id === editedMenu.id);
-    editedMenus[menuIdx].price = editedMenu.price;
-    editedMenus[menuIdx].image = editedMenu.image;
-    editedMenus[menuIdx].description = editedMenu.description;
-
-    setMenus(editedMenus);
-    setSelectedMenu(editedMenu);
-  };
-
-  const deleteMenuHandler = () => {
-    setMenus(menus.filter((menu) => selectedMenu.id !== menu.id));
-    setSelectedMenu(null);
+  // 스토어 평점 평균 계산
+  const storeRatingCalculator = async (storeId) => {
+    let sum = 0;
+    let count = 0;
+    let menuList = [];
+    let reviewList = [];
+    axios.get(`${end}/menus/?owner=${storeId}`).then((res) => {
+      menuList = res.data.data;
+    });
+    menuList.forEach((m) => {
+      axios.get(`${end}/reviews/?menu=${m?.id}`).then((res) => {
+        reviewList = res.data.data;
+      });
+      reviewList.forEach((r) => {
+        sum += r?.rating;
+        count += 1;
+      });
+    });
+    return sum / count;
   };
 
   const selectMenuHandler = (menu) => {
@@ -79,8 +71,8 @@ export const MenuContextProvider = (props) => {
 
   // 스토어 페이지 벗어나면 선택 리셋 시켜주기 위해서
   const selectResetHandler = () => {
-      setSelectedMenu(null);
-  }
+    setSelectedMenu(null);
+  };
 
   // id로 특정 메뉴 object 찾아서 반환
   const findMenuById = (menuList, id) => {
@@ -92,12 +84,13 @@ export const MenuContextProvider = (props) => {
   return (
     <MenuContext.Provider
       value={{
+        entireMenus: entireMenus,
         menus: menus,
-        nowId: nowId,
         selectedMenu: selectedMenu,
-        onAddMenu: addMenuHandler,
-        onEditMenu: editMenuHandler,
-        onDeleteMenu: deleteMenuHandler,
+        storeRatingCalculator: storeRatingCalculator,
+        fetchEntireMenus: fetchEntireMenus,
+        fetchMenuData: fetchMenuData,
+        fetchMenuById: fetchMenuById,
         onSelectMenu: selectMenuHandler,
         onSelectReset: selectResetHandler,
         findMenuById: findMenuById,

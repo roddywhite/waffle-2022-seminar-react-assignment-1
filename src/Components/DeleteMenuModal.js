@@ -3,16 +3,19 @@ import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ModalContext from "../Contexts/modal-context";
 import UserContext from "../Contexts/user-context";
+import MenuContext from "../Contexts/menu-context";
 
 const DeleteMenuModal = ({ menuId }) => {
   const modalCtx = useContext(ModalContext);
   const userCtx = useContext(UserContext);
+  const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     navigate(-1);
-    userCtx.onDeleteMenu(menuId);
+    await userCtx.onDeleteMenu(menuId);
+    menuCtx.fetchEntireMenus();
     modalCtx.onCloseDeleteMenu();
   };
 

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import MenuContext from "../Contexts/menu-context";
@@ -9,7 +9,16 @@ import altImg from "../assets/logo.svg";
 const SelectedView = ({ menus }) => {
   const menuCtx = useContext(MenuContext);
   const { storeId } = useParams();
-  const menu = menuCtx.selectedMenu;
+  const [menu, setMenu] = useState(menuCtx.selectedMenu)
+
+  useEffect(()=>setMenu(menuCtx.selectedMenu))
+  console.log(menu);
+
+  // const [menu, setMenu] = useState(null);
+  // useEffect(() => {
+  //   setMenu(menuCtx.selectedMenu)
+  // });
+  
   return (
     <div className="selectedView">
       <img

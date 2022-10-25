@@ -6,9 +6,11 @@ import Item from "./Item";
 
 import "./Table.css";
 
-const Table = ({ menus }) => {
+const Table = () => {
   const menuCtx = useContext(MenuContext);
   const searchCtx = useContext(SearchContext);
+
+  const {menus} = menuCtx;
 
   return (
     <>
