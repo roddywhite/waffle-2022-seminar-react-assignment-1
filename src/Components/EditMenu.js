@@ -1,6 +1,9 @@
 import "./EditMenu.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
 
@@ -12,6 +15,7 @@ const EditMenu = () => {
   const navigate = useNavigate();
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
+  const notify = (text) => toast.error(text, { theme: "colored" });
 
   const { storeId, menuId } = useParams();
   const [menu, setMenu] = useState(
@@ -53,9 +57,9 @@ const EditMenu = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (enteredPrice === "") {
-      window.alert("가격을 입력해주세요.");
+      notify("가격을 입력해주세요.");
     } else if (enteredNum.slice(-1) !== "0") {
-      window.alert("가격은 10원 단위로만 입력해주세요.");
+      notify("가격은 10원 단위로만 입력해주세요.");
     } else {
       const editedMenu = {
         price: enteredPrice,
@@ -80,21 +84,27 @@ const EditMenu = () => {
   // 로그인 하지 않고 접근했을 때
   useEffect(() => {
     if (!userCtx.isLoggedIn) {
-      window.alert("로그인 해주세요");
-      navigate(-1);
+      notify("로그인 해주세요");
+      setTimeout(() => navigate(-1), 3000);
+    } else if (userCtx.user?.id !== Number(storeId)) {
+      notify("접근 권한이 없습니다");
+      setTimeout(() => navigate(-1), 3000);
     }
-  });
+  }, []);
 
   // 내 소유가 아닌 스토어의 메뉴에 접근했을 때
   // storeId !== userId
 
   return (
     <>
+      <ToastContainer autoClose={3000} position="top-center" pauseOnHover />
       {!menu && <NotFound />}
       {menu && (
         <>
           <Header />
-          <div className="full">
+          <div
+            className={userCtx.user?.id === Number(storeId) ? "full" : "hidden"}
+          >
             <div className="editContainer">
               <h3 className="title">메뉴 수정</h3>
               <div className="fixedCon">

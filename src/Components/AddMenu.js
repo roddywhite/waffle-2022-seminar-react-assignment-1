@@ -1,6 +1,9 @@
 import "./AddMenu.css";
 import "./AddButton";
 import { useState, useEffect, useContext } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,6 +19,8 @@ const AddMenu = () => {
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
+  const notify = (text) => toast.error(text, { theme: "colored" });
+
 
   // 이름, 종류, 이미지url, 설명 State 만들기
   const [enteredTitle, setEnteredTitle] = useState("");
@@ -26,7 +31,7 @@ const AddMenu = () => {
   // 한글만 입력받도록
   const titleChangeHandler = (e) => {
     const regex = /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
-    if (regex.test(e.target.value)) window.alert("한글만 입력해주세요");
+    if (regex.test(e.target.value)) notify("한글만 입력해주세요");
     const koreanOnly = e.target.value.replace(
       /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,
       ""
@@ -57,13 +62,13 @@ const AddMenu = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (enteredTitle === "") {
-      window.alert("메뉴명을 입력해주세요.");
+      notify("메뉴명을 입력해주세요.");
     } else if (enteredPrice === "") {
-      window.alert("가격을 입력해주세요.");
+      notify("가격을 입력해주세요.");
     } else if (enteredNum.slice(-1) !== "0") {
-      window.alert("가격은 10원 단위로만 입력해주세요.");
+      notify("가격은 10원 단위로만 입력해주세요.");
     } else if (enteredType === "") {
-      window.alert("종류를 지정해주세요");
+      notify("종류를 지정해주세요");
     } else {
       const newMenu = {
         name: enteredTitle,
@@ -88,7 +93,7 @@ const AddMenu = () => {
   // 로그인 하지 않고 접근했을 때
   useEffect(() => {
     if (!userCtx.isLoggedIn) {
-      window.alert("로그인 해주세요");
+      notify("로그인 해주세요");
       navigate(-1);
     }
   });
@@ -96,6 +101,7 @@ const AddMenu = () => {
   return (
     <>
       <Header />
+      <ToastContainer autoClose={3000} position="top-center" pauseOnHover />
       <div className="full">
         <div className="addContainer">
           <h3 className="title">새 메뉴 추가</h3>

@@ -6,6 +6,10 @@
   position: relative;
 }
 
+.hidden {
+  display: none;
+}
+
 .editContainer {
   position: relative;
   display: flex;

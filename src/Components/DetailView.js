@@ -38,7 +38,6 @@ const DetailView = () => {
   // 리뷰 데이터 가져오고 평균 별점 계산
   const fetchReviewData = () => {
     axios.get(`${end}/reviews/?menu=${menuId}`).then((res) => {
-      console.log(res.data.data);
       const reviewList = res.data.data;
       setReviews([...reviewList]);
       let ratingSum = 0;

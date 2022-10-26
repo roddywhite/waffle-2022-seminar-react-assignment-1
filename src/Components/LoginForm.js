@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../Contexts/user-context";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./Header";
 import "./LoginForm.css";
@@ -8,6 +10,7 @@ import "./LoginForm.css";
 const LoginForm = () => {
   const userCtx = useContext(UserContext);
   let navigate = useNavigate();
+  const notify = (text) => toast.error(text, { theme: "colored" });
 
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -19,7 +22,7 @@ const LoginForm = () => {
       userCtx.onLogin(userId, userPassword);
       navigate(-1);
     } else {
-      alert("아이디 혹은 패스워드를 확인하세요");
+      notify("아이디 혹은 패스워드를 확인하세요");
       setUserId("");
       setUserPassword("");
     }
@@ -28,6 +31,7 @@ const LoginForm = () => {
   return (
     <>
       <Header />
+      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div className="full">
         <div className="loginBox">
           <a className="title">로그인</a>

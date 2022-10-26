@@ -15,7 +15,6 @@ const UserContext = createContext({
   onAddReview: () => {},
   onEditReview: () => {},
   onDeleteReview: () => {},
-  testtest: () => {},
 });
 
 export const UserContextProvider = (props) => {
@@ -91,12 +90,6 @@ export const UserContextProvider = (props) => {
     });
   };
 
-  const testHandler = () => {
-    axios.get(`${end}/reviews/?menu=9`).then((res) => {
-      console.log(res.data.data);
-    });
-  };
-
   // 컴포넌트에서 사용할 때 리뷰작성 후 데이터를 다시 불러오기 위해서 promise return하도록
   const addReviewHandler = (content, rating, menuId) => {
     return authAxios.post(`${end}/reviews`, {
@@ -133,7 +126,6 @@ export const UserContextProvider = (props) => {
         onAddReview: addReviewHandler,
         onEditReview: editReviewHandler,
         onDeleteReview: deleteReviewHandler,
-        testtest: testHandler,
       }}
     >
       {props.children}

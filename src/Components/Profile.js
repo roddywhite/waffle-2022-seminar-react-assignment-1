@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../Contexts/user-context";
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./Header";
 import "./Profile.css";
@@ -8,16 +10,17 @@ import "./Profile.css";
 const Profile = () => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
+  const notify = (text) => toast.error(text, { theme: "colored" });
+  
   const { ownerId } = useParams();
+  const my = userCtx?.user;
 
-  const my = userCtx.user;
-
-  const [enteredName, setEnteredName] = useState(my.store_name);
-  const [enteredDesc, setEnteredDesc] = useState(my.store_description);
+  const [enteredName, setEnteredName] = useState(my?.store_name);
+  const [enteredDesc, setEnteredDesc] = useState(my?.store_description);
 
   useEffect(()=> {
-    setEnteredName(my.store_name);
-    setEnteredDesc(my.store_description);
+    setEnteredName(my?.store_name);
+    setEnteredDesc(my?.store_description);
   },[])
 
   // const resetEntered = () => {
@@ -38,9 +41,20 @@ const Profile = () => {
     navigate(-1);
   };
 
+  useEffect(() => {
+    if (!userCtx.isLoggedIn) {
+      notify("로그인 해주세요");
+      setTimeout(() => navigate(-1), 3000);
+    } else if (userCtx.user?.id !== Number(ownerId)) {
+      notify("접근 권한이 없습니다");
+      setTimeout(() => navigate(-1), 3000);
+    }
+  }, []);
+
   return (
     <>
       <Header />
+      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div className="full">
         <div className="profileCon">
           <h3 className="title">내 정보 수정</h3>

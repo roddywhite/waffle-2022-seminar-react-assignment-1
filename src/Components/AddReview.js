@@ -1,4 +1,7 @@
 import { useState, useContext } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./AddReview.css";
 import starEmpty from "../assets/starEmpty.svg";
 import starFull from "../assets/starFull.svg";
@@ -8,19 +11,23 @@ const AddReview = ({ menuId, fetchReviewData }) => {
   const [enteredContent, setEnteredContent] = useState("");
   const [enteredRating, setEnteredRating] = useState(0);
   const userCtx = useContext(UserContext);
+  const notify = (text) => toast.error(text, { theme: "colored" });
+
   const submitHandler = async () => {
-    if (enteredRating < 1) {
-      window.alert("별점을 체크해주세요");
+    if (!userCtx.isLoggedIn) {
+      notify("로그인 해주세요")
+    } else if (enteredRating < 1) {
+      notify("별점을 체크해주세요");
     } else {
         await userCtx.onAddReview(enteredContent, enteredRating, menuId);
         setEnteredContent("");
         setEnteredRating(0);
         fetchReviewData();
-        console.log("완료");
       };
   };
   return (
     <div className="addReviewSection">
+      <ToastContainer autoClose={3000} position="top-center" pauseOnHover />
       <div className="starBox">
         <img
           className="star"
