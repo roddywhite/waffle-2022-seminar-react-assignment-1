@@ -11,19 +11,33 @@ const AddReview = ({ menuId, fetchReviewData }) => {
   const [enteredContent, setEnteredContent] = useState("");
   const [enteredRating, setEnteredRating] = useState(0);
   const userCtx = useContext(UserContext);
-  const notify = (text) => toast.error(text, { theme: "colored" });
+  const { authAxios } = userCtx;
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
+  const errMsg = (text) => toast.error(text, { theme: "colored" });
+  const successMsg = (text) => toast.success(text, { theme: "colored" });
 
-  const submitHandler = async () => {
+  const submitHandler = () => {
     if (!userCtx.isLoggedIn) {
-      notify("로그인 해주세요")
+      errMsg("로그인 해주세요");
     } else if (enteredRating < 1) {
-      notify("별점을 체크해주세요");
+      errMsg("별점을 체크해주세요");
     } else {
-        await userCtx.onAddReview(enteredContent, enteredRating, menuId);
-        setEnteredContent("");
-        setEnteredRating(0);
-        fetchReviewData();
-      };
+      authAxios
+        .post(`${end}/reviews`, {
+          content: enteredContent,
+          rating: enteredRating,
+          menu: menuId,
+        })
+        .then((res) => {
+          fetchReviewData();
+          setEnteredContent("");
+          setEnteredRating(0);
+          successMsg("리뷰가 등록되었습니다")
+        })
+        .catch((res) => {
+          errMsg(res.response.data.message);
+        });
+    }
   };
   return (
     <div className="addReviewSection">

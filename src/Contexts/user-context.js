@@ -1,10 +1,14 @@
 import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserContext = createContext({
   user: null,
   isLoggedIn: false,
   token: "",
+  authAxios: () => {},
   onLogin: (userId, userPassword) => {},
   onLogout: () => {},
   fetchMyProfile: () => {},
@@ -18,26 +22,29 @@ const UserContext = createContext({
 });
 
 export const UserContextProvider = (props) => {
+  let navigate = useNavigate();
+  const errMsg = (text) => toast.error(text, { theme: "colored" });
+  const successMsg = (text) => toast.success(text, { theme: "colored" });
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
+
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState("");
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
 
   const loginHandler = async (userName, userPassword) => {
-    try {
-      axios
-        .post(`${end}/auth/login`, {
-          username: userName,
-          password: userPassword,
-        })
-        .then((res) => {
-          console.log(res);
-          setIsLoggedIn(true);
-          setToken(res.data.access_token);
-        });
-    } catch (err) {
-      console.log("로그인 실패" + err);
-    }
+    axios
+      .post(`${end}/auth/login`, {
+        username: userName,
+        password: userPassword,
+      })
+      .then((res) => {
+        setIsLoggedIn(true);
+        setToken(res.data.access_token);
+        navigate(-1);
+      })
+      .catch((res) => {
+        errMsg(res.response.data.message);
+      });
   };
 
   const authAxios = axios.create({
@@ -68,19 +75,34 @@ export const UserContextProvider = (props) => {
   }, [isLoggedIn]);
 
   const addMenuHandler = (newMenu) => {
-    authAxios.post(`${end}/menus`, newMenu).then((res) => {
-      console.log(res);
-    });
+    authAxios
+      .post(`${end}/menus`, newMenu)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((res) => {
+        errMsg(res.response.data.message);
+      });
   };
 
   const deleteMenuHandler = (menuId) => {
-    authAxios.delete(`${end}/menus/${menuId}`).then((res) => {
-      console.log(res);
-    });
+    authAxios
+      .delete(`${end}/menus/${menuId}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((res) => {
+        errMsg(res.response.data.message);
+      });
   };
 
   const editMenuHandler = (menuId, editedMenu) => {
-    return authAxios.patch(`${end}/menus/${menuId}`, editedMenu);
+    authAxios
+      .patch(`${end}/menus/${menuId}`, editedMenu)
+      .then((res) => navigate(-1))
+      .catch((res) => {
+        errMsg(res.response.data.message);
+      });
   };
 
   const editProfileHandler = (storeName, storeDesc) => {
@@ -116,6 +138,7 @@ export const UserContextProvider = (props) => {
         user: user,
         isLoggedIn: isLoggedIn,
         token: token,
+        authAxios: authAxios,
         onLogin: loginHandler,
         onLogout: logoutHandler,
         fetchMyProfile: fetchMyProfile,

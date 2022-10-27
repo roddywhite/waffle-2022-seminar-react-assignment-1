@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useCallback } from "react";
+import { useState, useContext, useEffect, useRef, useCallback } from "react";
 import UserContext from "../Contexts/user-context";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -25,27 +25,82 @@ const DetailView = () => {
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
   const modalCtx = useContext(ModalContext);
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
 
   const navigate = useNavigate();
   const { storeId, menuId } = useParams();
-  const menu = menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId));
-
+  const [menu, setMenu] = useState(
+    menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId))
+  );
+  const [nextLoad, setNextLoad] = useState(null);
+  const [entireReviews, setEntireReviews] = useState(null);
   const [reviews, setReviews] = useState(null);
   const [menuRating, setMenuRating] = useState(0);
 
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
+  // 메뉴 최신정보 불러오기
+  useEffect(() => {
+    axios.get(`${end}/menus/${menuId}`).then((res) => {
+      setMenu(res.data);
+    });
+  }, []);
 
   // 리뷰 데이터 가져오고 평균 별점 계산
   const fetchReviewData = () => {
     axios.get(`${end}/reviews/?menu=${menuId}`).then((res) => {
       const reviewList = res.data.data;
-      setReviews([...reviewList]);
+      setEntireReviews([...reviewList]);
       let ratingSum = 0;
       reviewList.forEach((x) => (ratingSum += x.rating));
       setMenuRating(Math.round((2 * ratingSum) / reviewList.length) / 2);
     });
   };
   useEffect(() => fetchReviewData(), []);
+
+  const fetchFirstReviews = () => {
+    axios.get(`${end}/reviews/?count=6&menu=${menuId}`).then((res) => {
+      setReviews(res.data.data);
+      setNextLoad(res.data.next);
+    });
+  };
+  useEffect(() => fetchFirstReviews(), []);
+
+  const fetchMoreReview = () => {
+    axios
+      .get(`${end}/reviews/?from=${nextLoad}&count=6&menu=${menuId}`)
+      .then((res) => {
+        setIsLoading(true);
+        const reviewList = res.data.data;
+        setReviews((prev) => [...prev, ...reviewList]);
+        setNextLoad(res.data.next);
+        setIsLoading(false);
+      });
+  };
+
+  const [target, setTarget] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const loader = useRef(null);
+
+  // const onIntersect = async ([entry], observer) => {
+  //   if (entry.isIntersecting && !isLoading) {
+  //     observer.unobserve(target)
+  //     setIsLoading(true);
+  //     await fetchMoreReview();
+  //     setIsLoading(false);
+  //     observer.observe(target)
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   let observer;
+  //   if (target) {
+  //     observer = new IntersectionObserver(onIntersect, {
+  //       // rootMargin: '30%',
+  //       threshold: 0.1,
+  //     });
+  //     observer.observe(target);
+  //   }
+  //   return () => observer && observer.disconnect();
+  // }, [target]);
 
   return (
     <>
@@ -87,9 +142,7 @@ const DetailView = () => {
 
                 {userCtx.user?.id === Number(storeId) && (
                   <div className="viewButtonContainer">
-                    <Link
-                      to={`/stores/${storeId}/menus/${menuId}/edit`}
-                    >
+                    <Link to={`/stores/${storeId}/menus/${menuId}/edit`}>
                       <img className="editButton" src={editButton} alt="Edit" />
                     </Link>
                     <img
@@ -121,22 +174,26 @@ const DetailView = () => {
                     );
                   })}
                 </div>
-                <a>{reviews?.length ? menuRating : '아직 리뷰가 없습니다'}</a>
+                <a>{reviews?.length ? menuRating : "아직 리뷰가 없습니다"}</a>
               </div>
-              <div className="reviewList">
-                {reviews && reviews.map((review) => (
-                  <Review
-                    key={review.id}
-                    menuId={menuId}
-                    reviewId={review.id}
-                    author={review.author}
-                    content={review.content}
-                    createdAt={review.created_at}
-                    rating={review.rating}
-                    fetchReviewData={fetchReviewData}
-                  />
-                ))}
+              <div className="reviewList" id="reviewContainer">
+                {reviews &&
+                  reviews.map((review) => (
+                    <Review
+                      key={review.id}
+                      menuId={menuId}
+                      reviewId={review.id}
+                      author={review.author}
+                      content={review.content}
+                      createdAt={review.created_at}
+                      rating={review.rating}
+                      fetchReviewData={fetchReviewData}
+                    />
+                  ))}
+                <button onClick={fetchMoreReview}>load more</button>
               </div>
+              <div ref={setTarget} />
+              {isLoading && <p>Loading...</p>}
               <AddReview menuId={menuId} fetchReviewData={fetchReviewData} />
             </div>
           </div>

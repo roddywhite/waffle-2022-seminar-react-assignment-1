@@ -9,8 +9,8 @@ import "./LoginForm.css";
 
 const LoginForm = () => {
   const userCtx = useContext(UserContext);
-  let navigate = useNavigate();
-  const notify = (text) => toast.error(text, { theme: "colored" });
+  const errMsg = (text) => toast.error(text, { theme: "colored" });
+  const successMsg = (text) => toast.success(text, { theme: "colored" });
 
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -20,9 +20,8 @@ const LoginForm = () => {
 
     if (userId && userPassword) {
       userCtx.onLogin(userId, userPassword);
-      navigate(-1);
     } else {
-      notify("아이디 혹은 패스워드를 확인하세요");
+      errMsg("아이디 혹은 패스워드를 확인하세요");
       setUserId("");
       setUserPassword("");
     }
@@ -52,7 +51,7 @@ const LoginForm = () => {
                 value={userPassword}
                 onChange={(e) => setUserPassword(e.target.value)}
                 placeholder="블루베리스무디"
-                type='password'
+                type="password"
               />
             </div>
           </div>

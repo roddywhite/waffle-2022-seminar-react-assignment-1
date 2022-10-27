@@ -15,16 +15,22 @@ const EditMenu = () => {
   const navigate = useNavigate();
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
-  const notify = (text) => toast.error(text, { theme: "colored" });
+  const { authAxios } = userCtx;
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
+  const errMsg = (text) => toast.error(text, { theme: "colored" });
+  const successMsg = (text) => toast.success(text, { theme: "colored" });
 
   const { storeId, menuId } = useParams();
   const [menu, setMenu] = useState(
     menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId))
   );
 
-  useEffect(() =>
-    setMenu(menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId)))
-  );
+  // 메뉴 최신정보 불러오기
+  useEffect(() => {
+    axios.get(`${end}/menus/${menuId}`).then((res) => {
+      setMenu(res.data);
+    });
+  }, []);
 
   // 이미지url, 설명 State 만들기
   const [enteredUrl, setEnteredUrl] = useState(menu?.image);
@@ -54,12 +60,12 @@ const EditMenu = () => {
     setEnteredDesc(menu?.description);
   };
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     if (enteredPrice === "") {
-      notify("가격을 입력해주세요.");
+      errMsg("가격을 입력해주세요.");
     } else if (enteredNum.slice(-1) !== "0") {
-      notify("가격은 10원 단위로만 입력해주세요.");
+      errMsg("가격은 10원 단위로만 입력해주세요.");
     } else {
       const editedMenu = {
         price: enteredPrice,
@@ -67,12 +73,16 @@ const EditMenu = () => {
         description: enteredDesc,
       };
 
-      await userCtx.onEditMenu(menuId, editedMenu);
-      await menuCtx.fetchEntireMenus();
-      setMenu(menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId)));
-      menuCtx.onSelectMenu(menu);
-      resetEntered();
-      navigate(-1);
+      authAxios
+        .patch(`${end}/menus/${menuId}`, editedMenu)
+        .then((res) => {
+          resetEntered();
+          navigate(-1);
+          successMsg("메뉴가 수정되었습니다")
+        })
+        .catch((res) => {
+          errMsg(res.response.data.message);
+        });
     }
   };
 
@@ -84,10 +94,10 @@ const EditMenu = () => {
   // 로그인 하지 않고 접근했을 때
   useEffect(() => {
     if (!userCtx.isLoggedIn) {
-      notify("로그인 해주세요");
+      errMsg("로그인 해주세요");
       setTimeout(() => navigate(-1), 3000);
     } else if (userCtx.user?.id !== Number(storeId)) {
-      notify("접근 권한이 없습니다");
+      errMsg("접근 권한이 없습니다");
       setTimeout(() => navigate(-1), 3000);
     }
   }, []);

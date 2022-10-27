@@ -1,23 +1,38 @@
 import "./DeleteMenuModal.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ModalContext from "../Contexts/modal-context";
 import UserContext from "../Contexts/user-context";
 
-const DeleteReviewModal = ({ reviewId, fetchReviewData }) => {
+const DeleteReviewModal = ({ reviewId, fetchReviewData, setDeleteMode }) => {
   const modalCtx = useContext(ModalContext);
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
+  const { authAxios } = userCtx;
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
+  const errMsg = (text) => toast.error(text, { theme: "colored" });
+  const successMsg = (text) => toast.success(text, { theme: "colored" });
 
-  const submitHandler = async () => {
-    await userCtx.onDeleteReview(reviewId);
-    fetchReviewData();
-    modalCtx.onCloseDeleteReview();
+  const submitHandler = () => {
+    console.log('클릭!')
+    authAxios
+      .delete(`${end}/reviews/${reviewId}`)
+      .then((res) => {
+        fetchReviewData();
+        setDeleteMode(false);
+        modalCtx.onCloseDeleteReview();
+        successMsg("리뷰가 삭제되었습니다");
+      })
+      .catch((res) => {
+        errMsg(res.response.data.message);
+      });
   };
 
   const cancelHandler = () => {
     modalCtx.onCloseDeleteReview();
-    console.log('취소')
+    console.log("취소");
   };
 
   //모달 영역 지정해서 바깥 클릭하면 닫히도록
@@ -36,27 +51,27 @@ const DeleteReviewModal = ({ reviewId, fetchReviewData }) => {
   };
 
   return (
-    <div className={modalCtx.deleteReviewOpened ? "dimmed" : ""}>
-        <div
-          id="modal-animation"
-          className={
-            modalCtx.deleteReviewOpened ? "openDeleteModal" : "closedModal"
-          }
-          ref={deleteReviewRef}
-          value={modalCtx.deleteReviewOpened}
-        >
-          <h3>리뷰 삭제</h3>
-          <a>정말로 삭제하시겠습니까?</a>
-          <div className="buttonCon">
-            <button className="redButton" onClick={submitHandler}>
-              삭제
-            </button>
-            <button className="button" onClick={cancelHandler}>
-              취소
-            </button>
-          </div>
+    <div className={modalCtx.deleteReviewOpened ? "dimmed" : "closedModal"}>
+      <div
+        id="modal-animation"
+        className={
+          modalCtx.deleteReviewOpened ? "openDeleteModal" : "closedModal"
+        }
+        ref={deleteReviewRef}
+        value={modalCtx.deleteReviewOpened}
+      >
+        <h3>리뷰 삭제</h3>
+        <a>정말로 삭제하시겠습니까?</a>
+        <div className="buttonCon">
+          <button className="redButton" onClick={submitHandler}>
+            삭제
+          </button>
+          <button className="button" onClick={cancelHandler}>
+            취소
+          </button>
         </div>
       </div>
+    </div>
   );
 };
 

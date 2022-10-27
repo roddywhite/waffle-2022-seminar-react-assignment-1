@@ -1,4 +1,10 @@
 import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Moment from "react-moment";
+import "moment/locale/ko";
+
 import "./Review.css";
 import "./AddReview.css";
 
@@ -19,32 +25,50 @@ const Review = ({
   rating,
   fetchReviewData,
 }) => {
+  const userCtx = useContext(UserContext);
+  const modalCtx = useContext(ModalContext);
+  const { authAxios } = userCtx;
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
+  const errMsg = (text) => toast.error(text, { theme: "colored" });
+  const successMsg = (text) => toast.success(text, { theme: "colored" });
+
   const [mouseOver, setMouseOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
   const [enteredContent, setEnteredContent] = useState(content);
   const [enteredRating, setEnteredRating] = useState(rating);
 
-  useEffect(() => {
-    setEnteredContent(content);
-    setEnteredRating(rating);
-  }, [editMode]);
-
-  const userCtx = useContext(UserContext);
-  const modalCtx = useContext(ModalContext);
-
-  const submitHandler = async () => {
-    await userCtx.onEditReview(reviewId, enteredContent, enteredRating);
-    setMouseOver(false);
-    setEditMode(false);
-    fetchReviewData();
+  const submitHandler = () => {
+    authAxios
+      .patch(`${end}/reviews/${reviewId}`, {
+        content: enteredContent,
+        rating: enteredRating,
+      })
+      .then((res) => {
+        setMouseOver(false);
+        setEditMode(false);
+        fetchReviewData();
+        successMsg("리뷰가 수정되었습니다");
+      })
+      .catch((res) => {
+        errMsg(res.response.data.message);
+      });
   };
 
   return (
     <>
-      <DeleteReviewModal
-        reviewId={reviewId}
-        fetchReviewData={fetchReviewData}
+      <ToastContainer
+        limit={1}
+        autoClose={3000}
+        position="top-right"
+        pauseOnHover
       />
+      {deleteMode && modalCtx.deleteReviewOpened && (
+        <DeleteReviewModal
+          reviewId={reviewId}
+          fetchReviewData={fetchReviewData}
+        />
+      )}
       {!editMode && (
         <div
           className="reviewContainer"
@@ -61,7 +85,9 @@ const Review = ({
                 />
               );
             })}
-            <span>{createdAt}</span>
+            <span>
+              <Moment fromNow>{createdAt}</Moment>
+            </span>
             <div
               className={
                 mouseOver && author.id === userCtx.user?.id
@@ -77,7 +103,10 @@ const Review = ({
               <img
                 className="deleteBtn"
                 src={deleteButton}
-                onClick={modalCtx.onOpenDeleteReview}
+                onClick={() => {
+                  setDeleteMode(true);
+                  modalCtx.onOpenDeleteReview();
+                }}
               />
             </div>
           </div>

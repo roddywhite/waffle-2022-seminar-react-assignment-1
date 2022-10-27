@@ -19,8 +19,10 @@ const AddMenu = () => {
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
-  const notify = (text) => toast.error(text, { theme: "colored" });
-
+  const { authAxios } = userCtx;
+  const errMsg = (text) => toast.error(text, { theme: "colored" });
+  const successMsg = (text) => toast.success(text, { theme: "colored" });
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
 
   // 이름, 종류, 이미지url, 설명 State 만들기
   const [enteredTitle, setEnteredTitle] = useState("");
@@ -31,7 +33,7 @@ const AddMenu = () => {
   // 한글만 입력받도록
   const titleChangeHandler = (e) => {
     const regex = /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
-    if (regex.test(e.target.value)) notify("한글만 입력해주세요");
+    if (regex.test(e.target.value)) errMsg("한글만 입력해주세요");
     const koreanOnly = e.target.value.replace(
       /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,
       ""
@@ -62,26 +64,30 @@ const AddMenu = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (enteredTitle === "") {
-      notify("메뉴명을 입력해주세요.");
+      errMsg("메뉴명을 입력해주세요.");
     } else if (enteredPrice === "") {
-      notify("가격을 입력해주세요.");
+      errMsg("가격을 입력해주세요.");
     } else if (enteredNum.slice(-1) !== "0") {
-      notify("가격은 10원 단위로만 입력해주세요.");
+      errMsg("가격은 10원 단위로만 입력해주세요.");
     } else if (enteredType === "") {
-      notify("종류를 지정해주세요");
+      errMsg("종류를 지정해주세요");
     } else {
-      const newMenu = {
-        name: enteredTitle,
-        type: enteredType,
-        price: enteredPrice,
-        image: enteredUrl,
-        description: enteredDesc,
-      };
 
-      await userCtx.onAddMenu(newMenu);
-      await menuCtx.fetchEntireMenus();
-      resetEntered();
-      navigate(-1);
+      authAxios
+        .post(`${end}/menus`, {
+          name: enteredTitle,
+          type: enteredType,
+          price: enteredPrice,
+          image: enteredUrl,
+          description: enteredDesc,
+        })
+        .then((res) => {
+          resetEntered();
+          navigate(-1);
+        })
+        .catch((res) => {
+          errMsg(res.response.data.message);
+        });
     }
   };
 
@@ -93,7 +99,7 @@ const AddMenu = () => {
   // 로그인 하지 않고 접근했을 때
   useEffect(() => {
     if (!userCtx.isLoggedIn) {
-      notify("로그인 해주세요");
+      errMsg("로그인 해주세요");
       navigate(-1);
     }
   });
@@ -101,7 +107,7 @@ const AddMenu = () => {
   return (
     <>
       <Header />
-      <ToastContainer autoClose={3000} position="top-center" pauseOnHover />
+      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div className="full">
         <div className="addContainer">
           <h3 className="title">새 메뉴 추가</h3>
