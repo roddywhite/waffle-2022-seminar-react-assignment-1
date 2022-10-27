@@ -142,6 +142,12 @@
   overflow: auto;
 }
 
+.rightContainer .totalReviews {
+  font-size: 14px;
+  position: absolute;
+  right: 6%;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 10px;

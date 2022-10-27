@@ -11,6 +11,7 @@ import "./AddReview.css";
 import deleteButton from "../assets/deleteButton.svg";
 import editButton from "../assets/editButton.svg";
 import starEmpty from "../assets/starEmpty.svg";
+import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 
 import UserContext from "../Contexts/user-context";
@@ -24,6 +25,7 @@ const Review = ({
   createdAt,
   rating,
   fetchReviewData,
+  fetchFirstReviews,
 }) => {
   const userCtx = useContext(UserContext);
   const modalCtx = useContext(ModalContext);
@@ -47,7 +49,7 @@ const Review = ({
       .then((res) => {
         setMouseOver(false);
         setEditMode(false);
-        fetchReviewData();
+        fetchFirstReviews();
         successMsg("리뷰가 수정되었습니다");
       })
       .catch((res) => {
@@ -57,16 +59,14 @@ const Review = ({
 
   return (
     <>
-      <ToastContainer
-        limit={1}
-        autoClose={3000}
-        position="top-right"
-        pauseOnHover
-      />
+      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       {deleteMode && modalCtx.deleteReviewOpened && (
         <DeleteReviewModal
           reviewId={reviewId}
           fetchReviewData={fetchReviewData}
+          fetchFirstReviews={fetchFirstReviews}
+          deleteMode={deleteMode}
+          setDeleteMode={setDeleteMode}
         />
       )}
       {!editMode && (
@@ -81,7 +81,13 @@ const Review = ({
               return (
                 <img
                   className="rating"
-                  src={x <= rating ? starFull : starEmpty}
+                  src={
+                    x <= rating / 2
+                      ? starFull
+                      : x < 1 + rating / 2
+                      ? starHalf
+                      : starEmpty
+                  }
                 />
               );
             })}
@@ -117,31 +123,21 @@ const Review = ({
       {editMode && (
         <div className="addReviewSection">
           <div className="starBox">
-            <img
-              className="star"
-              src={enteredRating >= 1 ? starFull : starEmpty}
-              onClick={() => setEnteredRating(1)}
-            />
-            <img
-              className="star"
-              src={enteredRating >= 2 ? starFull : starEmpty}
-              onClick={() => setEnteredRating(2)}
-            />
-            <img
-              className="star"
-              src={enteredRating >= 3 ? starFull : starEmpty}
-              onClick={() => setEnteredRating(3)}
-            />
-            <img
-              className="star"
-              src={enteredRating >= 4 ? starFull : starEmpty}
-              onClick={() => setEnteredRating(4)}
-            />
-            <img
-              className="star"
-              src={enteredRating >= 5 ? starFull : starEmpty}
-              onClick={() => setEnteredRating(5)}
-            />
+            {[1, 2, 3, 4, 5].map((x) => {
+              return (
+                <img
+                  className="star"
+                  src={
+                    enteredRating < 2 * x - 1
+                      ? starEmpty
+                      : enteredRating < 2 * x
+                      ? starHalf
+                      : starFull
+                  }
+                  onClick={() => setEnteredRating(2 * x)}
+                />
+              );
+            })}
           </div>
           <input
             className="addReviewContainer"

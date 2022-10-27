@@ -6,7 +6,13 @@ import "react-toastify/dist/ReactToastify.css";
 import ModalContext from "../Contexts/modal-context";
 import UserContext from "../Contexts/user-context";
 
-const DeleteReviewModal = ({ reviewId, fetchReviewData, setDeleteMode }) => {
+const DeleteReviewModal = ({
+  reviewId,
+  fetchReviewData,
+  fetchFirstReviews,
+  deleteMode,
+  setDeleteMode,
+}) => {
   const modalCtx = useContext(ModalContext);
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
@@ -16,11 +22,12 @@ const DeleteReviewModal = ({ reviewId, fetchReviewData, setDeleteMode }) => {
   const successMsg = (text) => toast.success(text, { theme: "colored" });
 
   const submitHandler = () => {
-    console.log('클릭!')
+    console.log("클릭!");
     authAxios
       .delete(`${end}/reviews/${reviewId}`)
       .then((res) => {
         fetchReviewData();
+        fetchFirstReviews();
         setDeleteMode(false);
         modalCtx.onCloseDeleteReview();
         successMsg("리뷰가 삭제되었습니다");
@@ -32,6 +39,7 @@ const DeleteReviewModal = ({ reviewId, fetchReviewData, setDeleteMode }) => {
 
   const cancelHandler = () => {
     modalCtx.onCloseDeleteReview();
+    setDeleteMode(false);
     console.log("취소");
   };
 
@@ -43,15 +51,20 @@ const DeleteReviewModal = ({ reviewId, fetchReviewData, setDeleteMode }) => {
   });
 
   const handleClickOutside = (e) => {
-    if (modalCtx.deleteReviewOpened) {
+    if (
+      modalCtx.deleteReviewOpened &&
       !deleteReviewRef.current.contains(e.target)
-        ? modalCtx.onCloseDeleteReview()
-        : modalCtx.onOpenDeleteReview();
+    ) {
+      modalCtx.onCloseDeleteReview();
+      setDeleteMode(false);
+    } else {
+      modalCtx.onOpenDeleteReview();
     }
   };
 
   return (
-    <div className={modalCtx.deleteReviewOpened ? "dimmed" : "closedModal"}>
+    <div className={deleteMode && modalCtx.deleteReviewOpened ? "dimmed" : "closedModal"}>
+      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div
         id="modal-animation"
         className={

@@ -51,7 +51,7 @@ const DetailView = () => {
       setEntireReviews([...reviewList]);
       let ratingSum = 0;
       reviewList.forEach((x) => (ratingSum += x.rating));
-      setMenuRating(Math.round((2 * ratingSum) / reviewList.length) / 2);
+      setMenuRating((ratingSum / reviewList.length).toFixed(2));
     });
   };
   useEffect(() => fetchReviewData(), []);
@@ -68,11 +68,16 @@ const DetailView = () => {
     axios
       .get(`${end}/reviews/?from=${nextLoad}&count=6&menu=${menuId}`)
       .then((res) => {
-        setIsLoading(true);
-        const reviewList = res.data.data;
-        setReviews((prev) => [...prev, ...reviewList]);
-        setNextLoad(res.data.next);
-        setIsLoading(false);
+        if (res.data.data[0]) {
+          setIsLoading(true);
+          const reviewList = res.data.data;
+          setReviews((prev) => [...prev, ...reviewList]);
+          setNextLoad(res.data.next);
+          setIsLoading(false);
+          console.log(res.data.data);
+        } else {
+          alert("더이상 불러올 리뷰가 없습니다");
+        }
       });
   };
 
@@ -164,9 +169,9 @@ const DetailView = () => {
                     return (
                       <img
                         src={
-                          x <= menuRating
+                          x <= Math.round(menuRating) / 2
                             ? starFull
-                            : x - 0.5 === menuRating
+                            : x < 1 + Math.round(menuRating) / 2
                             ? starHalf
                             : starEmpty
                         }
@@ -175,6 +180,7 @@ const DetailView = () => {
                   })}
                 </div>
                 <a>{reviews?.length ? menuRating : "아직 리뷰가 없습니다"}</a>
+                <span className='totalReviews'>총 {entireReviews?.length}개의 리뷰</span>
               </div>
               <div className="reviewList" id="reviewContainer">
                 {reviews &&
@@ -188,13 +194,18 @@ const DetailView = () => {
                       createdAt={review.created_at}
                       rating={review.rating}
                       fetchReviewData={fetchReviewData}
+                      fetchFirstReviews={fetchFirstReviews}
                     />
                   ))}
                 <button onClick={fetchMoreReview}>load more</button>
               </div>
               <div ref={setTarget} />
               {isLoading && <p>Loading...</p>}
-              <AddReview menuId={menuId} fetchReviewData={fetchReviewData} />
+              <AddReview
+                menuId={menuId}
+                fetchReviewData={fetchReviewData}
+                fetchFirstReviews={fetchFirstReviews}
+              />
             </div>
           </div>
         </>

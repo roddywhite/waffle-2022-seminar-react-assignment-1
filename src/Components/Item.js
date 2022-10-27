@@ -1,4 +1,5 @@
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import axios from "axios";
 import MenuContext from "../Contexts/menu-context";
 import "./Item.css";
 
@@ -8,11 +9,22 @@ import starFull from "../assets/starFull.svg";
 
 const Item = ({ menu }) => {
   const menuCtx = useContext(MenuContext);
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
   const isSelected =
     menuCtx.selectedMenu && menuCtx.selectedMenu.id === menu.id;
 
-  const rating = 2.5;
+  const [rating, setRating] = useState(0);
   const stars = [1, 2, 3, 4, 5];
+
+  const fetchMenuRating = () => {
+    axios.get(`${end}/reviews/?menu=${menu.id}`).then((res) => {
+      const reviewList = res.data.data;
+      let sum = 0;
+      reviewList.forEach((x) => (sum += x.rating));
+      setRating(sum / reviewList.length);
+    });
+  };
+  useEffect(() => fetchMenuRating(), []);
 
   return (
     <div className="menuContainer">
@@ -38,9 +50,9 @@ const Item = ({ menu }) => {
               <img
                 className="rating"
                 src={
-                  x <= rating
+                  x <= rating/2
                     ? starFull
-                    : x - 0.5 === rating
+                    : x < 1+rating/2
                     ? starHalf
                     : starEmpty
                 }

@@ -39,19 +39,19 @@ const StoreShortcut = ({ storeId, storeName, ownerName, storeDesc }) => {
         <label>{storeName}</label>
         <span>{ownerName}</span>
         <a>{storeDesc}</a>
-        <a className="rating">{rating}</a>
+        <a className="rating">평점: {rating}</a>
         <div className="starBox">
           {[1, 2, 3, 4, 5].map((x) => {
             return (
               <img
                 className="star"
                 src={
-                  x <= rating
-                    ? starFull
-                    : x - 0.5 === rating
-                    ? starHalf
-                    : starEmpty
-                }
+                    Math.round(rating) < 2 * x - 1
+                      ? starEmpty
+                      : Math.round(rating) < 2 * x
+                      ? starHalf
+                      : starFull
+                  }
               />
             );
           })}

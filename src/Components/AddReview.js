@@ -4,10 +4,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "./AddReview.css";
 import starEmpty from "../assets/starEmpty.svg";
+import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 import UserContext from "../Contexts/user-context";
 
-const AddReview = ({ menuId, fetchReviewData }) => {
+const AddReview = ({ menuId, fetchReviewData, fetchFirstReviews}) => {
   const [enteredContent, setEnteredContent] = useState("");
   const [enteredRating, setEnteredRating] = useState(0);
   const userCtx = useContext(UserContext);
@@ -30,6 +31,7 @@ const AddReview = ({ menuId, fetchReviewData }) => {
         })
         .then((res) => {
           fetchReviewData();
+          fetchFirstReviews();
           setEnteredContent("");
           setEnteredRating(0);
           successMsg("리뷰가 등록되었습니다")
@@ -41,33 +43,23 @@ const AddReview = ({ menuId, fetchReviewData }) => {
   };
   return (
     <div className="addReviewSection">
-      <ToastContainer autoClose={3000} position="top-center" pauseOnHover />
+      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div className="starBox">
-        <img
-          className="star"
-          src={enteredRating >= 1 ? starFull : starEmpty}
-          onClick={() => setEnteredRating(1)}
-        />
-        <img
-          className="star"
-          src={enteredRating >= 2 ? starFull : starEmpty}
-          onClick={() => setEnteredRating(2)}
-        />
-        <img
-          className="star"
-          src={enteredRating >= 3 ? starFull : starEmpty}
-          onClick={() => setEnteredRating(3)}
-        />
-        <img
-          className="star"
-          src={enteredRating >= 4 ? starFull : starEmpty}
-          onClick={() => setEnteredRating(4)}
-        />
-        <img
-          className="star"
-          src={enteredRating >= 5 ? starFull : starEmpty}
-          onClick={() => setEnteredRating(5)}
-        />
+      {[1, 2, 3, 4, 5].map((x) => {
+              return (
+                <img
+                  className="star"
+                  src={
+                    enteredRating < 2 * x - 1
+                      ? starEmpty
+                      : enteredRating < 2 * x
+                      ? starHalf
+                      : starFull
+                  }
+                  onClick={() => setEnteredRating(2 * x)}
+                />
+              );
+            })}
       </div>
       <textarea
         className="addReviewContainer"
