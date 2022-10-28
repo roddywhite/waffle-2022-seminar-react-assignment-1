@@ -18,7 +18,7 @@
   width: 20px;
 }
 
-.starBox:hover .star {
+/* .starBox:hover .star {
   content: url(../assets/starFull.svg);
 }
 
@@ -32,7 +32,7 @@
 
 .addReviewSection .star:active ~ .star{
   content: url(../assets/starEmpty.svg);
-}
+} */
 
 .addReviewSection .addReviewContainer {
   position: relative;

@@ -12,8 +12,8 @@ const Search = () => {
         <input
           className="searchBox"
           type="text"
-          value={searchCtx.enteredSearch}
-          onChange={(e) => searchCtx.onSearch(e)}
+          value={searchCtx.enteredStore}
+          onChange={(e) => searchCtx.onSearchStore(e)}
           placeholder="검색어 입력"
         />
       </label>

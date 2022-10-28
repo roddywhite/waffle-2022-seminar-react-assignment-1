@@ -39,7 +39,9 @@ const Review = ({
   const [deleteMode, setDeleteMode] = useState(false);
   const [enteredContent, setEnteredContent] = useState(content);
   const [enteredRating, setEnteredRating] = useState(rating);
-
+  const [viewRating, setViewRating] = useState(0);
+  const [starChangeMode, setStarChangeMode] = useState(false);
+  
   const submitHandler = () => {
     authAxios
       .patch(`${end}/reviews/${reviewId}`, {
@@ -122,19 +124,38 @@ const Review = ({
 
       {editMode && (
         <div className="addReviewSection">
-          <div className="starBox">
+          <div
+            className="starBox"
+            onMouseEnter={() => setStarChangeMode(true)}
+            onMouseLeave={() => setStarChangeMode(false)}
+          >
             {[1, 2, 3, 4, 5].map((x) => {
               return (
                 <img
                   className="star"
                   src={
-                    enteredRating < 2 * x - 1
+                    !starChangeMode
+                      ? enteredRating < 2 * x - 1
+                        ? starEmpty
+                        : enteredRating < 2 * x
+                        ? starHalf
+                        : starFull
+                      : viewRating < 2 * x - 1
                       ? starEmpty
-                      : enteredRating < 2 * x
+                      : viewRating < 2 * x
                       ? starHalf
                       : starFull
                   }
-                  onClick={() => setEnteredRating(2 * x)}
+                  onClick={(e) =>
+                    e.clientX - e.target.getBoundingClientRect().left < 10
+                      ? setEnteredRating(2 * x - 1)
+                      : setEnteredRating(2 * x)
+                  }
+                  onMouseEnter={(e) =>
+                    e.clientX - e.target.getBoundingClientRect().left < 10
+                      ? setViewRating(2 * x - 1)
+                      : setViewRating(2 * x)
+                  }
                 />
               );
             })}
