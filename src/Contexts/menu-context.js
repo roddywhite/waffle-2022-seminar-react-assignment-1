@@ -30,7 +30,6 @@ export const MenuContextProvider = (props) => {
   // 전체메뉴
   const fetchEntireMenus = () => {
     axios.get(`${end}/menus/`).then((res) => {
-      console.log(res.data.data);
       setEntireMenus(res.data.data);
     });
   };

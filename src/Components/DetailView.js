@@ -59,11 +59,11 @@ const DetailView = () => {
 
   const fetchFirstReviews = () => {
     axios.get(`${end}/reviews/?count=6&menu=${menuId}`).then((res) => {
-      setReviews(res.data.data);
       setNextLoad(res.data.next);
+      setReviews(res.data.data);
     });
   };
-  useEffect(() => fetchFirstReviews(), []);
+//   useEffect(() => fetchFirstReviews(), []);
 
   const fetchMoreReview = () => {
     axios
@@ -80,20 +80,23 @@ const DetailView = () => {
   };
 
   const [target, setTarget] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const loader = useRef(null);
   const reviewContainer = useRef(null);
 
   const moreData = async () => {
     await fetchFirstReviews();
     setIsLoading(true);
-    const res = await axios.get(
-      `${end}/reviews/?from=${nextLoad}&count=6&menu=${menuId}`
-    );
+    const res = await axios
+      .get(`${end}/reviews/?from=${nextLoad}&count=6&menu=${menuId}`)
+      .catch((r)=> {
+          setIsLoading(false)
+        alert(r.response.data.message)
+        });
     if (res.data.data[0]) {
       const reviewList = res.data.data;
       setReviews((prev) => [...prev, ...reviewList]);
-      setNextLoad(res.data.next);
+      await setNextLoad(res.data.next);
       setIsLoading(false);
     } else {
       setIsLoading(false);
@@ -102,9 +105,8 @@ const DetailView = () => {
   };
 
   const onIntersect = async ([entry], observer) => {
-    if (entry.isIntersecting && !isLoading) {
+    if (entry.isIntersecting) {
       observer.unobserve(target);
-      console.log('타겟 발견')
       await moreData();
       observer.observe(target);
     }
@@ -115,7 +117,7 @@ const DetailView = () => {
     if (target) {
       observer = new IntersectionObserver(onIntersect, {
         root: reviewContainer.current,
-        threshold: 0.5,
+        threshold: 0.6,
       });
       observer.observe(target);
     }
@@ -216,7 +218,7 @@ const DetailView = () => {
                   ))}
                 <button onClick={fetchMoreReview}>load more</button>
                 <div ref={setTarget} />
-                {isLoading && <p>Loading...</p>}
+                {isLoading && "Loading..."}
               </div>
               <AddReview
                 menuId={menuId}
