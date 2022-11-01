@@ -13,13 +13,7 @@ const UserContext = createContext({
   onLogin: (userId, userPassword) => {},
   onLogout: () => {},
   fetchMyProfile: () => {},
-  onEditProfile: () => {},
-  onAddMenu: () => {},
-  onEditMenu: () => {},
   onDeleteMenu: () => {},
-  onAddReview: () => {},
-  onEditReview: () => {},
-  onDeleteReview: () => {},
 });
 
 export const UserContextProvider = (props) => {
@@ -83,17 +77,6 @@ export const UserContextProvider = (props) => {
     fetchMyProfile();
   }, [isLoggedIn]);
 
-  const addMenuHandler = (newMenu) => {
-    authAxios
-      .post(`${end}/menus`, newMenu)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((res) => {
-        errMsg(res.response.data.message);
-      });
-  };
-
   const deleteMenuHandler = (menuId) => {
     authAxios
       .delete(`${end}/menus/${menuId}`)
@@ -103,42 +86,6 @@ export const UserContextProvider = (props) => {
       .catch((res) => {
         errMsg(res.response.data.message);
       });
-  };
-
-  const editMenuHandler = (menuId, editedMenu) => {
-    authAxios
-      .patch(`${end}/menus/${menuId}`, editedMenu)
-      .then((res) => navigate(-1))
-      .catch((res) => {
-        errMsg(res.response.data.message);
-      });
-  };
-
-  const editProfileHandler = (storeName, storeDesc) => {
-    return authAxios.patch(`${end}/owners/me`, {
-      store_name: storeName,
-      store_description: storeDesc,
-    });
-  };
-
-  // 컴포넌트에서 사용할 때 리뷰작성 후 데이터를 다시 불러오기 위해서 promise return하도록
-  const addReviewHandler = (content, rating, menuId) => {
-    return authAxios.post(`${end}/reviews`, {
-      content: content,
-      rating: rating,
-      menu: menuId,
-    });
-  };
-
-  const editReviewHandler = (reviewId, content, rating) => {
-    return authAxios.patch(`${end}/reviews/${reviewId}`, {
-      content: content,
-      rating: rating,
-    });
-  };
-
-  const deleteReviewHandler = (reviewId) => {
-    return authAxios.delete(`${end}/menus/${reviewId}`);
   };
 
   return (
@@ -152,13 +99,7 @@ export const UserContextProvider = (props) => {
         onLogin: loginHandler,
         onLogout: logoutHandler,
         fetchMyProfile: fetchMyProfile,
-        onEditProfile: editProfileHandler,
-        onAddMenu: addMenuHandler,
-        onEditMenu: editMenuHandler,
         onDeleteMenu: deleteMenuHandler,
-        onAddReview: addReviewHandler,
-        onEditReview: editReviewHandler,
-        onDeleteReview: deleteReviewHandler,
       }}
     >
       {props.children}

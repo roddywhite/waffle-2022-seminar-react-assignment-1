@@ -63,7 +63,6 @@ const Home = () => {
                   />
                 </Link>
               ))}
-          <button onClick={test}>test용</button>
         </div>
       </div>
     </div>
