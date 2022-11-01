@@ -10,6 +10,7 @@ import MenuContext from "../Contexts/menu-context";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import axios from "axios";
+import HeaderStore from "./HeaderStore";
 
 const EditMenu = () => {
   const navigate = useNavigate();
@@ -111,7 +112,7 @@ const EditMenu = () => {
       {!menu && <NotFound />}
       {menu && (
         <>
-          <Header />
+          <HeaderStore />
           <div
             className={userCtx.user?.id === Number(storeId) ? "full" : "hidden"}
           >

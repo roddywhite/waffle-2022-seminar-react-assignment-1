@@ -10,18 +10,6 @@ const Header = () => {
   const userCtx = useContext(UserContext);
   const {user, isLoggedIn, onLogout} = userCtx;
 
-  // const end = 'https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com'
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(`${end}/owners`)
-  //     const userName = response.username
-  //     console.log(response)
-  //     console.log(userName)
-  //   } catch(err) {
-  //     console.log('error' + err)
-  //   }
-  // }
-
   return (
     <div className="header">
       <Link to="/">

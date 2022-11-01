@@ -24,7 +24,7 @@ const Table = () => {
       {menus &&
         menus
           .filter((menu) => menu.name.includes(searchCtx.enteredMenu))
-          .map((menu) => <Item key={menu.id} menu={menu} />)}
+          .map((menu, idx) => <Item key={idx} menu={menu} />)}
     </>
   );
 };

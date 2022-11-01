@@ -9,6 +9,7 @@ import MenuContext from "../Contexts/menu-context";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Header from "./Header";
+import HeaderStore from "./HeaderStore";
 
 // *** TODO **** : menuCtx.menus -> 현재 접속해있는 owner의 menus로 바꿀 필요 있음
 // 이유 : 8번 스토어 오너가 9번 스토어에 접속해있으면 menus는 9번스토어일테니?
@@ -106,7 +107,7 @@ const AddMenu = () => {
 
   return (
     <>
-      <Header />
+      <HeaderStore />
       <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div className="full">
         <div className="addContainer">

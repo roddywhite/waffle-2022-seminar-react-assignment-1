@@ -8,6 +8,7 @@ const UserContext = createContext({
   user: null,
   isLoggedIn: false,
   token: "",
+  userPW: "",
   authAxios: () => {},
   onLogin: (userId, userPassword) => {},
   onLogout: () => {},
@@ -30,16 +31,22 @@ export const UserContextProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState("");
+  const [userPW, setUserPW] = useState("");
 
   const loginHandler = async (userName, userPassword) => {
     axios
-      .post(`${end}/auth/login`, {
-        username: userName,
-        password: userPassword,
-      })
+      .post(
+        `${end}/auth/login`,
+        {
+          username: userName,
+          password: userPassword,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         setIsLoggedIn(true);
         setToken(res.data.access_token);
+        setUserPW(userPassword);
         navigate(-1);
       })
       .catch((res) => {
@@ -54,11 +61,13 @@ export const UserContextProvider = (props) => {
   });
 
   const logoutHandler = () => {
-    authAxios.post(`${end}/auth/logout`).then((res) => {
-      setIsLoggedIn(false);
-      setToken("");
-      setUser(null);
-    });
+    authAxios
+      .post(`${end}/auth/logout`, null, { withCredentials: true })
+      .then((res) => {
+        setIsLoggedIn(false);
+        setToken("");
+        setUser(null);
+      });
   };
 
   const fetchMyProfile = () => {
@@ -138,6 +147,7 @@ export const UserContextProvider = (props) => {
         user: user,
         isLoggedIn: isLoggedIn,
         token: token,
+        userPW: userPW,
         authAxios: authAxios,
         onLogin: loginHandler,
         onLogout: logoutHandler,

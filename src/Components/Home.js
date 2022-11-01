@@ -52,10 +52,10 @@ const Home = () => {
               .filter((store) =>
                 store.store_name.includes(searchCtx.enteredStore)
               )
-              .map((owner) => (
+              .map((owner, idx) => (
                 <Link to={`/stores/${owner.id}`}>
                   <StoreShortcut
-                    key={owner.id}
+                    key={idx}
                     storeId={owner.id}
                     storeName={owner.store_name}
                     ownerName={owner.username}

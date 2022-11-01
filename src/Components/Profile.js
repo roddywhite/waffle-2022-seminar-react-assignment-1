@@ -10,32 +10,42 @@ import "./Profile.css";
 const Profile = () => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
-  const notify = (text) => toast.error(text, { theme: "colored" });
-  
+  const errMsg = (text) => toast.error(text, { theme: "colored" });
+  const successMsg = (text) => toast.success(text, { theme: "colored" });
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
+
   const { ownerId } = useParams();
+  const { authAxios } = userCtx;
   const my = userCtx?.user;
 
   const [enteredName, setEnteredName] = useState(my?.store_name);
   const [enteredDesc, setEnteredDesc] = useState(my?.store_description);
 
-  useEffect(()=> {
+  useEffect(() => {
     setEnteredName(my?.store_name);
     setEnteredDesc(my?.store_description);
-  },[])
-
-  // const resetEntered = () => {
-  //   setEnteredName("");
-  //   setEnteredDesc("");
-  // };
+  }, []);
 
   const submitHandler = async () => {
-    await userCtx.onEditProfile(enteredName, enteredDesc);
-    // resetEntered();
-    // navigate(`/stores/${ownerId}`);
-    navigate(-1);
-    userCtx.fetchMyProfile();
+    if (enteredName === "") {
+      errMsg("가게 이름을 입력해주세요");
+    } else if (enteredDesc === "") {
+      errMsg("가게 설명을 입력해주세요");
+    } else {
+      authAxios
+        .patch(`${end}/owners/me`, {
+          store_name: enteredName,
+          store_description: enteredDesc,
+        })
+        .then((res) => {
+          userCtx.fetchMyProfile();
+          navigate(-1);
+        })
+        .catch((res) => {
+          errMsg(res.response.data.message);
+        });
+    }
   };
-
   const cancelHandler = () => {
     // resetEntered();
     navigate(-1);
@@ -43,10 +53,10 @@ const Profile = () => {
 
   useEffect(() => {
     if (!userCtx.isLoggedIn) {
-      notify("로그인 해주세요");
+      errMsg("로그인 해주세요");
       setTimeout(() => navigate(-1), 3000);
     } else if (userCtx.user?.id !== Number(ownerId)) {
-      notify("접근 권한이 없습니다");
+      errMsg("접근 권한이 없습니다");
       setTimeout(() => navigate(-1), 3000);
     }
   }, []);

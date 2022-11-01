@@ -20,6 +20,7 @@ import altImg from "../assets/logo.svg";
 import starEmpty from "../assets/starEmpty.svg";
 import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
+import HeaderStore from "./HeaderStore";
 
 const DetailView = () => {
   const userCtx = useContext(UserContext);
@@ -69,12 +70,9 @@ const DetailView = () => {
       .get(`${end}/reviews/?from=${nextLoad}&count=6&menu=${menuId}`)
       .then((res) => {
         if (res.data.data[0]) {
-          setIsLoading(true);
           const reviewList = res.data.data;
           setReviews((prev) => [...prev, ...reviewList]);
           setNextLoad(res.data.next);
-          setIsLoading(false);
-          console.log(res.data.data);
         } else {
           alert("더이상 불러올 리뷰가 없습니다");
         }
@@ -82,37 +80,54 @@ const DetailView = () => {
   };
 
   const [target, setTarget] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const loader = useRef(null);
+  const reviewContainer = useRef(null);
 
-  // const onIntersect = async ([entry], observer) => {
-  //   if (entry.isIntersecting && !isLoading) {
-  //     observer.unobserve(target)
-  //     setIsLoading(true);
-  //     await fetchMoreReview();
-  //     setIsLoading(false);
-  //     observer.observe(target)
-  //   }
-  // };
+  const moreData = async () => {
+    await fetchFirstReviews();
+    setIsLoading(true);
+    const res = await axios.get(
+      `${end}/reviews/?from=${nextLoad}&count=6&menu=${menuId}`
+    );
+    if (res.data.data[0]) {
+      const reviewList = res.data.data;
+      setReviews((prev) => [...prev, ...reviewList]);
+      setNextLoad(res.data.next);
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      alert("더이상 불러올 리뷰가 없습니다");
+    }
+  };
 
-  // useEffect(() => {
-  //   let observer;
-  //   if (target) {
-  //     observer = new IntersectionObserver(onIntersect, {
-  //       // rootMargin: '30%',
-  //       threshold: 0.1,
-  //     });
-  //     observer.observe(target);
-  //   }
-  //   return () => observer && observer.disconnect();
-  // }, [target]);
+  const onIntersect = async ([entry], observer) => {
+    if (entry.isIntersecting && !isLoading) {
+      observer.unobserve(target);
+      console.log('타겟 발견')
+      await moreData();
+      observer.observe(target);
+    }
+  };
+
+  useEffect(() => {
+    let observer;
+    if (target) {
+      observer = new IntersectionObserver(onIntersect, {
+        root: reviewContainer.current,
+        threshold: 0.5,
+      });
+      observer.observe(target);
+    }
+    return () => observer && observer.disconnect();
+  }, [target]);
 
   return (
     <>
       {!menu && <NotFound />}
       {menu && (
         <>
-          <Header />
+          <HeaderStore />
           <DeleteMenuModal menuId={menuId} />
           <div className="detailView-bigContainer">
             <div className="leftContainer">
@@ -180,13 +195,15 @@ const DetailView = () => {
                   })}
                 </div>
                 <a>{reviews?.length ? menuRating : "아직 리뷰가 없습니다"}</a>
-                <span className='totalReviews'>총 {entireReviews?.length}개의 리뷰</span>
+                <span className="totalReviews">
+                  총 {entireReviews?.length}개의 리뷰
+                </span>
               </div>
-              <div className="reviewList" id="reviewContainer">
+              <div className="reviewList" ref={reviewContainer}>
                 {reviews &&
-                  reviews.map((review) => (
+                  reviews.map((review, idx) => (
                     <Review
-                      key={review.id}
+                      key={idx}
                       menuId={menuId}
                       reviewId={review.id}
                       author={review.author}
@@ -198,9 +215,9 @@ const DetailView = () => {
                     />
                   ))}
                 <button onClick={fetchMoreReview}>load more</button>
+                <div ref={setTarget} />
+                {isLoading && <p>Loading...</p>}
               </div>
-              <div ref={setTarget} />
-              {isLoading && <p>Loading...</p>}
               <AddReview
                 menuId={menuId}
                 fetchReviewData={fetchReviewData}
