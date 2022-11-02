@@ -125,7 +125,7 @@ const DetailView = () => {
 
   return (
     <>
-     {!menu && <NotFound />}
+      {!menu && <NotFound />}
       {menu && (
         <>
           <HeaderStore />
@@ -215,7 +215,9 @@ const DetailView = () => {
                       fetchFirstReviews={fetchFirstReviews}
                     />
                   ))}
-                <button onClick={fetchMoreReview}>load more</button>
+                <button className="loadMore" onClick={fetchMoreReview}>
+                  Load more...
+                </button>
                 <div className="loader" ref={setTarget} />
                 {!stopLoad && <a>Loading...</a>}
               </div>
