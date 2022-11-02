@@ -2,6 +2,8 @@ import { useState, useContext, useEffect, useRef, useCallback } from "react";
 import UserContext from "../Contexts/user-context";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./DetailView.css";
 import Header from "./Header";
@@ -26,6 +28,7 @@ const DetailView = () => {
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
   const modalCtx = useContext(ModalContext);
+  const errMsg = (text) => toast.error(text, { theme: "colored" });
   const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
 
   const navigate = useNavigate();
@@ -33,7 +36,8 @@ const DetailView = () => {
   const [menu, setMenu] = useState(
     menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId))
   );
-  const [nextLoad, setNextLoad] = useState(null);
+  // const [nextLoad, setNextLoad] = useState(null);
+  const nextLoad = useRef("");
   const [entireReviews, setEntireReviews] = useState(null);
   const [reviews, setReviews] = useState(null);
   const [menuRating, setMenuRating] = useState(0);
@@ -59,22 +63,22 @@ const DetailView = () => {
 
   const fetchFirstReviews = () => {
     axios.get(`${end}/reviews/?count=6&menu=${menuId}`).then((res) => {
-      setNextLoad(res.data.next);
+      nextLoad.current = res.data.next;
       setReviews(res.data.data);
     });
   };
-//   useEffect(() => fetchFirstReviews(), []);
+  useEffect(() => fetchFirstReviews(), []);
 
   const fetchMoreReview = () => {
     axios
-      .get(`${end}/reviews/?from=${nextLoad}&count=6&menu=${menuId}`)
+      .get(`${end}/reviews/?from=${nextLoad.current}&count=6&menu=${menuId}`)
       .then((res) => {
         if (res.data.data[0]) {
           const reviewList = res.data.data;
           setReviews((prev) => [...prev, ...reviewList]);
-          setNextLoad(res.data.next);
+          nextLoad.current = res.data.next;
         } else {
-          alert("더이상 불러올 리뷰가 없습니다");
+          errMsg("더이상 불러올 리뷰가 없습니다");
         }
       });
   };
@@ -83,29 +87,24 @@ const DetailView = () => {
   const [isLoading, setIsLoading] = useState(false);
   const loader = useRef(null);
   const reviewContainer = useRef(null);
+  const [stopLoad, setStopLoad] = useState(false);
 
   const moreData = async () => {
-    await fetchFirstReviews();
-    setIsLoading(true);
-    const res = await axios
-      .get(`${end}/reviews/?from=${nextLoad}&count=6&menu=${menuId}`)
-      .catch((r)=> {
-          setIsLoading(false)
-        alert(r.response.data.message)
-        });
+    const res = await axios.get(
+      `${end}/reviews/?from=${nextLoad.current}&count=6&menu=${menuId}`
+    );
     if (res.data.data[0]) {
       const reviewList = res.data.data;
       setReviews((prev) => [...prev, ...reviewList]);
-      await setNextLoad(res.data.next);
-      setIsLoading(false);
+      nextLoad.current = res.data.next;
     } else {
-      setIsLoading(false);
-      alert("더이상 불러올 리뷰가 없습니다");
+      setStopLoad(true);
+      errMsg("더이상 불러올 리뷰가 없습니다");
     }
   };
 
   const onIntersect = async ([entry], observer) => {
-    if (entry.isIntersecting) {
+    if (entry.isIntersecting && !stopLoad) {
       observer.unobserve(target);
       await moreData();
       observer.observe(target);
@@ -114,19 +113,19 @@ const DetailView = () => {
 
   useEffect(() => {
     let observer;
-    if (target) {
+    if (target && !stopLoad) {
       observer = new IntersectionObserver(onIntersect, {
         root: reviewContainer.current,
-        threshold: 0.6,
+        threshold: 1,
       });
       observer.observe(target);
     }
     return () => observer && observer.disconnect();
-  }, [target]);
+  }, [target, reviews]);
 
   return (
     <>
-      {!menu && <NotFound />}
+     {!menu && <NotFound />}
       {menu && (
         <>
           <HeaderStore />
@@ -217,8 +216,8 @@ const DetailView = () => {
                     />
                   ))}
                 <button onClick={fetchMoreReview}>load more</button>
-                <div ref={setTarget} />
-                {isLoading && "Loading..."}
+                <div className="loader" ref={setTarget} />
+                {!stopLoad && <a>Loading...</a>}
               </div>
               <AddReview
                 menuId={menuId}

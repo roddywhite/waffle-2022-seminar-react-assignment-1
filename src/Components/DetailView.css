@@ -136,8 +136,7 @@
   width: 100%;
   height: 65%;
   align-self: center;
-  align-items: baseline;
-  margin-top:10px;
+  margin-top: 10px;
   margin-bottom: 30px;
   overflow: auto;
 }
@@ -156,4 +155,14 @@
 ::-webkit-scrollbar-thumb {
   border-radius: 6px;
   background: darkgray;
+}
+
+.loader {
+  position: relative;
+  width: 80%;
+  height: 60px;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
