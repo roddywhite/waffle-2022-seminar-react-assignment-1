@@ -79,7 +79,7 @@ const EditMenu = () => {
         .then((res) => {
           resetEntered();
           navigate(-1);
-          successMsg("메뉴가 수정되었습니다")
+          successMsg("메뉴가 수정되었습니다");
         })
         .catch((res) => {
           errMsg(res.response.data.message);
@@ -108,7 +108,6 @@ const EditMenu = () => {
 
   return (
     <>
-      <ToastContainer autoClose={3000} position="top-center" pauseOnHover />
       {!menu && <NotFound />}
       {menu && (
         <>

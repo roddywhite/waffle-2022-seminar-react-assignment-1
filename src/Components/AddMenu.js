@@ -73,7 +73,6 @@ const AddMenu = () => {
     } else if (enteredType === "") {
       errMsg("종류를 지정해주세요");
     } else {
-
       authAxios
         .post(`${end}/menus`, {
           name: enteredTitle,
@@ -108,7 +107,6 @@ const AddMenu = () => {
   return (
     <>
       <HeaderStore />
-      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div className="full">
         <div className="addContainer">
           <h3 className="title">새 메뉴 추가</h3>

@@ -7,6 +7,8 @@ import { BrowserRouter } from "react-router-dom";
 import { SearchContextProvider } from "./Contexts/search-context";
 import { MenuContextProvider } from "./Contexts/menu-context";
 import { ModalContextProvider } from "./Contexts/modal-context";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,6 +17,7 @@ root.render(
       <ModalContextProvider>
         <SearchContextProvider>
           <MenuContextProvider>
+          <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
             <App />
           </MenuContextProvider>
         </SearchContextProvider>

@@ -30,7 +30,6 @@ const LoginForm = () => {
   return (
     <>
       <Header />
-      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div className="full">
         <div className="loginBox">
           <a className="title">로그인</a>

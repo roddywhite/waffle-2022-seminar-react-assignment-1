@@ -41,7 +41,7 @@ const Review = ({
   const [enteredRating, setEnteredRating] = useState(rating);
   const [viewRating, setViewRating] = useState(0);
   const [starChangeMode, setStarChangeMode] = useState(false);
-  
+
   const submitHandler = () => {
     authAxios
       .patch(`${end}/reviews/${reviewId}`, {
@@ -61,7 +61,6 @@ const Review = ({
 
   return (
     <>
-      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       {deleteMode && modalCtx.deleteReviewOpened && (
         <DeleteReviewModal
           reviewId={reviewId}

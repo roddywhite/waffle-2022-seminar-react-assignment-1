@@ -31,7 +31,6 @@ const HeaderStore = () => {
 
   return (
     <div className="header">
-      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <Link to="/">
         <img className="logo" src={logo} alt="waffle logo" />
       </Link>

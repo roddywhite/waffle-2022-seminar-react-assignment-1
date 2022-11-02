@@ -64,7 +64,6 @@ const DeleteReviewModal = ({
 
   return (
     <div className={deleteMode && modalCtx.deleteReviewOpened ? "dimmed" : "closedModal"}>
-      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div
         id="modal-animation"
         className={

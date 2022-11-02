@@ -48,7 +48,6 @@ const AddReview = ({ menuId, fetchReviewData, fetchFirstReviews }) => {
 
   return (
     <div className="addReviewSection">
-      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div
         className="starBox"
         onMouseEnter={() => setStarChangeMode(true)}

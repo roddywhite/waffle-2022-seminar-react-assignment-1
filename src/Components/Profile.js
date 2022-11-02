@@ -64,7 +64,6 @@ const Profile = () => {
   return (
     <>
       <Header />
-      <ToastContainer autoClose={3000} position="top-right" pauseOnHover />
       <div className="full">
         <div className="profileCon">
           <h3 className="title">내 정보 수정</h3>
