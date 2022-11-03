@@ -1,4 +1,6 @@
 import { useState, useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import MenuContext from "../Contexts/menu-context";
 import SearchContext from "../Contexts/search-context";
 
@@ -9,8 +11,26 @@ import "./Table.css";
 const Table = () => {
   const menuCtx = useContext(MenuContext);
   const searchCtx = useContext(SearchContext);
+  const { storeId } = useParams();
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
 
-  const {menus} = menuCtx;
+  const [menus, setMenus] = useState([]);
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      axios
+        .get(
+          `${end}/menus/?owner=${storeId}${
+            searchCtx.enteredMenu && `&search=${searchCtx.enteredMenu}`
+          }`
+        )
+        .then((res) => {
+          setMenus(res.data.data.reverse());
+        });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchCtx.enteredMenu]);
 
   return (
     <>
@@ -21,10 +41,7 @@ const Table = () => {
         <span className="price">가격</span>
         <span className="rating">별점</span>
       </div>
-      {menus &&
-        menus
-          .filter((menu) => menu.name.includes(searchCtx.enteredMenu))
-          .map((menu, idx) => <Item key={idx} menu={menu} />)}
+      {menus && menus.map((menu, idx) => <Item key={idx} menu={menu} />)}
     </>
   );
 };
