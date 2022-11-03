@@ -6,7 +6,7 @@
 
 .homeContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 200px));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 220px));
   column-gap: 15px;
   row-gap: 30px;
 
