@@ -26,6 +26,7 @@ const Review = ({
   rating,
   fetchReviewData,
   fetchFirstReviews,
+  noStop,
 }) => {
   const userCtx = useContext(UserContext);
   const modalCtx = useContext(ModalContext);
@@ -52,6 +53,7 @@ const Review = ({
         setMouseOver(false);
         setEditMode(false);
         fetchFirstReviews();
+        noStop();
         successMsg("리뷰가 수정되었습니다");
       })
       .catch((res) => {

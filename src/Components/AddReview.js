@@ -8,7 +8,7 @@ import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 import UserContext from "../Contexts/user-context";
 
-const AddReview = ({ menuId, fetchReviewData, fetchFirstReviews }) => {
+const AddReview = ({ menuId, fetchFirstReviews, noStop }) => {
   const [enteredContent, setEnteredContent] = useState("");
   const [enteredRating, setEnteredRating] = useState(0);
   const userCtx = useContext(UserContext);
@@ -30,8 +30,8 @@ const AddReview = ({ menuId, fetchReviewData, fetchFirstReviews }) => {
           menu: menuId,
         })
         .then((res) => {
-          fetchReviewData();
           fetchFirstReviews();
+          noStop();
           setEnteredContent("");
           setEnteredRating(0);
           successMsg("리뷰가 등록되었습니다");

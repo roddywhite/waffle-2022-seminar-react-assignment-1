@@ -154,7 +154,7 @@ const AddMenu = () => {
           />
 
           <label className="inputLabel">설명</label>
-          <input
+          <textarea
             className="inputBoxDesc"
             type="text"
             placeholder="상품에 대한 자세한 설명을 입력해주세요"

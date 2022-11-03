@@ -85,6 +85,7 @@
   margin-bottom: 30px;
   overflow: auto;
   vertical-align: top;
+  resize: none;
 }
 
 .addContainer .buttonCon {

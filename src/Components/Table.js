@@ -26,7 +26,6 @@ const Table = () => {
         )
         .then((res) => {
           setMenus(res.data.data.reverse());
-          menuCtx.onSelectMenu(res.data.data[0])
         });
     }, 500);
 

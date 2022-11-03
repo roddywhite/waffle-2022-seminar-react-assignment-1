@@ -89,6 +89,8 @@ const DetailView = () => {
   const reviewContainer = useRef(null);
   const [stopLoad, setStopLoad] = useState(false);
 
+  const noStop = () => setStopLoad(false);
+
   const moreData = async () => {
     const res = await axios.get(
       `${end}/reviews/?from=${nextLoad.current}&count=6&menu=${menuId}`
@@ -216,6 +218,7 @@ const DetailView = () => {
                       rating={review.rating}
                       fetchReviewData={fetchReviewData}
                       fetchFirstReviews={fetchFirstReviews}
+                      noStop = {noStop}
                     />
                   ))}
                 <button className="loadMore" onClick={fetchMoreReview}>
@@ -226,8 +229,8 @@ const DetailView = () => {
               </div>
               <AddReview
                 menuId={menuId}
-                fetchReviewData={fetchReviewData}
                 fetchFirstReviews={fetchFirstReviews}
+                noStop = {noStop}
               />
             </div>
           </div>
