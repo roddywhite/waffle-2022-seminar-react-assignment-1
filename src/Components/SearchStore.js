@@ -2,6 +2,7 @@ import { useContext } from "react";
 import SearchContext from "../Contexts/search-context";
 import "./SearchStore.css";
 import searchImg from "../assets/search.png";
+import xButton from "../assets/closeButton.svg";
 
 const Search = () => {
   const searchCtx = useContext(SearchContext);
@@ -17,7 +18,10 @@ const Search = () => {
           placeholder="검색어 입력"
         />
       </label>
-      <img className="searchImg" src={searchImg} />
+      <div className="buttonBox">
+        <img src={xButton} onClick={searchCtx.resetEnteredStore} />
+        <img className="searchImg" src={searchImg} />
+      </div>
     </div>
   );
 };
