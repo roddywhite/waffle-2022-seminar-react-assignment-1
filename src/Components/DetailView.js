@@ -99,7 +99,6 @@ const DetailView = () => {
       nextLoad.current = res.data.next;
     } else {
       setStopLoad(true);
-      errMsg("더이상 불러올 리뷰가 없습니다");
     }
   };
 
@@ -121,7 +120,7 @@ const DetailView = () => {
       observer.observe(target);
     }
     return () => observer && observer.disconnect();
-  }, [target, reviews]);
+  }, [target, reviews, stopLoad]);
 
   return (
     <>
@@ -195,10 +194,14 @@ const DetailView = () => {
                     );
                   })}
                 </div>
-                <a>{reviews?.length ? menuRating : "아직 리뷰가 없습니다"}</a>
-                <span className="totalReviews">
-                  총 {entireReviews?.length}개의 리뷰
-                </span>
+                <a>{reviews?.length ? menuRating : "0.00"}</a>
+                {reviews?.length ? (
+                  <span className="totalReviews">
+                    총 {entireReviews?.length}개의 리뷰
+                  </span>
+                ) : (
+                  ""
+                )}
               </div>
               <div className="reviewList" ref={reviewContainer}>
                 {reviews &&
@@ -216,7 +219,7 @@ const DetailView = () => {
                     />
                   ))}
                 <button className="loadMore" onClick={fetchMoreReview}>
-                  Load more...
+                  {!stopLoad ? "Load more..." : "더이상 불러올 리뷰가 없습니다"}
                 </button>
                 <div className="loader" ref={setTarget} />
                 {!stopLoad && <a>Loading...</a>}

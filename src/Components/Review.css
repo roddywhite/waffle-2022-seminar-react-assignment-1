@@ -10,26 +10,28 @@
   border: 1px solid black;
   border-radius: 10px;
   width: 90%;
-  min-height: 70px;
+
   padding-top: 10px;
   padding-left: 2%;
 }
 
 .reviewContainer label {
-    font-size: 12px;
-    font-weight: 600;
-    margin-right: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 12px;
 }
 
 .reviewContainer span {
-    font-size: 10px;
-    font-weight: 200;
-    color: gray;
-    margin-left: 12px;
+  font-size: 10px;
+  font-weight: 200;
+  color: gray;
+  margin-left: 12px;
 }
 
 .reviewContainer a {
-    font-size: 12px;
+  font-size: 12px;
+  margin-top: 6px;
+  margin-bottom: 26px;
 }
 
 .reviewContainer .head {
@@ -46,8 +48,8 @@
 }
 
 .reviewContainer .buttonBox {
-    position: absolute;
-    right: 2%;
+  position: absolute;
+  right: 2%;
 }
 
 .reviewContainer .editBtn {
