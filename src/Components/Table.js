@@ -26,6 +26,7 @@ const Table = () => {
         )
         .then((res) => {
           setMenus(res.data.data.reverse());
+          menuCtx.onSelectMenu(res.data.data[0])
         });
     }, 500);
 
@@ -41,7 +42,7 @@ const Table = () => {
         <span className="price">가격</span>
         <span className="rating">별점</span>
       </div>
-      {menus && menus.map((menu, idx) => <Item key={idx} menu={menu} />)}
+      {menus && menus.map((menu, idx) => <Item key={idx} menu={menu} menus={menus} />)}
     </>
   );
 };

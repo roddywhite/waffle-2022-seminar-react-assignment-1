@@ -7,7 +7,7 @@ import starEmpty from "../assets/starEmpty.svg";
 import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 
-const Item = ({ menu }) => {
+const Item = ({ menu, menus }) => {
   const menuCtx = useContext(MenuContext);
   const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
   const isSelected =
@@ -24,7 +24,7 @@ const Item = ({ menu }) => {
       setRating(sum / reviewList.length);
     });
   };
-  useEffect(() => fetchMenuRating(), []);
+  useEffect(() => fetchMenuRating(), [menus]);
 
   return (
     <div className="menuContainer">
