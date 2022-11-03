@@ -2,7 +2,7 @@ import { useContext } from "react";
 import SearchContext from "../Contexts/search-context";
 import "./Search.css";
 import searchImg from "../assets/search.png";
-import xButton from "../assets/closeButton.svg"
+import xButton from "../assets/closeButton.svg";
 
 const Search = () => {
   const searchCtx = useContext(SearchContext);
@@ -19,8 +19,10 @@ const Search = () => {
         />
       </label>
       <div className="buttonBox">
-      <img src={xButton} onClick={searchCtx.resetEnteredMenu}/>
-      <img className="searchImg" src={searchImg} />
+        {searchCtx.enteredMenu && (
+          <img src={xButton} onClick={searchCtx.resetEnteredMenu} />
+        )}
+        <img className="searchImg" src={searchImg} />
       </div>
     </div>
   );

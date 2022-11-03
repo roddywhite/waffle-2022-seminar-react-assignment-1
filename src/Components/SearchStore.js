@@ -19,7 +19,9 @@ const Search = () => {
         />
       </label>
       <div className="buttonBox">
-        <img src={xButton} onClick={searchCtx.resetEnteredStore} />
+        {searchCtx.enteredStore && (
+          <img src={xButton} onClick={searchCtx.resetEnteredStore} />
+        )}
         <img className="searchImg" src={searchImg} />
       </div>
     </div>
