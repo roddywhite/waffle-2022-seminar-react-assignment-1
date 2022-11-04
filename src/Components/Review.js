@@ -78,7 +78,7 @@ const Review = ({
           onMouseEnter={() => setMouseOver(true)}
           onMouseLeave={() => setMouseOver(false)}
         >
-          <div className="head">
+          <div className="headR">
             <label>{author.username}</label>
             {[1, 2, 3, 4, 5].map((x) => {
               return (
@@ -100,7 +100,7 @@ const Review = ({
             <div
               className={
                 mouseOver && author.id === userCtx.user?.id
-                  ? "buttonBox"
+                  ? "buttonBox1"
                   : "hidden"
               }
             >
