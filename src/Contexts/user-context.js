@@ -13,7 +13,6 @@ const UserContext = createContext({
   onLogin: (userId, userPassword) => {},
   onLogout: () => {},
   fetchMyProfile: () => {},
-  onDeleteMenu: () => {},
 });
 
 export const UserContextProvider = (props) => {
@@ -77,17 +76,6 @@ export const UserContextProvider = (props) => {
     fetchMyProfile();
   }, [isLoggedIn]);
 
-  const deleteMenuHandler = (menuId) => {
-    authAxios
-      .delete(`${end}/menus/${menuId}`)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((res) => {
-        errMsg(res.response.data.message);
-      });
-  };
-
   return (
     <UserContext.Provider
       value={{
@@ -99,7 +87,6 @@ export const UserContextProvider = (props) => {
         onLogin: loginHandler,
         onLogout: logoutHandler,
         fetchMyProfile: fetchMyProfile,
-        onDeleteMenu: deleteMenuHandler,
       }}
     >
       {props.children}
