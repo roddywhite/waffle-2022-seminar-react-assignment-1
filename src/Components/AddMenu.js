@@ -11,11 +11,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import Header from "./Header";
 import HeaderStore from "./HeaderStore";
 
-// *** TODO **** : menuCtx.menus -> 현재 접속해있는 owner의 menus로 바꿀 필요 있음
-// 이유 : 8번 스토어 오너가 9번 스토어에 접속해있으면 menus는 9번스토어일테니?
-// 아닌가 라우팅을 /stores/1/menus/new 이런식으로 하면 될듯
-// 그것도 그렇고 로그인한 상태에서만 가능하니까..
-
 const AddMenu = () => {
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);

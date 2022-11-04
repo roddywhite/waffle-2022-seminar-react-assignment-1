@@ -62,5 +62,3 @@ const StoreShortcut = ({ storeId, storeName, ownerName, storeDesc }) => {
 };
 
 export default StoreShortcut;
-
-// n.5면 n개만큼 꽉별, 1로 나눠떨어지면 5-n만큼 빈별, 안나눠지면 1개만큼 반별 4-n만큼 빈별
