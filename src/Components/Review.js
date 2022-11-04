@@ -161,7 +161,7 @@ const Review = ({
               );
             })}
           </div>
-          <input
+          <textarea
             className="addReviewContainer"
             placeholder="리뷰를 입력하세요"
             value={enteredContent}
