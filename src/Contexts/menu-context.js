@@ -64,7 +64,7 @@ export const MenuContextProvider = (props) => {
   };
 
   const selectMenuHandler = (menu) => {
-    const isSelectedMenu = selectedMenu && menu.id === selectedMenu.id;
+    const isSelectedMenu = selectedMenu && menu?.id === selectedMenu?.id;
     setSelectedMenu(() => (isSelectedMenu ? null : menu));
   };
 
