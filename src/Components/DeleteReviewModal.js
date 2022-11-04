@@ -22,7 +22,6 @@ const DeleteReviewModal = ({
   const successMsg = (text) => toast.success(text, { theme: "colored" });
 
   const submitHandler = () => {
-    console.log("클릭!");
     authAxios
       .delete(`${end}/reviews/${reviewId}`)
       .then((res) => {
@@ -34,6 +33,7 @@ const DeleteReviewModal = ({
       })
       .catch((res) => {
         errMsg(res.response.data.message);
+        modalCtx.onCloseDeleteReview();
       });
   };
 

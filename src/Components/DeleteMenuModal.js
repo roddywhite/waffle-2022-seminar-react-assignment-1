@@ -1,6 +1,8 @@
 import "./DeleteMenuModal.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ModalContext from "../Contexts/modal-context";
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
@@ -10,13 +12,26 @@ const DeleteMenuModal = ({ menuId }) => {
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
+  const { authAxios } = userCtx;
+  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
+  const errMsg = (text) => toast.error(text, { theme: "colored" });
+  const successMsg = (text) => toast.success(text, { theme: "colored" });
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    navigate(-1);
-    await userCtx.onDeleteMenu(menuId);
-    menuCtx.fetchEntireMenus();
-    modalCtx.onCloseDeleteMenu();
+  const submitHandler = async () => {
+    console.log(menuId);
+    console.log(typeof menuId);
+    authAxios
+      .delete(`${end}/menus/${menuId}`)
+      .then((res) => {
+        menuCtx.fetchEntireMenus();
+        navigate(-1);
+        modalCtx.onCloseDeleteMenu();
+        successMsg("메뉴가 삭제되었습니다");
+      })
+      .catch((res) => {
+        errMsg(res.response.data.message);
+        modalCtx.onCloseDeleteMenu();
+      });
   };
 
   const cancelHandler = () => {
@@ -40,26 +55,26 @@ const DeleteMenuModal = ({ menuId }) => {
 
   return (
     <div className={modalCtx.deleteMenuOpened ? "dimmed" : ""}>
-        <div
-          id="modal-animation"
-          className={
-            modalCtx.deleteMenuOpened ? "openDeleteModal" : "closedModal"
-          }
-          ref={deleteMenuRef}
-          value={modalCtx.deleteMenuOpened}
-        >
-          <h3>메뉴 삭제</h3>
-          <a>정말로 삭제하시겠습니까?</a>
-          <div className="buttonCon">
-            <button className="redButton" onClick={submitHandler}>
-              삭제
-            </button>
-            <button className="button" onClick={cancelHandler}>
-              취소
-            </button>
-          </div>
+      <div
+        id="modal-animation"
+        className={
+          modalCtx.deleteMenuOpened ? "openDeleteModal" : "closedModal"
+        }
+        ref={deleteMenuRef}
+        value={modalCtx.deleteMenuOpened}
+      >
+        <h3>메뉴 삭제</h3>
+        <a>정말로 삭제하시겠습니까?</a>
+        <div className="buttonCon">
+          <button className="redButton" onClick={submitHandler}>
+            삭제
+          </button>
+          <button className="button" onClick={cancelHandler}>
+            취소
+          </button>
         </div>
       </div>
+    </div>
   );
 };
 
