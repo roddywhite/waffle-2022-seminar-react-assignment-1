@@ -16,7 +16,7 @@ const List = ({ storeId }) => {
 
   const { menus, fetchMenuData } = menuCtx;
 
-  useEffect(() => fetchMenuData(storeId), []);
+  useEffect(() => fetchMenuData(storeId), [menuCtx.selectedMenu]);
 
   return (
     <div className="bigContainer">

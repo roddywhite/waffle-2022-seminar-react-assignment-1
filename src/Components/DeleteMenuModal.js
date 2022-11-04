@@ -24,9 +24,10 @@ const DeleteMenuModal = ({ menuId }) => {
       .delete(`${end}/menus/${menuId}`)
       .then((res) => {
         menuCtx.fetchEntireMenus();
-        navigate(-1);
         modalCtx.onCloseDeleteMenu();
+        menuCtx.selectResetHandler();
         successMsg("메뉴가 삭제되었습니다");
+        navigate(-1);
       })
       .catch((res) => {
         errMsg(res.response.data.message);

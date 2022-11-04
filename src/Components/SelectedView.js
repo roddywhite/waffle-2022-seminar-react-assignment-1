@@ -26,35 +26,39 @@ const SelectedView = () => {
   }, [menuCtx.selectedMenu]);
 
   return (
-    <div className="selectedView">
-      <img
-        className="closeButton"
-        onClick={() => menuCtx.onSelectMenu(menu)}
-        src={closeButton}
-        alt="닫기"
-      />
-      <img
-        className="menuImg"
-        src={menu.image}
-        onError={(e) => (e.target.src = altImg)}
-      />
-      <h3>{menu.name}</h3>
-      <span>
-        {menu.type === "waffle"
-          ? "와플"
-          : menu.type === "beverage"
-          ? "음료"
-          : menu.type === "coffee"
-          ? "커피"
-          : ""}
-      </span>
-      <span>{menu.price.toLocaleString()}원</span>
-      <div className="detailButtonContainer">
-        <Link to={`/stores/${storeId}/menus/${menu.id}`}>
-          <button className="detailButton">자세히</button>
-        </Link>
-      </div>
-    </div>
+    <>
+      {menuCtx.selectedMenu && (
+        <div className="selectedView">
+          <img
+            className="closeButton"
+            onClick={() => menuCtx.onSelectMenu(menu)}
+            src={closeButton}
+            alt="닫기"
+          />
+          <img
+            className="menuImg"
+            src={menu.image}
+            onError={(e) => (e.target.src = altImg)}
+          />
+          <h3>{menu.name}</h3>
+          <span>
+            {menu.type === "waffle"
+              ? "와플"
+              : menu.type === "beverage"
+              ? "음료"
+              : menu.type === "coffee"
+              ? "커피"
+              : ""}
+          </span>
+          <span>{menu.price.toLocaleString()}원</span>
+          <div className="detailButtonContainer">
+            <Link to={`/stores/${storeId}/menus/${menu.id}`}>
+              <button className="detailButton">자세히</button>
+            </Link>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
