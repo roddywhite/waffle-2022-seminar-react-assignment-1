@@ -46,12 +46,12 @@ const StoreShortcut = ({ storeId, storeName, ownerName, storeDesc }) => {
               <img
                 className="star"
                 src={
-                    Math.round(rating) < 2 * x - 1
-                      ? starEmpty
-                      : Math.round(rating) < 2 * x
-                      ? starHalf
-                      : starFull
-                  }
+                  Math.round(rating) < 2 * x - 1
+                    ? starEmpty
+                    : Math.round(rating) < 2 * x
+                    ? starHalf
+                    : starFull
+                }
               />
             );
           })}

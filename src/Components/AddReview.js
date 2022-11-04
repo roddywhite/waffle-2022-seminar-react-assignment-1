@@ -83,38 +83,6 @@ const AddReview = ({ menuId, fetchFirstReviews, noStop }) => {
             />
           );
         })}
-
-        {/* <img
-          className="star"
-          ref={star1}
-          src={
-            e.clientX - e.target.getBoundingClientRect().left < 10
-              ? starFull
-              : e.clientX - e.target.getBoundingClientRect().left < 20
-              ? starHalf
-              : starEmpty
-          }
-        />
-        <img className="star" ref={star2} src={starEmpty} />
-        <img className="star" ref={star3} src={starEmpty} />
-        <img className="star" ref={star4} src={starEmpty} />
-        <img className="star" ref={star5} src={starEmpty} /> */}
-        {/* {[1, 2, 3, 4, 5].map((x) => {
-          return (
-            <img
-              className="star"
-              ref={starRef}
-              src={
-                enteredRating < 2 * x - 1
-                  ? starEmpty
-                  : enteredRating < 2 * x
-                  ? starHalf
-                  : starFull
-              }
-              onClick={() => setEnteredRating(2 * x)}
-            />
-          );
-        })} */}
       </div>
       <textarea
         className="addReviewContainer"

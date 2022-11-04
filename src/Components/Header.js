@@ -8,7 +8,7 @@ import UserContext from "../Contexts/user-context";
 
 const Header = () => {
   const userCtx = useContext(UserContext);
-  const {user, isLoggedIn, onLogout} = userCtx;
+  const { user, isLoggedIn, onLogout } = userCtx;
 
   return (
     <div className="header">

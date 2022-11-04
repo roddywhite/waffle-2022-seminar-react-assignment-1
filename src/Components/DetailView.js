@@ -83,12 +83,12 @@ const DetailView = () => {
       });
   };
 
+  // 무한스크롤 구현
   const [target, setTarget] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const loader = useRef(null);
   const reviewContainer = useRef(null);
   const [stopLoad, setStopLoad] = useState(false);
-
   const noStop = () => setStopLoad(false);
 
   const moreData = async () => {
@@ -218,7 +218,7 @@ const DetailView = () => {
                       rating={review.rating}
                       fetchReviewData={fetchReviewData}
                       fetchFirstReviews={fetchFirstReviews}
-                      noStop = {noStop}
+                      noStop={noStop}
                     />
                   ))}
                 <button className="loadMore" onClick={fetchMoreReview}>
@@ -230,7 +230,7 @@ const DetailView = () => {
               <AddReview
                 menuId={menuId}
                 fetchFirstReviews={fetchFirstReviews}
-                noStop = {noStop}
+                noStop={noStop}
               />
             </div>
           </div>

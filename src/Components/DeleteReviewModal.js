@@ -63,7 +63,11 @@ const DeleteReviewModal = ({
   };
 
   return (
-    <div className={deleteMode && modalCtx.deleteReviewOpened ? "dimmed" : "closedModal"}>
+    <div
+      className={
+        deleteMode && modalCtx.deleteReviewOpened ? "dimmed" : "closedModal"
+      }
+    >
       <div
         id="modal-animation"
         className={

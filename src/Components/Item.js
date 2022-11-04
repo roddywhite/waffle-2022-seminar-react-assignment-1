@@ -50,9 +50,9 @@ const Item = ({ menu, menus }) => {
               <img
                 className="rating"
                 src={
-                  x <= rating/2
+                  x <= rating / 2
                     ? starFull
-                    : x < 1+rating/2
+                    : x < 1 + rating / 2
                     ? starHalf
                     : starEmpty
                 }

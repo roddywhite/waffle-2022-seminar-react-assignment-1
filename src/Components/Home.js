@@ -31,7 +31,7 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [searchCtx.enteredStore]);
 
-  // 스토어 밖(홈화면)으로 나가면 메뉴검색 초기화 
+  // 스토어 밖(홈화면)으로 나가면 메뉴검색 초기화
   useEffect(() => {
     searchCtx.resetEnteredMenu();
     menuCtx.onSelectReset();
