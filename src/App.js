@@ -1,38 +1,27 @@
-import { useState } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
 
-import data from "./assets/data.json";
-
-import Header from "./Components/Header";
-import Search from "./Components/Search";
-import List from "./Components/List";
+import Home from "./Components/Home";
+import Store1 from "./Components/Store1";
+import LoginForm from "./Components/LoginForm";
+import AddMenu from "./Components/AddMenu";
+import EditMenu from "./Components/EditMenu";
+import DetailView from "./Components/DetailView";
+import NotFound from "./Components/NotFound";
 
 function App() {
-  const [menus, setMenus] = useState(data);
-  const [nowId, setNowId] = useState(data.length + 1);
-
-  const addMenuHandler = (newMenu) => {
-    console.log(newMenu)
-    setNowId(nowId + 1);
-    let tmpMenu = {...newMenu, id: nowId}
-    setMenus([...menus, tmpMenu]);
-  };
-
-  const [enteredSearch, setEnteredSearch] = useState("");
-
   return (
-    <div>
-      <Header />
-      <Search
-        enteredSearch={enteredSearch}
-        setEnteredSearch={setEnteredSearch}
-      />
-      <List
-        menus={menus}
-        setMenus={setMenus}
-        addMenu={addMenuHandler}
-        enteredSearch={enteredSearch}
-      />
-    </div>
+    <>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/stores/1" element={<Store1 />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/menus/new" element={<AddMenu />} />
+        <Route path="/menus/:menuId" element={<DetailView />} />
+        <Route path="/menus/:menuId/edit" element={<EditMenu />} />
+        <Route path="/404-not-found" element={<NotFound />} />
+        <Route path="*" element={<Navigate replace to="/404-not-found" />} />
+      </Routes>
+    </>
   );
 }
 

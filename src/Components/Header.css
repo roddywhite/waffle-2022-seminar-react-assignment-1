@@ -23,3 +23,46 @@
   text-decoration: none;
   color: black;
 }
+
+.header .login {
+  margin-left: auto;
+  width: 60px;
+  height: 28px;
+  font-size: 15px;
+  background-color: white;
+  margin-right: 5px;
+  border: 1px solid gray;
+  border-radius: 7px;
+}
+
+.header .logoutBox {
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header .logoutBox .market {
+  width: 60px;
+  height: 28px;
+  font-size: 15px;
+  background-color: white;
+  margin: 0 5px 0 15px;
+  border: 1px solid gray;
+  border-radius: 7px;
+}
+
+.header .logoutBox .logout {
+  width: 75px;
+  height: 28px;
+  font-size: 15px;
+  background-color: white;
+  margin: 0 5px;
+  border: 1px solid gray;
+  border-radius: 7px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}

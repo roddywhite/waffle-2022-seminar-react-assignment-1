@@ -1,0 +1,107 @@
+.full {
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 80vh;
+  position: relative;
+}
+
+.editContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  width: 600px;
+  height: 60vh;
+  max-height: 550px;
+
+  border: 1px solid black;
+  border-radius: 15px;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  overflow: auto;
+}
+
+.editContainer .title {
+  width: 323px;
+  height: 30px;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.editContainer .fixedCon {
+  width: 80%;
+  height: 45px;
+  margin-left: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+.editContainer .fixed {
+  margin-left: 80px;
+}
+
+.editContainer .label {
+  width: 75px;
+  height: 18px;
+  float: left;
+  display: flex;
+
+  font-weight: 600;
+}
+
+.editContainer .inputLabel {
+  width: 75px;
+  height: 25px;
+  float: left;
+  display: flex;
+
+  margin-left: 25px;
+
+  font-weight: 600;
+}
+
+.editContainer .inputBox {
+  width: 90%;
+  height: 20px;
+  margin-left: 25px;
+  margin-bottom: 25px;
+}
+
+.editContainer .inputBoxDesc {
+  width: 90%;
+  height: 70px;
+  margin-left: 25px;
+  margin-bottom: 40px;
+  overflow: auto;
+}
+
+.editContainer .buttonCon {
+  display: flex;
+  position: relative;
+  align-self: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.editContainer .greenButton {
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+  background: #d3ffc4;
+
+  width: 45px;
+  height: 30px;
+
+  margin-right: 7px;
+}
+
+.editContainer .button {
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+
+  width: 45px;
+  height: 30px;
+}

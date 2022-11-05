@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext } from "react";
+import SearchContext from "../Contexts/search-context";
 import "./Search.css";
 import searchImg from "../assets/search.png";
 
-const Search = ({ enteredSearch, setEnteredSearch }) => {
+const Search = () => {
+  const searchCtx = useContext(SearchContext);
   return (
     <div className="search">
       <label>
@@ -10,8 +12,8 @@ const Search = ({ enteredSearch, setEnteredSearch }) => {
         <input
           className="searchBox"
           type="text"
-          value={enteredSearch}
-          onChange={(e) => setEnteredSearch(e.target.value)}
+          value={searchCtx.enteredSearch}
+          onChange={(e) => searchCtx.onSearch(e)}
           placeholder="검색어 입력"
         />
       </label>
