@@ -54,7 +54,7 @@
 }
 
 .menuRating {
-  width: 160px;
+  width: 120px;
   align-content: center;
   
 }
@@ -62,4 +62,8 @@
 .menuRating .rating {
   width: 20px;
   height: 20px;
+}
+
+.ratingFig {
+  margin-right: 40px;
 }
