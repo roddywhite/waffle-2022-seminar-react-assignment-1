@@ -8,7 +8,7 @@ import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 import UserContext from "../Contexts/user-context";
 
-const AddReview = ({ menuId, fetchFirstReviews, noStop }) => {
+const AddReview = ({ menuId, fetchReviewData, fetchFirstReviews, noStop }) => {
   const [enteredContent, setEnteredContent] = useState("");
   const [enteredRating, setEnteredRating] = useState(0);
   const userCtx = useContext(UserContext);
@@ -30,6 +30,7 @@ const AddReview = ({ menuId, fetchFirstReviews, noStop }) => {
           menu: menuId,
         })
         .then((res) => {
+          fetchReviewData();
           fetchFirstReviews();
           noStop();
           setEnteredContent("");

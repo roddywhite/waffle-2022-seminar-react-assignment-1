@@ -79,6 +79,7 @@ const AddMenu = () => {
         .then((res) => {
           resetEntered();
           navigate(-1);
+          menuCtx.onSelectMenu(res.data.data)
         })
         .catch((res) => {
           errMsg(res.response.data.message);
@@ -102,7 +103,7 @@ const AddMenu = () => {
   return (
     <>
       <HeaderStore />
-      <div className="full">
+      <div className="addBigContainer">
         <div className="addContainer">
           <h3 className="title">새 메뉴 추가</h3>
 

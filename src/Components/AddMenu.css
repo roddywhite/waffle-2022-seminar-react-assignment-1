@@ -1,4 +1,5 @@
 .full {
+  display: flex;
   left: 0;
   top: 0;
   width: 100vw;
@@ -6,15 +7,23 @@
   position: relative;
   align-items: center;
   justify-content: center;
+  margin-left: auto;
+}
+
+.addBigContainer {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
 }
 
 .addContainer {
-
+  position: relative;
   display: flex;
   flex-direction: column;
-  margin-top: 12vh;
   width: 600px;
   height: 600px;
+  margin-top: 10%;
   border: 1px solid black;
   border-radius: 15px;
 
