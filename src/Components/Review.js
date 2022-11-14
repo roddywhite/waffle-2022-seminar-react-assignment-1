@@ -1,10 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { end, errMsg, successMsg } from "../utils/common";
 import Moment from "react-moment";
 import "moment/locale/ko";
-
 import "./Review.css";
 import "./AddReview.css";
 
@@ -31,9 +29,6 @@ const Review = ({
   const userCtx = useContext(UserContext);
   const modalCtx = useContext(ModalContext);
   const { authAxios } = userCtx;
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
-  const errMsg = (text) => toast.error(text, { theme: "colored" });
-  const successMsg = (text) => toast.success(text, { theme: "colored" });
 
   const [mouseOver, setMouseOver] = useState(false);
   const [editMode, setEditMode] = useState(false);

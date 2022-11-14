@@ -1,8 +1,7 @@
 import "./Header.css";
 import logo from "../assets/logo.svg";
 
-import React, { useEffect, useContext } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../Contexts/user-context";
 

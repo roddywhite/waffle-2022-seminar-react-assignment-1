@@ -1,13 +1,12 @@
 import "./EditMenu.css";
-import { useEffect, useState, useRef, useContext } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { end, errMsg, successMsg } from "../utils/common";
 
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
 
-import Header from "./Header";
 import NotFound from "./NotFound";
 import axios from "axios";
 import HeaderStore from "./HeaderStore";
@@ -17,10 +16,6 @@ const EditMenu = () => {
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
   const { authAxios } = userCtx;
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
-  const errMsg = (text) => toast.error(text, { theme: "colored" });
-  const successMsg = (text) => toast.success(text, { theme: "colored" });
-
   const { storeId, menuId } = useParams();
   const [menu, setMenu] = useState(
     menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId))

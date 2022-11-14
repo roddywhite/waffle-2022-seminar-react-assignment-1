@@ -2,14 +2,13 @@ import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import MenuContext from "../Contexts/menu-context";
 import "./Item.css";
-
+import { end } from "../utils/common";
 import starEmpty from "../assets/starEmpty.svg";
 import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 
 const Item = ({ menu, menus }) => {
   const menuCtx = useContext(MenuContext);
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
   const isSelected =
     menuCtx.selectedMenu && menuCtx.selectedMenu.id === menu.id;
 

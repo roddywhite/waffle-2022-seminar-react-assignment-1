@@ -2,10 +2,10 @@ import { useState, useContext, useEffect, useRef, useCallback } from "react";
 import UserContext from "../Contexts/user-context";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { end, errMsg, successMsg } from "../utils/common";
 import "./DetailView.css";
+
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeleteMenuModal from "./DeleteMenuModal";
@@ -28,8 +28,6 @@ const DetailView = () => {
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
   const modalCtx = useContext(ModalContext);
-  const errMsg = (text) => toast.error(text, { theme: "colored" });
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
 
   const navigate = useNavigate();
   const { storeId, menuId } = useParams();

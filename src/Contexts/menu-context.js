@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { end } from "../utils/common";
 
 const MenuContext = createContext({
   entireMenus: null,
@@ -15,8 +16,6 @@ const MenuContext = createContext({
 });
 
 export const MenuContextProvider = (props) => {
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
-
   const [entireMenus, setEntireMenus] = useState([]);
   const [menus, setMenus] = useState(null);
   const [selectedMenu, setSelectedMenu] = useState(null);

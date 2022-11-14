@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { end, errMsg, successMsg } from "../utils/common";
 
 const UserContext = createContext({
   user: null,
@@ -17,10 +17,6 @@ const UserContext = createContext({
 
 export const UserContextProvider = (props) => {
   let navigate = useNavigate();
-  const errMsg = (text) => toast.error(text, { theme: "colored" });
-  const successMsg = (text) => toast.success(text, { theme: "colored" });
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
-
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState("");

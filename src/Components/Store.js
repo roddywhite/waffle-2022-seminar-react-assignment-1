@@ -1,7 +1,6 @@
-import { useState, useContext, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-import Header from "./Header";
 import Search from "./Search";
 import List from "./List";
 import HeaderStore from "./HeaderStore";

@@ -1,17 +1,13 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-
+import { end } from "../utils/common";
 import starEmpty from "../assets/starEmpty.svg";
 import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
-
 import "./StoreShortcut.css";
-import UserContext from "../Contexts/user-context";
-import MenuContext from "../Contexts/menu-context";
 
 const StoreShortcut = ({ storeId, storeName, ownerName, storeDesc }) => {
   const [rating, setRating] = useState(0);
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
   const storeRatingCalculator = () => {
     let sum = 0;
     let count = 0;

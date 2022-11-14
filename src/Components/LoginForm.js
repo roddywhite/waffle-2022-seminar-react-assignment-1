@@ -1,17 +1,13 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import UserContext from "../Contexts/user-context";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { errMsg, successMsg } from "../utils/common";
 
 import Header from "./Header";
 import "./LoginForm.css";
 
 const LoginForm = () => {
   const userCtx = useContext(UserContext);
-  const errMsg = (text) => toast.error(text, { theme: "colored" });
-  const successMsg = (text) => toast.success(text, { theme: "colored" });
-
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState("");
 

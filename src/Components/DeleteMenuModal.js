@@ -1,8 +1,9 @@
 import "./DeleteMenuModal.css";
 import { useEffect, useState, useRef, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+
+import { end, errMsg, successMsg } from "../utils/common";
 import ModalContext from "../Contexts/modal-context";
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
@@ -13,9 +14,6 @@ const DeleteMenuModal = ({ menuId }) => {
   const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
   const { authAxios } = userCtx;
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
-  const errMsg = (text) => toast.error(text, { theme: "colored" });
-  const successMsg = (text) => toast.success(text, { theme: "colored" });
 
   const submitHandler = async () => {
     console.log(menuId);

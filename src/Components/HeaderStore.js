@@ -1,21 +1,17 @@
-import "./HeaderStore.css";
-import logo from "../assets/logo.svg";
 
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { end, errMsg, successMsg } from "../utils/common";
+import "./HeaderStore.css";
+import logo from "../assets/logo.svg";
 import UserContext from "../Contexts/user-context";
 
 const HeaderStore = () => {
   const userCtx = useContext(UserContext);
   const { user, isLoggedIn, onLogout } = userCtx;
-
   const { storeId } = useParams();
-  const errMsg = (text) => toast.error(text, { theme: "colored" });
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
-
   const [storeName, setStoreName] = useState("");
   const [storeOwner, setStoreOwner] = useState("");
 

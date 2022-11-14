@@ -1,8 +1,8 @@
-import { useState, useContext, useRef } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { useState, useContext } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./AddReview.css";
+import { end, errMsg, successMsg } from "../utils/common";
 import starEmpty from "../assets/starEmpty.svg";
 import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
@@ -13,9 +13,6 @@ const AddReview = ({ menuId, fetchFirstReviews, noStop }) => {
   const [enteredRating, setEnteredRating] = useState(0);
   const userCtx = useContext(UserContext);
   const { authAxios } = userCtx;
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
-  const errMsg = (text) => toast.error(text, { theme: "colored" });
-  const successMsg = (text) => toast.success(text, { theme: "colored" });
 
   const submitHandler = () => {
     if (!userCtx.isLoggedIn) {

@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../Contexts/user-context";
 import { useNavigate, useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { end, errMsg, successMsg } from "../utils/common";
 
 import Header from "./Header";
 import "./Profile.css";
@@ -10,10 +10,6 @@ import "./Profile.css";
 const Profile = () => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
-  const errMsg = (text) => toast.error(text, { theme: "colored" });
-  const successMsg = (text) => toast.success(text, { theme: "colored" });
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
-
   const { ownerId } = useParams();
   const { authAxios } = userCtx;
   const my = userCtx?.user;

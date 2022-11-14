@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-
+import { end } from "../utils/common";
 import MenuContext from "../Contexts/menu-context";
 import "./SelectedView.css";
 import closeButton from "../assets/closeButton.svg";
@@ -9,7 +9,6 @@ import altImg from "../assets/logo.svg";
 
 const SelectedView = () => {
   const menuCtx = useContext(MenuContext);
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
   const { storeId } = useParams();
   const [menu, setMenu] = useState(menuCtx.selectedMenu);
 

@@ -1,19 +1,14 @@
 import { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import MenuContext from "../Contexts/menu-context";
+import { end } from "../utils/common";
 import SearchContext from "../Contexts/search-context";
-
 import Item from "./Item";
-
 import "./Table.css";
 
 const Table = () => {
-  const menuCtx = useContext(MenuContext);
   const searchCtx = useContext(SearchContext);
   const { storeId } = useParams();
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
-
   const [menus, setMenus] = useState([]);
 
   useEffect(() => {

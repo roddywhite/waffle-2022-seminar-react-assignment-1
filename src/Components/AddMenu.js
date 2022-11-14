@@ -1,14 +1,13 @@
 import "./AddMenu.css";
 import "./AddButton";
 import { useState, useEffect, useContext } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
 import { useNavigate, useParams } from "react-router-dom";
 
-import Header from "./Header";
+import { end, errMsg, successMsg } from "../utils/common";
 import HeaderStore from "./HeaderStore";
 
 const AddMenu = () => {
@@ -16,9 +15,6 @@ const AddMenu = () => {
   const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
   const { authAxios } = userCtx;
-  const errMsg = (text) => toast.error(text, { theme: "colored" });
-  const successMsg = (text) => toast.success(text, { theme: "colored" });
-  const end = "https://ah9mefqs2f.execute-api.ap-northeast-2.amazonaws.com";
 
   // 이름, 종류, 이미지url, 설명 State 만들기
   const [enteredTitle, setEnteredTitle] = useState("");
