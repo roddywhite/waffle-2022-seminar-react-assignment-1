@@ -6,6 +6,13 @@
   position: relative;
 }
 
+.editBigContainer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+  }
+
 .hidden {
   display: none;
 }
@@ -16,15 +23,11 @@
   flex-direction: column;
 
   width: 600px;
-  height: 60vh;
-  max-height: 550px;
+  height: 550px;
+  margin-top: 10%;
 
   border: 1px solid black;
   border-radius: 15px;
-
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 
   overflow: auto;
 }
@@ -81,6 +84,7 @@
   margin-left: 25px;
   margin-bottom: 40px;
   overflow: auto;
+  resize: none;
 }
 
 .editContainer .buttonCon {

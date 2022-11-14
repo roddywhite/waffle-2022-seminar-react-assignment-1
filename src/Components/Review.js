@@ -47,6 +47,7 @@ const Review = ({
       .then((res) => {
         setMouseOver(false);
         setEditMode(false);
+        fetchReviewData();
         fetchFirstReviews();
         noStop();
         successMsg("리뷰가 수정되었습니다");

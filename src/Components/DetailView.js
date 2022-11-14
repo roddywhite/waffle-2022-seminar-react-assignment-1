@@ -227,6 +227,7 @@ const DetailView = () => {
               </div>
               <AddReview
                 menuId={menuId}
+                fetchReviewData={fetchReviewData}
                 fetchFirstReviews={fetchFirstReviews}
                 noStop={noStop}
               />

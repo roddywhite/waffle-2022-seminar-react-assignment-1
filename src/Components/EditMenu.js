@@ -108,7 +108,7 @@ const EditMenu = () => {
         <>
           <HeaderStore />
           <div
-            className={userCtx.user?.id === Number(storeId) ? "full" : "hidden"}
+            className={userCtx.user?.id === Number(storeId) ? "editBigContainer" : "hidden"}
           >
             <div className="editContainer">
               <h3 className="title">메뉴 수정</h3>
@@ -149,7 +149,7 @@ const EditMenu = () => {
               />
 
               <label className="inputLabel">설명</label>
-              <input
+              <textarea
                 className="inputBoxDesc"
                 type="text"
                 placeholder="상품에 대한 자세한 설명을 입력해주세요"

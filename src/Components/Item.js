@@ -59,6 +59,9 @@ const Item = ({ menu, menus }) => {
             );
           })}
         </div>
+        <span className="ratingFig">
+          {rating ? (Math.round(rating * 10) / 10).toFixed(1) : "0.0"}
+        </span>
       </article>
     </div>
   );

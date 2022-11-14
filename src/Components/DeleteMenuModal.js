@@ -16,18 +16,16 @@ const DeleteMenuModal = ({ menuId }) => {
   const { authAxios } = userCtx;
 
   const submitHandler = async () => {
-    console.log(menuId);
-    console.log(typeof menuId);
     authAxios
       .delete(`${end}/menus/${menuId}`)
       .then((res) => {
         menuCtx.fetchEntireMenus();
-        modalCtx.onCloseDeleteMenu();
-        menuCtx.selectResetHandler();
         successMsg("메뉴가 삭제되었습니다");
+        modalCtx.onCloseDeleteMenu();
         navigate(-1);
       })
       .catch((res) => {
+        console.log(res);
         errMsg(res.response.data.message);
         modalCtx.onCloseDeleteMenu();
       });
