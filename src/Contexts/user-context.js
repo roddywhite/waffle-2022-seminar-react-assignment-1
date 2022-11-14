@@ -12,6 +12,7 @@ const UserContext = createContext({
   authAxios: () => {},
   onLogin: (userId, userPassword) => {},
   onLogout: () => {},
+  refreshHandler: () => {},
   fetchMyProfile: () => {},
 });
 
@@ -59,6 +60,22 @@ export const UserContextProvider = (props) => {
       });
   };
 
+  const refreshHandler = () => {
+    axios
+      .post(`${end}/auth/refresh`, null, { withCredentials: true })
+      .then((res) => {
+        console.log(res.data.access_token);
+        setToken(res.data.access_token);
+        setIsLoggedIn(true);
+      }).catch((res)=>{
+        errMsg('로그인 해주세요');
+      });
+  };
+
+  useEffect(() => {
+    refreshHandler();
+  }, [token]);
+
   const fetchMyProfile = () => {
     try {
       authAxios.get(`${end}/owners/me`).then((res) => {
@@ -82,6 +99,7 @@ export const UserContextProvider = (props) => {
         authAxios: authAxios,
         onLogin: loginHandler,
         onLogout: logoutHandler,
+        onRefresh: refreshHandler,
         fetchMyProfile: fetchMyProfile,
       }}
     >
