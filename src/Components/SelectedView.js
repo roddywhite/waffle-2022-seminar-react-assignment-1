@@ -1,6 +1,7 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-
+import { useState, useContext, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
+import { end } from "../utils/common";
 import MenuContext from "../Contexts/menu-context";
 import "./SelectedView.css";
 import closeButton from "../assets/closeButton.svg";
@@ -8,28 +9,55 @@ import altImg from "../assets/logo.svg";
 
 const SelectedView = () => {
   const menuCtx = useContext(MenuContext);
+  const { storeId } = useParams();
+  const [menu, setMenu] = useState(menuCtx.selectedMenu);
+
+  // 최신 정보로 업데이트
+  useEffect(() => {
+    axios
+      .get(`${end}/menus/${menuCtx.selectedMenu.id}`)
+      .then((res) => {
+        setMenu(res.data);
+      })
+      .catch((res) => {
+        menuCtx.onSelectMenu(null);
+      });
+  }, [menuCtx.selectedMenu]);
+
   return (
-    <div className="selectedView">
-      <img
-        className="closeButton"
-        onClick={() => menuCtx.onSelectMenu(menuCtx.selectedMenu)}
-        src={closeButton}
-        alt="닫기"
-      />
-      <img
-        className="menuImg"
-        src={menuCtx.selectedMenu.image}
-        onError={(e) => (e.target.src = altImg)}
-      />
-      <h3>{menuCtx.selectedMenu.name}</h3>
-      <span>{menuCtx.selectedMenu.type}</span>
-      <span>{menuCtx.selectedMenu.price.toLocaleString()}원</span>
-      <div className="detailButtonContainer">
-        <Link to={`/menus/${menuCtx.selectedMenu.id}`}>
-          <button className="detailButton">자세히</button>
-        </Link>
-      </div>
-    </div>
+    <>
+      {menuCtx.selectedMenu && (
+        <div className="selectedView">
+          <img
+            className="closeButton"
+            onClick={() => menuCtx.onSelectMenu(menu)}
+            src={closeButton}
+            alt="닫기"
+          />
+          <img
+            className="menuImg"
+            src={menu.image}
+            onError={(e) => (e.target.src = altImg)}
+          />
+          <h3>{menu.name}</h3>
+          <span>
+            {menu.type === "waffle"
+              ? "와플"
+              : menu.type === "beverage"
+              ? "음료"
+              : menu.type === "coffee"
+              ? "커피"
+              : ""}
+          </span>
+          <span>{menu.price.toLocaleString()}원</span>
+          <div className="detailButtonContainer">
+            <Link to={`/stores/${storeId}/menus/${menu.id}`}>
+              <button className="detailButton">자세히</button>
+            </Link>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

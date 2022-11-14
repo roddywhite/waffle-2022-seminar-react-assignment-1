@@ -1,26 +1,26 @@
 import { useContext } from "react";
 import SearchContext from "../Contexts/search-context";
-import "./Search.css";
+import "./SearchStore.css";
 import searchImg from "../assets/search.png";
 import xButton from "../assets/closeButton.svg";
 
 const Search = () => {
   const searchCtx = useContext(SearchContext);
   return (
-    <div className="search">
+    <div className="search-store">
       <label>
-        이름 검색:
+        가게 검색:
         <input
           className="searchBox"
           type="text"
-          value={searchCtx.enteredMenu}
-          onChange={(e) => searchCtx.onSearchMenu(e)}
+          value={searchCtx.enteredStore}
+          onChange={(e) => searchCtx.onSearchStore(e)}
           placeholder="검색어 입력"
         />
       </label>
       <div className="buttonBox">
-        {searchCtx.enteredMenu && (
-          <img src={xButton} onClick={searchCtx.resetEnteredMenu} />
+        {searchCtx.enteredStore && (
+          <img src={xButton} onClick={searchCtx.resetEnteredStore} />
         )}
         <img className="searchImg" src={searchImg} />
       </div>

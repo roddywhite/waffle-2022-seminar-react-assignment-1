@@ -1,26 +1,35 @@
 .full {
+  display: flex;
   left: 0;
   top: 0;
   width: 100vw;
   height: 80vh;
   position: relative;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.addBigContainer {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
 }
 
 .addContainer {
   position: relative;
   display: flex;
   flex-direction: column;
-
   width: 600px;
-  height: 60vh;
-  max-height: 600px;
-
+  height: 600px;
+  margin-top: 10%;
   border: 1px solid black;
   border-radius: 15px;
 
-  top: 50%;
+  /* top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
 
   overflow: auto;
 }
@@ -54,7 +63,7 @@
 }
 
 .addContainer .inputLabel {
-  width: 75px;
+  width: 100px;
   height: 25px;
   float: left;
   display: flex;
@@ -85,6 +94,7 @@
   margin-bottom: 30px;
   overflow: auto;
   vertical-align: top;
+  resize: none;
 }
 
 .addContainer .buttonCon {

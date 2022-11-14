@@ -6,40 +6,37 @@
   position: relative;
 }
 
-.editBigContainer {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    justify-content: center;
-  }
-
-.hidden {
-  display: none;
-}
-
-.editContainer {
+.profileCon {
   position: relative;
   display: flex;
   flex-direction: column;
 
   width: 600px;
-  height: 550px;
-  margin-top: 10%;
+  height: 40vh;
+  max-height: 600px;
 
   border: 1px solid black;
   border-radius: 15px;
 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   overflow: auto;
 }
 
-.editContainer .title {
+.profileCon textarea {
+  resize: none;
+}
+
+.profileCon .title {
   width: 323px;
   height: 30px;
   text-align: left;
   margin-left: 20px;
 }
 
-.editContainer .fixedCon {
+.profileCon .fixedCon {
   width: 80%;
   height: 45px;
   margin-left: 25px;
@@ -47,11 +44,11 @@
   justify-content: center;
 }
 
-.editContainer .fixed {
+.profileCon .fixed {
   margin-left: 80px;
 }
 
-.editContainer .label {
+.profileCon .label {
   width: 75px;
   height: 18px;
   float: left;
@@ -60,8 +57,8 @@
   font-weight: 600;
 }
 
-.editContainer .inputLabel {
-  width: 75px;
+.profileCon .inputLabel {
+  width: 100px;
   height: 25px;
   float: left;
   display: flex;
@@ -71,31 +68,37 @@
   font-weight: 600;
 }
 
-.editContainer .inputBox {
+.profileCon .inputBox {
   width: 90%;
   height: 20px;
   margin-left: 25px;
   margin-bottom: 25px;
 }
 
-.editContainer .inputBoxDesc {
+.profileCon .dropdown {
+  width: 91%;
+  height: 25px;
+  margin-left: 25px;
+  margin-bottom: 25px;
+}
+
+.profileCon .inputBoxDesc {
   width: 90%;
   height: 70px;
   margin-left: 25px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   overflow: auto;
-  resize: none;
+  vertical-align: top;
 }
 
-.editContainer .buttonCon {
+.profileCon .buttonCon {
   display: flex;
   position: relative;
   align-self: center;
-  justify-content: center;
   margin-bottom: 20px;
 }
 
-.editContainer .greenButton {
+.profileCon .greenButton {
   border: 1px solid #8a8a8a;
   border-radius: 5px;
   background: #d3ffc4;
@@ -106,7 +109,7 @@
   margin-right: 7px;
 }
 
-.editContainer .button {
+.profileCon .button {
   border: 1px solid #8a8a8a;
   border-radius: 5px;
 

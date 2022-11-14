@@ -1,19 +1,32 @@
 import "./EditMenu.css";
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { end, errMsg, successMsg } from "../utils/common";
+
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
 
-import Header from "./Header";
 import NotFound from "./NotFound";
+import axios from "axios";
+import HeaderStore from "./HeaderStore";
 
 const EditMenu = () => {
   const navigate = useNavigate();
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
+  const { authAxios } = userCtx;
+  const { storeId, menuId } = useParams();
+  const [menu, setMenu] = useState(
+    menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId))
+  );
 
-  const { menuId } = useParams();
-  const menu = menuCtx.findMenuById(Number(menuId));
+  // 메뉴 최신정보 불러오기
+  useEffect(() => {
+    axios.get(`${end}/menus/${menuId}`).then((res) => {
+      setMenu(res.data);
+    });
+  }, []);
 
   // 이미지url, 설명 State 만들기
   const [enteredUrl, setEnteredUrl] = useState(menu?.image);
@@ -46,22 +59,26 @@ const EditMenu = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (enteredPrice === "") {
-      window.alert("가격을 입력해주세요.");
+      errMsg("가격을 입력해주세요.");
     } else if (enteredNum.slice(-1) !== "0") {
-      window.alert("가격은 10원 단위로만 입력해주세요.");
+      errMsg("가격은 10원 단위로만 입력해주세요.");
     } else {
       const editedMenu = {
-        id: menu?.id,
-        name: menu?.name,
-        type: menu?.type,
         price: enteredPrice,
         image: enteredUrl,
         description: enteredDesc,
       };
 
-      menuCtx.onEditMenu(editedMenu);
-      resetEntered();
-      navigate(-1);
+      authAxios
+        .patch(`${end}/menus/${menuId}`, editedMenu)
+        .then((res) => {
+          resetEntered();
+          navigate(-1);
+          successMsg("메뉴가 수정되었습니다");
+        })
+        .catch((res) => {
+          errMsg(res.response.data.message);
+        });
     }
   };
 
@@ -73,18 +90,26 @@ const EditMenu = () => {
   // 로그인 하지 않고 접근했을 때
   useEffect(() => {
     if (!userCtx.isLoggedIn) {
-      window.alert("로그인 해주세요");
-      navigate(-1);
+      errMsg("로그인 해주세요");
+      setTimeout(() => navigate(-1), 3000);
+    } else if (userCtx.user?.id !== Number(storeId)) {
+      errMsg("접근 권한이 없습니다");
+      setTimeout(() => navigate(-1), 3000);
     }
-  });
+  }, []);
+
+  // 내 소유가 아닌 스토어의 메뉴에 접근했을 때
+  // storeId !== userId
 
   return (
     <>
       {!menu && <NotFound />}
       {menu && (
         <>
-          <Header />
-          <div className="full">
+          <HeaderStore />
+          <div
+            className={userCtx.user?.id === Number(storeId) ? "editBigContainer" : "hidden"}
+          >
             <div className="editContainer">
               <h3 className="title">메뉴 수정</h3>
               <div className="fixedCon">
@@ -93,7 +118,15 @@ const EditMenu = () => {
               </div>
               <div className="fixedCon">
                 <label className="label">종류</label>
-                <a className="fixed">{menu.type}</a>
+                <a className="fixed">
+                  {menu.type === "waffle"
+                    ? "와플"
+                    : menu.type === "beverage"
+                    ? "음료"
+                    : menu.type === "coffee"
+                    ? "커피"
+                    : ""}
+                </a>
               </div>
 
               <label className="inputLabel">가격</label>
@@ -116,7 +149,7 @@ const EditMenu = () => {
               />
 
               <label className="inputLabel">설명</label>
-              <input
+              <textarea
                 className="inputBoxDesc"
                 type="text"
                 placeholder="상품에 대한 자세한 설명을 입력해주세요"

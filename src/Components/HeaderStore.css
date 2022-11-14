@@ -18,10 +18,43 @@
   padding: 0.5rem 1rem;
 }
 
-.title {
+.titleContainer {
   padding: 0.5rem 0.4rem;
   text-decoration: none;
-  color: black;
+  display: flex;
+  flex-direction: column;
+}
+
+.titleContainer .menuManage {
+  height: 30%;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.titleContainer .store {
+  position: relative;
+  height: 70%;
+  display: flex;
+  flex-direction: row;
+}
+
+.titleContainer .store .storeName {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.titleContainer .store .owner {
+  position: relative;
+  vertical-align: baseline;
+}
+
+.titleContainer .store .owner .ownerName {
+  position: absolute;
+  width: 140px;
+  color: gray;
+  font-size: 14px;
+  margin-left: 10px;
+  bottom: 4px;
 }
 
 .header .login {

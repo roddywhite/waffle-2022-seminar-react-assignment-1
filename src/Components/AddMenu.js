@@ -1,16 +1,20 @@
 import "./AddMenu.css";
 import "./AddButton";
 import { useState, useEffect, useContext } from "react";
+import "react-toastify/dist/ReactToastify.css";
+
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import Header from "./Header";
+import { end, errMsg, successMsg } from "../utils/common";
+import HeaderStore from "./HeaderStore";
 
 const AddMenu = () => {
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
+  const { authAxios } = userCtx;
 
   // 이름, 종류, 이미지url, 설명 State 만들기
   const [enteredTitle, setEnteredTitle] = useState("");
@@ -21,7 +25,7 @@ const AddMenu = () => {
   // 한글만 입력받도록
   const titleChangeHandler = (e) => {
     const regex = /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
-    if (regex.test(e.target.value)) window.alert("한글만 입력해주세요");
+    if (regex.test(e.target.value)) errMsg("한글만 입력해주세요");
     const koreanOnly = e.target.value.replace(
       /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,
       ""
@@ -39,11 +43,6 @@ const AddMenu = () => {
     setEnteredNum(removedCommaValue.toLocaleString());
   };
 
-  const isNameExist = (enteredTitle) => {
-    const menusNameArr = menuCtx.menus.map((menu) => menu.name);
-    return menusNameArr.includes(enteredTitle);
-  };
-
   // 취소할 때 입력값 초기화
   const resetEntered = () => {
     setEnteredTitle("");
@@ -54,31 +53,33 @@ const AddMenu = () => {
     setEnteredDesc("");
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (enteredTitle === "") {
-      window.alert("메뉴명을 입력해주세요.");
-    } else if (isNameExist(enteredTitle)) {
-      window.alert("해당 메뉴명이 이미 존재합니다.");
+      errMsg("메뉴명을 입력해주세요.");
     } else if (enteredPrice === "") {
-      window.alert("가격을 입력해주세요.");
+      errMsg("가격을 입력해주세요.");
     } else if (enteredNum.slice(-1) !== "0") {
-      window.alert("가격은 10원 단위로만 입력해주세요.");
+      errMsg("가격은 10원 단위로만 입력해주세요.");
     } else if (enteredType === "") {
-      window.alert("종류를 지정해주세요");
+      errMsg("종류를 지정해주세요");
     } else {
-      const newMenu = {
-        id: 0,
-        name: enteredTitle,
-        type: enteredType,
-        price: enteredPrice,
-        image: enteredUrl,
-        description: enteredDesc,
-      };
-
-      menuCtx.onAddMenu(newMenu);
-      resetEntered();
-      navigate(-1);
+      authAxios
+        .post(`${end}/menus`, {
+          name: enteredTitle,
+          type: enteredType,
+          price: enteredPrice,
+          image: enteredUrl,
+          description: enteredDesc,
+        })
+        .then((res) => {
+          resetEntered();
+          navigate(-1);
+          menuCtx.onSelectMenu(res.data.data)
+        })
+        .catch((res) => {
+          errMsg(res.response.data.message);
+        });
     }
   };
 
@@ -90,15 +91,15 @@ const AddMenu = () => {
   // 로그인 하지 않고 접근했을 때
   useEffect(() => {
     if (!userCtx.isLoggedIn) {
-      window.alert("로그인 해주세요");
+      errMsg("로그인 해주세요");
       navigate(-1);
     }
   });
 
   return (
     <>
-      <Header />
-      <div className="full">
+      <HeaderStore />
+      <div className="addBigContainer">
         <div className="addContainer">
           <h3 className="title">새 메뉴 추가</h3>
 
@@ -120,9 +121,9 @@ const AddMenu = () => {
             onChange={(e) => setEnteredType(e.target.value)}
           >
             <option value="">상품의 종류를 선택하세요</option>
-            <option value="와플">와플</option>
-            <option value="음료">음료</option>
-            <option value="커피">커피</option>
+            <option value="waffle">와플</option>
+            <option value="beverage">음료</option>
+            <option value="coffee">커피</option>
           </select>
 
           <label className="inputLabel">가격</label>
@@ -145,7 +146,7 @@ const AddMenu = () => {
           />
 
           <label className="inputLabel">설명</label>
-          <input
+          <textarea
             className="inputBoxDesc"
             type="text"
             placeholder="상품에 대한 자세한 설명을 입력해주세요"

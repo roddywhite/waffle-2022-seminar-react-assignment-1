@@ -1,22 +1,32 @@
 import { createContext, useState } from "react";
 
 const ModalContext = createContext({
-  deleteModalOpened: false,
-  onOpenDeleteModal: () => {},
-  onCloseDeleteModal: () => {},
+  deleteMenuOpened: false,
+  onOpenDeleteMenu: () => {},
+  onCloseDeleteMenu: () => {},
+  deleteReviewOpened: false,
+  onOpenDeleteReview: ()=>{},
+  onCloseDeleteReview: ()=>{}
 });
 
 export const ModalContextProvider = (props) => {
-  const [deleteModalOpened, setDeleteModalOpened] = useState(false);
-  const openDeleteModal = () => setDeleteModalOpened(true);
-  const closeDeleteModal = () => setDeleteModalOpened(false);
+  const [deleteMenuOpened, setDeleteMenuOpened] = useState(false);
+  const openDeleteMenu = () => setDeleteMenuOpened(true);
+  const closeDeleteMenu = () => setDeleteMenuOpened(false);
+
+  const [deleteReviewOpened, setDeleteReviewOpened] = useState(false);
+  const openDeleteReview = () => setDeleteReviewOpened(true);
+  const closeDeleteReview = () => setDeleteReviewOpened(false);
 
   return (
     <ModalContext.Provider
       value={{
-        deleteModalOpened: deleteModalOpened,
-        onOpenDeleteModal: openDeleteModal,
-        onCloseDeleteModal: closeDeleteModal,
+        deleteMenuOpened: deleteMenuOpened,
+        onOpenDeleteMenu: openDeleteMenu,
+        onCloseDeleteMenu: closeDeleteMenu,
+        deleteReviewOpened: deleteReviewOpened,
+        onOpenDeleteReview: openDeleteReview,
+        onCloseDeleteReview: closeDeleteReview,
       }}
     >
       {props.children}

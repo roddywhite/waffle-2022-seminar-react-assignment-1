@@ -1,0 +1,98 @@
+.addReviewSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-self: center;
+}
+
+.addReviewSection .starBox {
+  display: inline-block;
+  width: 100px;
+  height: 20px;
+  margin-left: 3.5%;
+  margin-top: 10px;
+}
+
+.addReviewSection .star {
+  width: 20px;
+}
+
+/* .starBox:hover .star {
+  content: url(../assets/starFull.svg);
+}
+
+.addReviewSection .star:hover ~ .star{
+  content: url(../assets/starEmpty.svg);
+}
+
+.starBox:active .star {
+  content: url(../assets/starFull.svg);
+}
+
+.addReviewSection .star:active ~ .star{
+  content: url(../assets/starEmpty.svg);
+} */
+
+.addReviewSection .addReviewContainer {
+  position: relative;
+  align-items: baseline;
+  align-self: center;
+  margin-top: 10px;
+  border-radius: 10px;
+  width: 90%;
+  min-height: 70px;
+  padding-left: 2%;
+  padding-top: 4px;
+  border: 1px solid black;
+  resize: none;
+}
+
+.addReviewSection textarea:focus {
+  outline: none;
+}
+
+.addReviewSection .greenBtn {
+  position: relative;
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+  background: #d3ffc4;
+  width: 45px;
+  height: 30px;
+  margin-top: 10px;
+  font-weight: 600;
+  margin-right: 4%;
+  align-self:flex-end;
+}
+
+.btnCon {
+  position: relative;
+  display: flex;
+  align-self:flex-end;
+  margin-right: 4%;
+  margin-bottom: 6px;
+}
+
+.btnCon .greenBtn {
+  position: relative;
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+  background: #d3ffc4;
+  width: 45px;
+  height: 30px;
+  margin-top: 10px;
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.cancelBtn {
+  position: relative;
+  border: 1px solid #8a8a8a;
+  border-radius: 5px;
+  background: white;
+  width: 45px;
+  height: 30px;
+  margin-top: 10px;
+  margin-right: 3.5%;
+  font-weight: 600;
+}

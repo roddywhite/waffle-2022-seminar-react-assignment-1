@@ -1,14 +1,13 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import UserContext from "../Contexts/user-context";
+import "react-toastify/dist/ReactToastify.css";
+import { errMsg, successMsg } from "../utils/common";
 
 import Header from "./Header";
 import "./LoginForm.css";
 
 const LoginForm = () => {
   const userCtx = useContext(UserContext);
-  let navigate = useNavigate();
-
   const [userId, setUserId] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
@@ -16,10 +15,9 @@ const LoginForm = () => {
     e.preventDefault();
 
     if (userId && userPassword) {
-      userCtx.onLogin(userId);
-      navigate(-1);
+      userCtx.onLogin(userId, userPassword);
     } else {
-      alert("아이디 혹은 패스워드를 확인하세요");
+      errMsg("아이디 혹은 패스워드를 확인하세요");
       setUserId("");
       setUserPassword("");
     }
@@ -48,7 +46,7 @@ const LoginForm = () => {
                 value={userPassword}
                 onChange={(e) => setUserPassword(e.target.value)}
                 placeholder="블루베리스무디"
-                type='password'
+                type="password"
               />
             </div>
           </div>

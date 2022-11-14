@@ -1,20 +1,43 @@
 import { createContext, useState } from "react";
 
 const SearchContext = createContext({
-  enteredSearch: "",
-  onSearch: () => {},
+  enteredStore: "",
+  onSearchStore: () => {},
+  resetEnteredStore: () => {},
+  enteredMenu: "",
+  onSearchMenu: () => {},
+  resetEnteredMenu: () => {},
 });
 
 export const SearchContextProvider = (props) => {
-  const [enteredSearch, setEnteredSearch] = useState("");
+  const [enteredStore, setEnteredStore] = useState("");
+  const [enteredMenu, setEnteredMenu] = useState("");
 
-  const searchHandler = (e) => {
-    setEnteredSearch(e.target.value);
+  const searchStoreHandler = (e) => {
+    setEnteredStore(e.target.value);
   };
+  const searchMenuHandler = (e) => {
+    setEnteredMenu(e.target.value);
+  };
+
+  const resetEnteredStore = () => {
+    setEnteredStore('');
+  }
+
+  const resetEnteredMenu = () => {
+    setEnteredMenu('');
+  }
 
   return (
     <SearchContext.Provider
-      value={{ enteredSearch: enteredSearch, onSearch: searchHandler }}
+      value={{
+        enteredStore: enteredStore,
+        onSearchStore: searchStoreHandler,
+        resetEnteredStore: resetEnteredStore,
+        enteredMenu: enteredMenu,
+        onSearchMenu: searchMenuHandler,
+        resetEnteredMenu: resetEnteredMenu,
+      }}
     >
       {props.children}
     </SearchContext.Provider>

@@ -1,79 +1,96 @@
 import { createContext, useEffect, useState } from "react";
-import data from "../assets/data.json";
+import axios from "axios";
+import { end } from "../utils/common";
 
 const MenuContext = createContext({
+  entireMenus: null,
   menus: null,
-  nowId: 0,
   selectedMenu: null,
-  onAddMenu: () => {},
-  onEditMenu: () => {},
-  onDeleteMenu: () => {},
+  storeRatingCalculator: () => {},
+  fetchEntireMenus: () => {},
+  fetchMenuData: () => {},
+  fetchMenuById: () => {},
   onSelectMenu: () => {},
+  selectResetHandler: () => {},
   findMenuById: () => {},
 });
 
 export const MenuContextProvider = (props) => {
-  // data 파일에서 type이 영어로 나와있는 것들을 한글로 변경
-  const korData = [...data];
-  for (let i = 0; i < korData.length; i++) {
-    if (korData[i].type === "waffle") {
-      korData[i].type = "와플";
-    } else if (korData[i].type === "beverage") {
-      korData[i].type = "음료";
-    } else if (korData[i].type === "coffee") {
-      korData[i].type = "커피";
-    }
-  }
-
-  const [menus, setMenus] = useState(korData);
-  const [nowId, setNowId] = useState(data.length + 1);
+  const [entireMenus, setEntireMenus] = useState([]);
+  const [menus, setMenus] = useState(null);
   const [selectedMenu, setSelectedMenu] = useState(null);
 
-  const addMenuHandler = (newMenu) => {
-    setNowId(nowId + 1);
-    let tmpMenu = { ...newMenu, id: nowId };
-    setMenus([...menus, tmpMenu]);
-    setSelectedMenu(tmpMenu);
+  const fetchMenuById = (menuId) => {
+    axios.get(`${end}/menus/${menuId}`).then((res) => {
+      return res.data;
+    });
   };
 
-  const editMenuHandler = (editedMenu) => {
-    const editedMenus = [...menus];
-    const menuIdx = editedMenus.findIndex((menu) => menu.id === editedMenu.id);
-    editedMenus[menuIdx].price = editedMenu.price;
-    editedMenus[menuIdx].image = editedMenu.image;
-    editedMenus[menuIdx].description = editedMenu.description;
+  // 전체메뉴
+  const fetchEntireMenus = () => {
+    axios.get(`${end}/menus/`).then((res) => {
+      setEntireMenus(res.data.data);
+    });
+  };
+  useEffect(() => fetchEntireMenus(), []);
 
-    setMenus(editedMenus);
-    setSelectedMenu(editedMenu);
+  // storeId로 메뉴
+  const fetchMenuData = (storeId) => {
+    axios.get(`${end}/menus/?owner=${storeId}`).then((res) => {
+      setMenus(res.data.data.reverse());
+    });
   };
 
-  const deleteMenuHandler = () => {
-    setMenus(menus.filter((menu) => selectedMenu.id !== menu.id));
-    setSelectedMenu(null);
+  // 스토어 평점 평균 계산
+  const storeRatingCalculator = async (storeId) => {
+    let sum = 0;
+    let count = 0;
+    let menuList = [];
+    let reviewList = [];
+    axios.get(`${end}/menus/?owner=${storeId}`).then((res) => {
+      menuList = res.data.data;
+    });
+    menuList.forEach((m) => {
+      axios.get(`${end}/reviews/?menu=${m?.id}`).then((res) => {
+        reviewList = res.data.data;
+      });
+      reviewList.forEach((r) => {
+        sum += r?.rating;
+        count += 1;
+      });
+    });
+    return sum / count;
   };
 
   const selectMenuHandler = (menu) => {
-    const isSelectedMenu = selectedMenu && menu.id === selectedMenu.id;
+    const isSelectedMenu = selectedMenu && menu?.id === selectedMenu?.id;
     setSelectedMenu(() => (isSelectedMenu ? null : menu));
   };
 
+  // 스토어 페이지 벗어나면 선택 리셋 시켜주기 위해서
+  const selectResetHandler = () => {
+    setSelectedMenu(null);
+  };
+
   // id로 특정 메뉴 object 찾아서 반환
-  const findMenuById = (id) => {
-    for (let i = 0; i < menus.length; i++) {
-      if (menus[i].id === id) return menus[i];
+  const findMenuById = (menuList, id) => {
+    for (let i = 0; i < menuList.length; i++) {
+      if (menuList[i].id === id) return menuList[i];
     }
   };
 
   return (
     <MenuContext.Provider
       value={{
+        entireMenus: entireMenus,
         menus: menus,
-        nowId: nowId,
         selectedMenu: selectedMenu,
-        onAddMenu: addMenuHandler,
-        onEditMenu: editMenuHandler,
-        onDeleteMenu: deleteMenuHandler,
+        storeRatingCalculator: storeRatingCalculator,
+        fetchEntireMenus: fetchEntireMenus,
+        fetchMenuData: fetchMenuData,
+        fetchMenuById: fetchMenuById,
         onSelectMenu: selectMenuHandler,
+        onSelectReset: selectResetHandler,
         findMenuById: findMenuById,
       }}
     >
