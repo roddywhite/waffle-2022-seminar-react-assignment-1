@@ -22,7 +22,7 @@ const Review = ({
   content,
   createdAt,
   rating,
-  fetchReviewData,
+  fetchLatestData,
   fetchFirstReviews,
   noStop,
 }) => {
@@ -47,7 +47,6 @@ const Review = ({
       .then((res) => {
         setMouseOver(false);
         setEditMode(false);
-        fetchReviewData();
         fetchFirstReviews();
         noStop();
         successMsg("리뷰가 수정되었습니다");
@@ -62,10 +61,11 @@ const Review = ({
       {deleteMode && modalCtx.deleteReviewOpened && (
         <DeleteReviewModal
           reviewId={reviewId}
-          fetchReviewData={fetchReviewData}
+          fetchLatestData={fetchLatestData}
           fetchFirstReviews={fetchFirstReviews}
           deleteMode={deleteMode}
           setDeleteMode={setDeleteMode}
+          noStop={noStop}
         />
       )}
       {!editMode && (

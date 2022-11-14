@@ -8,11 +8,55 @@ import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 import UserContext from "../Contexts/user-context";
 
-const AddReview = ({ menuId, fetchReviewData, fetchFirstReviews, noStop }) => {
+const AddReview = ({
+  menuId,
+  fetchLatestData,
+  fetchFirstReviews,
+  noStop,
+  reviewContainer,
+}) => {
   const [enteredContent, setEnteredContent] = useState("");
   const [enteredRating, setEnteredRating] = useState(0);
   const userCtx = useContext(UserContext);
   const { authAxios } = userCtx;
+
+  const postReview = async () => {
+    const instance = await authAxios
+      .post(`${end}/reviews`, {
+        content: enteredContent,
+        rating: enteredRating,
+        menu: menuId,
+      })
+      .then((res) => {
+        fetchLatestData();
+        fetchFirstReviews();
+        noStop();
+        setEnteredContent("");
+        setEnteredRating(0);
+        successMsg("리뷰가 등록되었습니다");
+        reviewContainer.current.scrollTo({
+          left: 0,
+          top: 0,
+          behavior: "smooth",
+        });
+      })
+      .catch((res) => {
+        errMsg(res.response.data.message);
+      });
+
+    // 액세스 토큰 만료시 갱신
+    instance.interceptors.response.use(
+      (res) => {
+        return res;
+      },
+      (err) => {
+        if (err.response.status === 401) {
+          userCtx.onRefresh();
+          submitHandler();
+        }
+      }
+    );
+  };
 
   const submitHandler = () => {
     if (!userCtx.isLoggedIn) {
@@ -20,23 +64,7 @@ const AddReview = ({ menuId, fetchReviewData, fetchFirstReviews, noStop }) => {
     } else if (enteredRating < 1) {
       errMsg("별점을 체크해주세요");
     } else {
-      authAxios
-        .post(`${end}/reviews`, {
-          content: enteredContent,
-          rating: enteredRating,
-          menu: menuId,
-        })
-        .then((res) => {
-          fetchReviewData();
-          fetchFirstReviews();
-          noStop();
-          setEnteredContent("");
-          setEnteredRating(0);
-          successMsg("리뷰가 등록되었습니다");
-        })
-        .catch((res) => {
-          errMsg(res.response.data.message);
-        });
+      postReview();
     }
   };
 

@@ -8,10 +8,11 @@ import UserContext from "../Contexts/user-context";
 
 const DeleteReviewModal = ({
   reviewId,
-  fetchReviewData,
+  fetchLatestData,
   fetchFirstReviews,
   deleteMode,
   setDeleteMode,
+  noStop,
 }) => {
   const modalCtx = useContext(ModalContext);
   const userCtx = useContext(UserContext);
@@ -22,8 +23,9 @@ const DeleteReviewModal = ({
     authAxios
       .delete(`${end}/reviews/${reviewId}`)
       .then((res) => {
-        fetchReviewData();
+        fetchLatestData();
         fetchFirstReviews();
+        noStop();
         setDeleteMode(false);
         modalCtx.onCloseDeleteReview();
         successMsg("리뷰가 삭제되었습니다");

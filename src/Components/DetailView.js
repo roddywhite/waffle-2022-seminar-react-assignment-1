@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { end, errMsg, successMsg } from "../utils/common";
 import "./DetailView.css";
 
-import Header from "./Header";
 import NotFound from "./NotFound";
 import DeleteMenuModal from "./DeleteMenuModal";
 import Review from "./Review";
@@ -34,30 +33,34 @@ const DetailView = () => {
   const [menu, setMenu] = useState(
     menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId))
   );
-  // const [nextLoad, setNextLoad] = useState(null);
-  const nextLoad = useRef("");
   const [entireReviews, setEntireReviews] = useState(null);
   const [reviews, setReviews] = useState(null);
   const [menuRating, setMenuRating] = useState(0);
+  const nextLoad = useRef("");
+
+  const fetchLatestData = () => {
+    axios.get(`${end}/menus/${menuId}`).then((res) => {
+      setMenu(res.data);
+      setMenuRating(res.data.rating);
+    });
+  }
 
   // 메뉴 최신정보 불러오기
   useEffect(() => {
-    axios.get(`${end}/menus/${menuId}`).then((res) => {
-      setMenu(res.data);
-    });
+    fetchLatestData();
   }, []);
 
-  // 리뷰 데이터 가져오고 평균 별점 계산
-  const fetchReviewData = () => {
-    axios.get(`${end}/reviews/?menu=${menuId}`).then((res) => {
-      const reviewList = res.data.data;
-      setEntireReviews([...reviewList]);
-      let ratingSum = 0;
-      reviewList.forEach((x) => (ratingSum += x.rating));
-      setMenuRating((ratingSum / reviewList.length).toFixed(2));
-    });
-  };
-  useEffect(() => fetchReviewData(), []);
+  // // 리뷰 데이터 가져오고 평균 별점 계산
+  // const fetchReviewData = () => {
+  //   axios.get(`${end}/reviews/?menu=${menuId}`).then((res) => {
+  //     const reviewList = res.data.data;
+  //     setEntireReviews([...reviewList]);
+  //     let ratingSum = 0;
+  //     reviewList.forEach((x) => (ratingSum += x.rating));
+  //     setMenuRating((ratingSum / reviewList.length).toFixed(2));
+  //   });
+  // };
+  // useEffect(() => fetchReviewData(), []);
 
   const fetchFirstReviews = () => {
     axios.get(`${end}/reviews/?count=6&menu=${menuId}`).then((res) => {
@@ -83,11 +86,13 @@ const DetailView = () => {
 
   // 무한스크롤 구현
   const [target, setTarget] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const loader = useRef(null);
   const reviewContainer = useRef(null);
-  const [stopLoad, setStopLoad] = useState(false);
-  const noStop = () => setStopLoad(false);
+  const stopLoad = useRef(false);
+  // 리뷰 추가, 수정, 삭제시 다시 스크롤 내릴 수 있도록
+  const noStop = () => {
+    stopLoad.current = false;
+    nextLoad.current = "";
+  }
 
   const moreData = async () => {
     const res = await axios.get(
@@ -98,12 +103,12 @@ const DetailView = () => {
       setReviews((prev) => [...prev, ...reviewList]);
       nextLoad.current = res.data.next;
     } else {
-      setStopLoad(true);
+      stopLoad.current = true;
     }
   };
 
   const onIntersect = async ([entry], observer) => {
-    if (entry.isIntersecting && !stopLoad) {
+    if (entry.isIntersecting && !stopLoad.current) {
       observer.unobserve(target);
       await moreData();
       observer.observe(target);
@@ -112,7 +117,7 @@ const DetailView = () => {
 
   useEffect(() => {
     let observer;
-    if (target && !stopLoad) {
+    if (target && !stopLoad.current) {
       observer = new IntersectionObserver(onIntersect, {
         root: reviewContainer.current,
         threshold: 1,
@@ -120,7 +125,7 @@ const DetailView = () => {
       observer.observe(target);
     }
     return () => observer && observer.disconnect();
-  }, [target, reviews, stopLoad]);
+  }, [target, reviews, stopLoad.current]);
 
   return (
     <>
@@ -194,14 +199,14 @@ const DetailView = () => {
                     );
                   })}
                 </div>
-                <a>{reviews?.length ? menuRating : "0.00"}</a>
-                {reviews?.length ? (
+                <a>{reviews?.length ? menuRating.toFixed(2) : "0.00"}</a>
+                {/* {reviews?.length ? (
                   <span className="totalReviews">
                     총 {entireReviews?.length}개의 리뷰
                   </span>
                 ) : (
                   ""
-                )}
+                )} */}
               </div>
               <div className="reviewList" ref={reviewContainer}>
                 {reviews &&
@@ -214,7 +219,7 @@ const DetailView = () => {
                       content={review.content}
                       createdAt={review.created_at}
                       rating={review.rating}
-                      fetchReviewData={fetchReviewData}
+                      fetchLatestData={fetchLatestData}
                       fetchFirstReviews={fetchFirstReviews}
                       noStop={noStop}
                     />
@@ -227,9 +232,10 @@ const DetailView = () => {
               </div>
               <AddReview
                 menuId={menuId}
-                fetchReviewData={fetchReviewData}
+                fetchLatestData={fetchLatestData}
                 fetchFirstReviews={fetchFirstReviews}
                 noStop={noStop}
+                reviewContainer={reviewContainer}
               />
             </div>
           </div>
