@@ -16,11 +16,13 @@ const Item = ({ menu, menus }) => {
   const stars = [1, 2, 3, 4, 5];
 
   const fetchMenuRating = () => {
-    axios.get(`${end}/reviews/?menu=${menu.id}`).then((res) => {
-      const reviewList = res.data.data;
-      let sum = 0;
-      reviewList.forEach((x) => (sum += x.rating));
-      setRating(sum / reviewList.length);
+    axios.get(`${end}/menus/${menu.id}`).then((res) => {
+      console.log(res)
+      setRating(res.data.rating);
+      // const reviewList = res.data.data;
+      // let sum = 0;
+      // reviewList.forEach((x) => (sum += x.rating));
+      // setRating(sum / reviewList.length);
     });
   };
   useEffect(() => fetchMenuRating(), [menus]);

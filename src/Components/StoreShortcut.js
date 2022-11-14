@@ -15,6 +15,12 @@ const StoreShortcut = ({ storeId, storeName, ownerName, storeDesc }) => {
     let reviewList = [];
     axios.get(`${end}/menus/?owner=${storeId}`).then((res) => {
       menuList = res.data.data;
+      // console.log(res.data.data)
+      // menuList.forEach((m) => {
+      //   sum += m?.rating;
+      //   count += 1;
+      //   setRating((sum/count).toFixed(2))
+      // })
       menuList.forEach((m) => {
         axios.get(`${end}/reviews/?menu=${m?.id}`).then((res) => {
           reviewList = res.data.data;
