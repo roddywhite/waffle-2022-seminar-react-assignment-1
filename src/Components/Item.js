@@ -1,31 +1,15 @@
 import { useState, useContext, useEffect } from "react";
-import axios from "axios";
 import MenuContext from "../Contexts/menu-context";
 import "./Item.css";
-import { end } from "../utils/common";
 import starEmpty from "../assets/starEmpty.svg";
 import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 
-const Item = ({ menu, menus }) => {
+const Item = ({ menu }) => {
   const menuCtx = useContext(MenuContext);
   const isSelected =
     menuCtx.selectedMenu && menuCtx.selectedMenu.id === menu.id;
-
-  const [rating, setRating] = useState(0);
   const stars = [1, 2, 3, 4, 5];
-
-  const fetchMenuRating = () => {
-    axios.get(`${end}/menus/${menu.id}`).then((res) => {
-      console.log(res)
-      setRating(res.data.rating);
-      // const reviewList = res.data.data;
-      // let sum = 0;
-      // reviewList.forEach((x) => (sum += x.rating));
-      // setRating(sum / reviewList.length);
-    });
-  };
-  useEffect(() => fetchMenuRating(), [menus]);
 
   return (
     <div className="menuContainer">
@@ -51,9 +35,9 @@ const Item = ({ menu, menus }) => {
               <img
                 className="rating"
                 src={
-                  x <= rating / 2
+                  x <= menu.rating / 2
                     ? starFull
-                    : x < 1 + rating / 2
+                    : x < 1 + menu.rating / 2
                     ? starHalf
                     : starEmpty
                 }
@@ -62,7 +46,7 @@ const Item = ({ menu, menus }) => {
           })}
         </div>
         <span className="ratingFig">
-          {rating ? (Math.round(rating * 10) / 10).toFixed(1) : "0.0"}
+          {menu.rating ? (Math.round(menu.rating * 10) / 10).toFixed(1) : "0.0"}
         </span>
       </article>
     </div>
