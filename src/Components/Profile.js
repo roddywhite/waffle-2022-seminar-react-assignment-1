@@ -60,7 +60,7 @@ const Profile = () => {
   return (
     <>
       <Header />
-      <div className="full">
+      <div className="fullfull">
         <div className="profileCon">
           <h3 className="title">내 정보 수정</h3>
 
