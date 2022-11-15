@@ -8,30 +8,26 @@
   align-items: center;
   justify-content: center;
   margin-left: auto;
+  margin-top: auto;
 }
 
 .addBigContainer {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: row;
   align-content: center;
   justify-content: center;
 }
 
 .addContainer {
-  position: relative;
   display: flex;
   flex-direction: column;
   width: 600px;
   height: 600px;
-  margin-top: 10%;
+
   border: 1px solid black;
   border-radius: 15px;
-
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
-
-  overflow: auto;
+  margin-top: 12vh;
 }
 
 .addContainer .title {
