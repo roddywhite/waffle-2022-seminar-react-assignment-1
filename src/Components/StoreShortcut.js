@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { end } from "../utils/common";
+import { end, errMsg } from "../utils/common";
 import starEmpty from "../assets/starEmpty.svg";
 import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
@@ -8,32 +8,18 @@ import "./StoreShortcut.css";
 
 const StoreShortcut = ({ storeId, storeName, ownerName, storeDesc }) => {
   const [rating, setRating] = useState(0);
-  const storeRatingCalculator = () => {
-    let sum = 0;
-    let count = 0;
-    let menuList = [];
-    let reviewList = [];
-    axios.get(`${end}/menus/?owner=${storeId}`).then((res) => {
-      menuList = res.data.data;
-      // console.log(res.data.data)
-      // menuList.forEach((m) => {
-      //   sum += m?.rating;
-      //   count += 1;
-      //   setRating((sum/count).toFixed(2))
-      // })
-      menuList.forEach((m) => {
-        axios.get(`${end}/reviews/?menu=${m?.id}`).then((res) => {
-          reviewList = res.data.data;
-          reviewList.forEach((r) => {
-            sum += r?.rating;
-            count += 1;
-            setRating((sum / count).toFixed(2));
-          });
-        });
+
+  const getRating = () => {
+    axios
+      .get(`${end}/owners/${storeId}`)
+      .then((res) => {
+        setRating(res.data.owner.rating.toFixed(2));
+      })
+      .catch((res) => {
+        errMsg(res.response.data.message);
       });
-    });
   };
-  useEffect(() => storeRatingCalculator(), []);
+  useEffect(() => getRating(), []);
 
   return (
     <>
