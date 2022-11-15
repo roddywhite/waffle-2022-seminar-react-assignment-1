@@ -1,3 +1,13 @@
+.fullfull {
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 80vh;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
 .loginBox {
   position: relative;
   display: flex;
