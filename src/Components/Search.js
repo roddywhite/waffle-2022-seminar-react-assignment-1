@@ -52,7 +52,7 @@ const Search = () => {
             value={searchCtx.enteredRating}
             onChange={(e) => searchCtx.onFilterRating(e)}
           >
-            <option value="0">별점</option>
+            <option value="0">별점 최소</option>
             {["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((m) => (
               <option value={m}>{m}</option>
             ))}

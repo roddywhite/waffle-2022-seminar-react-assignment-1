@@ -35,9 +35,9 @@ const Item = ({ menu }) => {
               <img
                 className="rating"
                 src={
-                  x <= menu.rating / 2
+                  x <= Math.round(menu.rating) / 2
                     ? starFull
-                    : x < 1 + menu.rating / 2
+                    : x < 1 + Math.round(menu.rating) / 2
                     ? starHalf
                     : starEmpty
                 }
