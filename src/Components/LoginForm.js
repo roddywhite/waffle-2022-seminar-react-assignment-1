@@ -26,7 +26,7 @@ const LoginForm = () => {
   return (
     <>
       <Header />
-      <div className="full">
+      <div className="fullfull">
         <div className="loginBox">
           <a className="title">로그인</a>
           <div className="leftBox">
