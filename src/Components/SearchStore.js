@@ -18,12 +18,11 @@ const Search = () => {
           placeholder="검색어 입력"
         />
       </label>
-      <div className="buttonBox">
-        {searchCtx.enteredStore && (
-          <img src={xButton} onClick={searchCtx.resetEnteredStore} />
-        )}
-        <img className="searchImg" src={searchImg} />
-      </div>
+      <img
+        className="searchImgHome"
+        src={searchCtx.enteredStore ? xButton : searchImg}
+        onClick={searchCtx.resetEnteredStore}
+      />
     </div>
   );
 };

@@ -26,11 +26,11 @@
   line-height: 20px;
 }
 
-.search-store .searchImg {
+.search-store .searchImgHome {
   width: 18px;
   height: 18px;
+  right: 34px;
   position: relative;
-  margin-left: 1px;
   background: white;
 }
 
