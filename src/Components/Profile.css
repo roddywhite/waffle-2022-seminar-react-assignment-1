@@ -1,9 +1,11 @@
-.full {
+.fullfull {
   left: 0;
   top: 0;
   width: 100vw;
   height: 80vh;
   position: relative;
+  align-items: center;
+  justify-content: center;
 }
 
 .profileCon {
@@ -12,8 +14,7 @@
   flex-direction: column;
 
   width: 600px;
-  height: 40vh;
-  max-height: 600px;
+  height: 360px;
 
   border: 1px solid black;
   border-radius: 15px;
@@ -21,8 +22,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  overflow: auto;
 }
 
 .profileCon textarea {
@@ -73,6 +72,7 @@
   height: 20px;
   margin-left: 25px;
   margin-bottom: 25px;
+  border: 1px solid black;
 }
 
 .profileCon .dropdown {
@@ -89,6 +89,7 @@
   margin-bottom: 30px;
   overflow: auto;
   vertical-align: top;
+  border: 1px solid black;
 }
 
 .profileCon .buttonCon {
