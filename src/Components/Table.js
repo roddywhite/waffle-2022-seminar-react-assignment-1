@@ -36,7 +36,15 @@ const Table = () => {
         <span className="price">가격</span>
         <span className="rating">별점</span>
       </div>
-      {menus && menus.map((menu, idx) => <Item key={idx} menu={menu} menus={menus} />)}
+      {menus &&
+        menus
+          .filter((menu) => {
+            return searchCtx.enteredType
+              ? menu.rating >= searchCtx.enteredRating &&
+                  menu.type === searchCtx.enteredType
+              : menu.rating >= searchCtx.enteredRating;
+          })
+          .map((menu, idx) => <Item key={idx} menu={menu} menus={menus} />)}
     </>
   );
 };

@@ -24,6 +24,29 @@ const Search = () => {
         )}
         <img className="searchImg" src={searchImg} />
       </div>
+      <select
+        name="type"
+        className="dropdown"
+        value={searchCtx.enteredType}
+        onChange={(e) => searchCtx.onFilterType(e)}
+      >
+        <option value="">종류</option>
+        <option value="waffle">와플</option>
+        <option value="beverage">음료</option>
+        <option value="coffee">커피</option>
+      </select>
+      <select
+        name="rating"
+        className="dropdown"
+        value={searchCtx.enteredRating}
+        onChange={(e) => searchCtx.onFilterRating(e)}
+      >
+        <option value="0">별점</option>
+        {["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((m) => (
+          <option value={m}>{m}</option>
+        ))}
+      </select>
+      <button onClick={searchCtx.resetFilter}>필터초기화</button>
     </div>
   );
 };

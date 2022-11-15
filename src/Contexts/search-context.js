@@ -7,11 +7,18 @@ const SearchContext = createContext({
   enteredMenu: "",
   onSearchMenu: () => {},
   resetEnteredMenu: () => {},
+  enteredRating: 0,
+  onFilterRating: () => {},
+  enteredType: "",
+  onFilterType: () => {},
+  resetFilter: () => {},
 });
 
 export const SearchContextProvider = (props) => {
   const [enteredStore, setEnteredStore] = useState("");
   const [enteredMenu, setEnteredMenu] = useState("");
+  const [enteredRating, setEnteredRating] = useState(0);
+  const [enteredType, setEnteredType] = useState("");
 
   const searchStoreHandler = (e) => {
     setEnteredStore(e.target.value);
@@ -20,12 +27,25 @@ export const SearchContextProvider = (props) => {
     setEnteredMenu(e.target.value);
   };
 
+  const filterRatingHandler = (e) => {
+    setEnteredRating(Number(e.target.value));
+  };
+
+  const filterTypeHandler = (e) => {
+    setEnteredType(e.target.value);
+  };
+
   const resetEnteredStore = () => {
-    setEnteredStore('');
-  }
+    setEnteredStore("");
+  };
 
   const resetEnteredMenu = () => {
-    setEnteredMenu('');
+    setEnteredMenu("");
+  };
+
+  const resetFilter = () => {
+    setEnteredRating(0);
+    setEnteredType("");
   }
 
   return (
@@ -37,6 +57,11 @@ export const SearchContextProvider = (props) => {
         enteredMenu: enteredMenu,
         onSearchMenu: searchMenuHandler,
         resetEnteredMenu: resetEnteredMenu,
+        enteredRating: enteredRating,
+        onFilterRating: filterRatingHandler,
+        enteredType: enteredType,
+        onFilterType: filterTypeHandler,
+        resetFilter: resetFilter,
       }}
     >
       {props.children}
