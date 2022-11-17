@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { end, errMsg, successMsg } from "../utils/common";
 
@@ -9,21 +9,21 @@ const UserContext = createContext({
   isLoggedIn: false,
   token: "",
   userPW: "",
-  authAxios: () => {},
-  onLogin: (userId, userPassword) => {},
+  authAxios: axios.create(),
+  onLogin: (userId: string, userPW: string) => {},
   onLogout: () => {},
-  refreshHandler: () => {},
+  onRefresh: () => {},
   fetchMyProfile: () => {},
 });
 
-export const UserContextProvider = (props) => {
+export const UserContextProvider = (props: any) => {
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState("");
   const [userPW, setUserPW] = useState("");
 
-  const loginHandler = async (userName, userPassword) => {
+  const loginHandler = async (userName: string, userPassword: string) => {
     axios
       .post(
         `${end}/auth/login`,
@@ -44,7 +44,7 @@ export const UserContextProvider = (props) => {
       });
   };
 
-  const authAxios = axios.create({
+  const authAxios: AxiosInstance = axios.create({
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -60,7 +60,7 @@ export const UserContextProvider = (props) => {
       });
   };
 
-  const refreshHandler = () => {
+  const refreshHandler = (): void => {
     axios
       .post(`${end}/auth/refresh`, null, { withCredentials: true })
       .then((res) => {
@@ -68,13 +68,13 @@ export const UserContextProvider = (props) => {
         setToken(res.data.access_token);
         setIsLoggedIn(true);
       }).catch((res)=>{
-        errMsg('로그인 해주세요');
+        errMsg('error');
       });
   };
 
-  useEffect(() => {
-    refreshHandler();
-  }, [token]);
+  // useEffect(() => {
+  //   refreshHandler();
+  // }, [token]);
 
   const fetchMyProfile = () => {
     try {

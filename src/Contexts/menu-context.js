@@ -10,7 +10,7 @@ const MenuContext = createContext({
   fetchEntireMenus: () => {},
   fetchMenuData: () => {},
   fetchMenuById: () => {},
-  onSelectMenu: () => {},
+  onSelectMenu: (menu) => {},
   selectResetHandler: () => {},
   findMenuById: () => {},
 });
@@ -32,7 +32,6 @@ export const MenuContextProvider = (props) => {
       setEntireMenus(res.data.data);
     });
   };
-  useEffect(() => fetchEntireMenus(), []);
 
   // storeId로 메뉴
   const fetchMenuData = (storeId) => {
