@@ -2,80 +2,68 @@ import "./DeleteMenuModal.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+
 import { end, errMsg, successMsg } from "../utils/common";
 import ModalContext from "../Contexts/modal-context";
 import UserContext from "../Contexts/user-context";
+import MenuContext from "../Contexts/menu-context";
 
-const DeleteReviewModal = ({
-  reviewId,
-  fetchLatestData,
-  fetchFirstReviews,
-  deleteMode,
-  setDeleteMode,
-  noStop,
-}) => {
+interface DetailViewProps {
+  menuId?: string
+}
+
+const DeleteMenuModal = ({ menuId }: DetailViewProps) => {
   const modalCtx = useContext(ModalContext);
   const userCtx = useContext(UserContext);
+  const menuCtx = useContext(MenuContext);
   const navigate = useNavigate();
   const { authAxios } = userCtx;
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     authAxios
-      .delete(`${end}/reviews/${reviewId}`)
+      .delete(`${end}/menus/${menuId}`)
       .then((res) => {
-        fetchLatestData();
-        fetchFirstReviews();
-        noStop();
-        setDeleteMode(false);
-        modalCtx.onCloseDeleteReview();
-        successMsg("리뷰가 삭제되었습니다");
+        menuCtx.fetchEntireMenus();
+        successMsg("메뉴가 삭제되었습니다");
+        modalCtx.onCloseDeleteMenu();
+        navigate(-1);
       })
       .catch((res) => {
+        console.log(res);
         errMsg(res.response.data.message);
-        modalCtx.onCloseDeleteReview();
+        modalCtx.onCloseDeleteMenu();
       });
   };
 
   const cancelHandler = () => {
-    modalCtx.onCloseDeleteReview();
-    setDeleteMode(false);
-    console.log("취소");
+    modalCtx.onCloseDeleteMenu();
   };
 
   //모달 영역 지정해서 바깥 클릭하면 닫히도록
-  const deleteReviewRef = useRef();
+  const deleteMenuRef: any = useRef();
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   });
 
-  const handleClickOutside = (e) => {
-    if (
-      modalCtx.deleteReviewOpened &&
-      !deleteReviewRef.current.contains(e.target)
-    ) {
-      modalCtx.onCloseDeleteReview();
-      setDeleteMode(false);
-    } else {
-      modalCtx.onOpenDeleteReview();
+  const handleClickOutside = (e: any) => {
+    if (modalCtx.deleteMenuOpened) {
+      !deleteMenuRef.current.contains(e.target)
+        ? modalCtx.onCloseDeleteMenu()
+        : modalCtx.onOpenDeleteMenu();
     }
   };
 
   return (
-    <div
-      className={
-        deleteMode && modalCtx.deleteReviewOpened ? "dimmed" : "closedModal"
-      }
-    >
+    <div className={modalCtx.deleteMenuOpened ? "dimmed" : ""}>
       <div
         id="modal-animation"
         className={
-          modalCtx.deleteReviewOpened ? "openDeleteModal" : "closedModal"
+          modalCtx.deleteMenuOpened ? "openDeleteModal" : "closedModal"
         }
-        ref={deleteReviewRef}
-        value={modalCtx.deleteReviewOpened}
+        ref={deleteMenuRef}
       >
-        <h3>리뷰 삭제</h3>
+        <h3>메뉴 삭제</h3>
         <a>정말로 삭제하시겠습니까?</a>
         <div className="buttonCon">
           <button className="redButton" onClick={submitHandler}>
@@ -90,4 +78,4 @@ const DeleteReviewModal = ({
   );
 };
 
-export default DeleteReviewModal;
+export default DeleteMenuModal;

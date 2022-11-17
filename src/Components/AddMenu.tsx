@@ -43,7 +43,7 @@ const AddMenu = () => {
 
   // 숫자 세 자리마다 콤마 넣기 (콤마로 바꿔주는 과정에서 price State도 update)
   const [enteredPrice, setEnteredPrice] = useState<number>(0);
-  const [enteredNum, setEnteredNum] = useState("");
+  const [enteredNum, setEnteredNum] = useState<string>("");
   const changeEnteredNum = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const removedCommaValue: number = Number(value.replaceAll(",", ""));

@@ -68,13 +68,13 @@ export const UserContextProvider = (props: any) => {
         setToken(res.data.access_token);
         setIsLoggedIn(true);
       }).catch((res)=>{
-        errMsg('error');
+        errMsg('로그인 필요');
       });
   };
 
-  // useEffect(() => {
-  //   refreshHandler();
-  // }, [token]);
+  useEffect(() => {
+    refreshHandler();
+  }, [token]);
 
   const fetchMyProfile = () => {
     try {

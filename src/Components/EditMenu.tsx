@@ -15,11 +15,10 @@ const EditMenu = () => {
   const navigate = useNavigate();
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
+  const user = userCtx.user as any;
   const { authAxios } = userCtx;
   const { storeId, menuId } = useParams();
-  const [menu, setMenu] = useState(
-    menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId))
-  );
+  const [menu, setMenu] = useState<any>(null);
 
   // 메뉴 최신정보 불러오기
   useEffect(() => {
@@ -36,12 +35,12 @@ const EditMenu = () => {
   useEffect(() => setEnteredDesc(menu?.description), [menu]);
 
   // 숫자 세 자리마다 콤마 넣기 (콤마로 바꿔주는 과정에서 price State도 update)
-  const [enteredPrice, setEnteredPrice] = useState(menu?.price);
-  const [enteredNum, setEnteredNum] = useState(menu?.price.toLocaleString());
+  const [enteredPrice, setEnteredPrice] = useState<number>(menu?.price);
+  const [enteredNum, setEnteredNum] = useState<string>(menu?.price.toLocaleString());
 
-  const changeEnteredNum = (e) => {
+  const changeEnteredNum = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    const removedCommaValue = Number(value.replaceAll(",", ""));
+    const removedCommaValue: number = Number(value.replaceAll(",", ""));
     setEnteredPrice(removedCommaValue);
     setEnteredNum(removedCommaValue.toLocaleString());
   };
@@ -56,9 +55,8 @@ const EditMenu = () => {
     setEnteredDesc(menu?.description);
   };
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    if (enteredPrice === "") {
+  const submitHandler = () => {
+    if (enteredPrice === 0) {
       errMsg("가격을 입력해주세요.");
     } else if (enteredNum.slice(-1) !== "0") {
       errMsg("가격은 10원 단위로만 입력해주세요.");
@@ -92,7 +90,7 @@ const EditMenu = () => {
     if (!userCtx.isLoggedIn) {
       errMsg("로그인 해주세요");
       setTimeout(() => navigate(-1), 3000);
-    } else if (userCtx.user?.id !== Number(storeId)) {
+    } else if (user?.id !== Number(storeId)) {
       errMsg("접근 권한이 없습니다");
       setTimeout(() => navigate(-1), 3000);
     }
@@ -108,7 +106,7 @@ const EditMenu = () => {
         <>
           <HeaderStore />
           <div
-            className={userCtx.user?.id === Number(storeId) ? "editBigContainer" : "hidden"}
+            className={user?.id === Number(storeId) ? "editBigContainer" : "hidden"}
           >
             <div className="editContainer">
               <h3 className="title">메뉴 수정</h3>
@@ -133,7 +131,7 @@ const EditMenu = () => {
               <input
                 className="inputBox"
                 type="text"
-                maxLength="7"
+                maxLength={7}
                 placeholder="5,000"
                 value={enteredNum}
                 onChange={changeEnteredNum}
@@ -151,7 +149,6 @@ const EditMenu = () => {
               <label className="inputLabel">설명</label>
               <textarea
                 className="inputBoxDesc"
-                type="text"
                 placeholder="상품에 대한 자세한 설명을 입력해주세요"
                 value={enteredDesc}
                 onChange={(e) => setEnteredDesc(e.target.value)}

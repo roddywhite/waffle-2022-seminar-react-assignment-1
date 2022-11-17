@@ -8,20 +8,28 @@ import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 import UserContext from "../Contexts/user-context";
 
+interface DetailViewProps {
+  menuId?: string,
+  fetchLatestData: () => void,
+  fetchFirstReviews: () => void,
+  noStop: () => void,
+  reviewContainer: any
+}
+
 const AddReview = ({
   menuId,
   fetchLatestData,
   fetchFirstReviews,
   noStop,
   reviewContainer,
-}) => {
+}: DetailViewProps) => {
   const [enteredContent, setEnteredContent] = useState("");
   const [enteredRating, setEnteredRating] = useState(0);
   const userCtx = useContext(UserContext);
   const { authAxios } = userCtx;
 
-  const postReview = async () => {
-    const instance = await authAxios
+  const postReview = () => {
+    authAxios
       .post(`${end}/reviews`, {
         content: enteredContent,
         rating: enteredRating,
@@ -45,7 +53,7 @@ const AddReview = ({
       });
 
     // 액세스 토큰 만료시 갱신
-    instance.interceptors.response.use(
+    authAxios.interceptors.response.use(
       (res) => {
         return res;
       },
@@ -97,12 +105,12 @@ const AddReview = ({
                   : starFull
               }
               onClick={(e) =>
-                e.clientX - e.target.getBoundingClientRect().left < 10
+                e.clientX - (e.target as HTMLImageElement).getBoundingClientRect().left < 10
                   ? setEnteredRating(2 * x - 1)
                   : setEnteredRating(2 * x)
               }
               onMouseEnter={(e) =>
-                e.clientX - e.target.getBoundingClientRect().left < 10
+                e.clientX - (e.target as HTMLImageElement).getBoundingClientRect().left < 10
                   ? setViewRating(2 * x - 1)
                   : setViewRating(2 * x)
               }

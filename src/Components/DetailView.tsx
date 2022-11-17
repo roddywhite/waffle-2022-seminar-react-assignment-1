@@ -29,14 +29,11 @@ const DetailView = () => {
   const modalCtx = useContext(ModalContext);
 
   const navigate = useNavigate();
-  const { storeId, menuId } = useParams();
-  const [menu, setMenu] = useState(
-    menuCtx.findMenuById(menuCtx.entireMenus, Number(menuId))
-  );
-  const [entireReviews, setEntireReviews] = useState(null);
-  const [reviews, setReviews] = useState(null);
+  const { storeId, menuId } = useParams<{storeId?: string, menuId?: string}>();
+  const [menu, setMenu] = useState<any>(null);
+  const [reviews, setReviews] = useState<Array<any>>([]);
   const [menuRating, setMenuRating] = useState(0);
-  const nextLoad = useRef("");
+  const nextLoad: any = useRef("");
 
   const fetchLatestData = () => {
     axios.get(`${end}/menus/${menuId}`).then((res) => {
@@ -85,11 +82,11 @@ const DetailView = () => {
   };
 
   // 무한스크롤 구현
-  const [target, setTarget] = useState(null);
-  const reviewContainer = useRef(null);
-  const stopLoad = useRef(false);
+  const [target, setTarget] = useState<any>(null);
+  const reviewContainer: any = useRef(null);
+  const stopLoad: any = useRef(false);
   // 리뷰 추가, 수정, 삭제시 다시 스크롤 내릴 수 있도록
-  const noStop = () => {
+  const noStop = (): void => {
     stopLoad.current = false;
     nextLoad.current = "";
   }
@@ -107,7 +104,7 @@ const DetailView = () => {
     }
   };
 
-  const onIntersect = async ([entry], observer) => {
+  const onIntersect = async ([entry]: any, observer: any) => {
     if (entry.isIntersecting && !stopLoad.current) {
       observer.unobserve(target);
       await moreData();
@@ -116,7 +113,7 @@ const DetailView = () => {
   };
 
   useEffect(() => {
-    let observer;
+    let observer: any;
     if (target && !stopLoad.current) {
       observer = new IntersectionObserver(onIntersect, {
         root: reviewContainer.current,
@@ -150,7 +147,7 @@ const DetailView = () => {
                 <img
                   className="menuImg"
                   src={menu.image}
-                  onError={(e) => (e.target.src = altImg)}
+                  onError={(e) => ((e.target as HTMLImageElement).src = altImg)}
                 />
                 <h3>{menu.name}</h3>
                 <span>
@@ -165,7 +162,7 @@ const DetailView = () => {
                 <span>{menu.price.toLocaleString()}원</span>
                 <span>{menu.description ? menu.description : "설명 없음"}</span>
 
-                {userCtx.user?.id === Number(storeId) && (
+                {(userCtx.user as any)?.id === Number(storeId) && (
                   <div className="viewButtonContainer">
                     <Link to={`/stores/${storeId}/menus/${menuId}/edit`}>
                       <img className="editButton" src={editButton} alt="Edit" />
@@ -210,10 +207,9 @@ const DetailView = () => {
               </div>
               <div className="reviewList" ref={reviewContainer}>
                 {reviews &&
-                  reviews.map((review, idx) => (
+                  reviews.map((review: any, idx) => (
                     <Review
                       key={idx}
-                      menuId={menuId}
                       reviewId={review.id}
                       author={review.author}
                       content={review.content}
