@@ -23,7 +23,6 @@ const DeleteMenuModal = ({ menuId }: DetailViewProps) => {
     authAxios
       .delete(`${end}/menus/${menuId}`)
       .then((res) => {
-        menuCtx.fetchEntireMenus();
         successMsg("메뉴가 삭제되었습니다");
         modalCtx.onCloseDeleteMenu();
         navigate(-1);
@@ -35,20 +34,20 @@ const DeleteMenuModal = ({ menuId }: DetailViewProps) => {
       });
   };
 
-  const cancelHandler = () => {
+  const cancelHandler = (): void => {
     modalCtx.onCloseDeleteMenu();
   };
 
   //모달 영역 지정해서 바깥 클릭하면 닫히도록
-  const deleteMenuRef: any = useRef();
+  const deleteMenuRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   });
 
-  const handleClickOutside = (e: any) => {
+  const handleClickOutside = (e: MouseEvent) => {
     if (modalCtx.deleteMenuOpened) {
-      !deleteMenuRef.current.contains(e.target)
+      !(deleteMenuRef?.current as HTMLElement).contains(e.target as HTMLElement)
         ? modalCtx.onCloseDeleteMenu()
         : modalCtx.onOpenDeleteMenu();
     }

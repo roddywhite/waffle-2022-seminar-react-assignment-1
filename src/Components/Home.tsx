@@ -13,7 +13,7 @@ import { end } from "../utils/common";
 const Home = () => {
   const searchCtx = useContext(SearchContext);
   const menuCtx = useContext(MenuContext);
-  const [stores, setStores] = useState(null);
+  const [stores, setStores] = useState<user[] | null>(null);
   
   useEffect(() => {
     let timer = setTimeout(() => {
@@ -24,7 +24,8 @@ const Home = () => {
           }`
         )
         .then((res) => {
-          setStores(res.data.filter((owner) => owner.store_name !== undefined));
+          const storeList: user[] = res.data
+          setStores(storeList.filter((owner: user) => owner.store_name !== undefined));
         });
     }, 500);
 

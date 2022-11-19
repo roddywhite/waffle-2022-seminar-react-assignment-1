@@ -14,11 +14,10 @@ import HeaderStore from "./HeaderStore";
 const EditMenu = () => {
   const navigate = useNavigate();
   const userCtx = useContext(UserContext);
-  const menuCtx = useContext(MenuContext);
-  const user = userCtx.user as any;
+  const user = userCtx.user as user | null;
   const { authAxios } = userCtx;
   const { storeId, menuId } = useParams();
-  const [menu, setMenu] = useState<any>(null);
+  const [menu, setMenu] = useState<menu | null>(null);
 
   // 메뉴 최신정보 불러오기
   useEffect(() => {
@@ -28,15 +27,15 @@ const EditMenu = () => {
   }, []);
 
   // 이미지url, 설명 State 만들기
-  const [enteredUrl, setEnteredUrl] = useState(menu?.image);
-  const [enteredDesc, setEnteredDesc] = useState(menu?.description);
+  const [enteredUrl, setEnteredUrl] = useState<string>(menu!?.image);
+  const [enteredDesc, setEnteredDesc] = useState<string>(menu!?.description);
 
-  useEffect(() => setEnteredUrl(menu?.image), [menu]);
-  useEffect(() => setEnteredDesc(menu?.description), [menu]);
+  useEffect(() => setEnteredUrl(menu!?.image), [menu]);
+  useEffect(() => setEnteredDesc(menu!?.description), [menu]);
 
   // 숫자 세 자리마다 콤마 넣기 (콤마로 바꿔주는 과정에서 price State도 update)
-  const [enteredPrice, setEnteredPrice] = useState<number>(menu?.price);
-  const [enteredNum, setEnteredNum] = useState<string>(menu?.price.toLocaleString());
+  const [enteredPrice, setEnteredPrice] = useState<number>(menu!?.price);
+  const [enteredNum, setEnteredNum] = useState<string>(menu!?.price.toLocaleString());
 
   const changeEnteredNum = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -45,17 +44,17 @@ const EditMenu = () => {
     setEnteredNum(removedCommaValue.toLocaleString());
   };
 
-  useEffect(() => setEnteredNum(menu?.price.toLocaleString()), [menu]);
+  useEffect(() => setEnteredNum(menu!?.price.toLocaleString()), [menu]);
 
   // 수정 취소할 때 입력값 초기화
-  const resetEntered = () => {
-    setEnteredPrice(menu?.price);
-    setEnteredNum(menu?.price.toLocaleString());
-    setEnteredUrl(menu?.image);
-    setEnteredDesc(menu?.description);
+  const resetEntered = (): void => {
+    setEnteredPrice(menu!?.price);
+    setEnteredNum(menu!?.price.toLocaleString());
+    setEnteredUrl(menu!?.image);
+    setEnteredDesc(menu!?.description);
   };
 
-  const submitHandler = () => {
+  const submitHandler = (): void => {
     if (enteredPrice === 0) {
       errMsg("가격을 입력해주세요.");
     } else if (enteredNum.slice(-1) !== "0") {
@@ -95,9 +94,6 @@ const EditMenu = () => {
       setTimeout(() => navigate(-1), 3000);
     }
   }, []);
-
-  // 내 소유가 아닌 스토어의 메뉴에 접근했을 때
-  // storeId !== userId
 
   return (
     <>

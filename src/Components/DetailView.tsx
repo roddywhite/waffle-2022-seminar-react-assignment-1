@@ -11,7 +11,6 @@ import DeleteMenuModal from "./DeleteMenuModal";
 import Review from "./Review";
 import AddReview from "./AddReview";
 
-import MenuContext from "../Contexts/menu-context";
 import ModalContext from "../Contexts/modal-context";
 
 import backArrow from "../assets/backArrow.svg";
@@ -25,41 +24,29 @@ import HeaderStore from "./HeaderStore";
 
 const DetailView = () => {
   const userCtx = useContext(UserContext);
-  const menuCtx = useContext(MenuContext);
   const modalCtx = useContext(ModalContext);
 
   const navigate = useNavigate();
-  const { storeId, menuId } = useParams<{storeId?: string, menuId?: string}>();
-  const [menu, setMenu] = useState<any>(null);
-  const [reviews, setReviews] = useState<Array<any>>([]);
-  const [menuRating, setMenuRating] = useState(0);
-  const nextLoad: any = useRef("");
+  const { storeId, menuId } = useParams<{
+    storeId?: string;
+    menuId?: string;
+  }>();
+  const [menu, setMenu] = useState<menu | null>(null);
+  const [reviews, setReviews] = useState<Array<review>>([]);
+  const [menuRating, setMenuRating] = useState<number>(0);
+  const nextLoad: any = useRef<string>("");
 
-  const fetchLatestData = () => {
+  // 메뉴 최신정보 불러오기
+  const fetchLatestData = (): void => {
     axios.get(`${end}/menus/${menuId}`).then((res) => {
       setMenu(res.data);
       setMenuRating(res.data.rating);
     });
-  }
+  };
+  useEffect(() => fetchLatestData(), []);
 
-  // 메뉴 최신정보 불러오기
-  useEffect(() => {
-    fetchLatestData();
-  }, []);
-
-  // // 리뷰 데이터 가져오고 평균 별점 계산
-  // const fetchReviewData = () => {
-  //   axios.get(`${end}/reviews/?menu=${menuId}`).then((res) => {
-  //     const reviewList = res.data.data;
-  //     setEntireReviews([...reviewList]);
-  //     let ratingSum = 0;
-  //     reviewList.forEach((x) => (ratingSum += x.rating));
-  //     setMenuRating((ratingSum / reviewList.length).toFixed(2));
-  //   });
-  // };
-  // useEffect(() => fetchReviewData(), []);
-
-  const fetchFirstReviews = () => {
+  // 처음 리뷰 6개 불러오기
+  const fetchFirstReviews = (): void => {
     axios.get(`${end}/reviews/?count=6&menu=${menuId}`).then((res) => {
       nextLoad.current = res.data.next;
       setReviews(res.data.data);
@@ -67,7 +54,7 @@ const DetailView = () => {
   };
   useEffect(() => fetchFirstReviews(), []);
 
-  const fetchMoreReview = () => {
+  const fetchMoreReview = (): void => {
     axios
       .get(`${end}/reviews/?from=${nextLoad.current}&count=6&menu=${menuId}`)
       .then((res) => {
@@ -82,21 +69,21 @@ const DetailView = () => {
   };
 
   // 무한스크롤 구현
-  const [target, setTarget] = useState<any>(null);
-  const reviewContainer: any = useRef(null);
-  const stopLoad: any = useRef(false);
+  const [target, setTarget] = useState<HTMLElement | null>(null);
+  const reviewContainer = useRef<HTMLDivElement | null>(null);
+  const stopLoad = useRef<boolean>(false);
   // 리뷰 추가, 수정, 삭제시 다시 스크롤 내릴 수 있도록
   const noStop = (): void => {
     stopLoad.current = false;
     nextLoad.current = "";
-  }
+  };
 
   const moreData = async () => {
     const res = await axios.get(
       `${end}/reviews/?from=${nextLoad.current}&count=6&menu=${menuId}`
     );
     if (res.data.data[0]) {
-      const reviewList = res.data.data;
+      const reviewList: review[] = res.data.data;
       setReviews((prev) => [...prev, ...reviewList]);
       nextLoad.current = res.data.next;
     } else {

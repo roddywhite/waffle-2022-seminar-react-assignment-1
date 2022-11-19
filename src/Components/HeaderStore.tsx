@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
@@ -10,10 +9,14 @@ import UserContext from "../Contexts/user-context";
 
 const HeaderStore = () => {
   const userCtx = useContext(UserContext);
-  const { user, isLoggedIn, onLogout } = userCtx;
+  const {
+    user,
+    isLoggedIn,
+    onLogout,
+  }: { user: user | null; isLoggedIn: boolean; onLogout: () => void } = userCtx;
   const { storeId } = useParams();
-  const [storeName, setStoreName] = useState("");
-  const [storeOwner, setStoreOwner] = useState("");
+  const [storeName, setStoreName] = useState<string>("");
+  const [storeOwner, setStoreOwner] = useState<string>("");
 
   useEffect(() => {
     axios
@@ -31,7 +34,7 @@ const HeaderStore = () => {
         <img className="logo" src={logo} alt="waffle logo" />
       </Link>
       <Link to={`/stores/${storeId}`}>
-        <div className="titleContainer" target="_blank">
+        <div className="titleContainer">
           <div className="menuManage">
             <a>와플스튜디오 메뉴 관리</a>
           </div>
@@ -49,11 +52,11 @@ const HeaderStore = () => {
         </Link>
       ) : (
         <div className="logoutBox">
-          <a>{user?.username}님 환영합니다!</a>
-          <Link to={`/stores/${user?.id}`}>
+          <a>{user!?.username}님 환영합니다!</a>
+          <Link to={`/stores/${user!?.id}`}>
             <button className="market">내 가게</button>
           </Link>
-          <Link to={`/profile/${user?.id}`}>
+          <Link to={`/profile/${user!?.id}`}>
             <button className="profile">내 정보</button>
           </Link>
           <button className="logout" onClick={onLogout}>

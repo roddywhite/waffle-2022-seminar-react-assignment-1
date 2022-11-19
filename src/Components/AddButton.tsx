@@ -4,7 +4,7 @@ import buttonImg from "../assets/buttonImg.svg";
 const AddButton = () => {
   return (
     <div>
-      <img className="addButton" src={buttonImg}></img>
+      <img className="addButton" src={buttonImg} alt="추가"></img>
     </div>
   );
 };

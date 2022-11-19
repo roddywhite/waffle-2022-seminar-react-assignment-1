@@ -19,9 +19,9 @@ const UserContext = createContext({
 export const UserContextProvider = (props: any) => {
   let navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState("");
-  const [userPW, setUserPW] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [token, setToken] = useState<string>("");
+  const [userPW, setUserPW] = useState<string>("");
 
   const loginHandler = async (userName: string, userPassword: string) => {
     axios
@@ -50,7 +50,7 @@ export const UserContextProvider = (props: any) => {
     },
   });
 
-  const logoutHandler = () => {
+  const logoutHandler = (): void => {
     authAxios
       .post(`${end}/auth/logout`, null, { withCredentials: true })
       .then((res) => {
@@ -60,6 +60,7 @@ export const UserContextProvider = (props: any) => {
       });
   };
 
+  // 리프레쉬 토큰 재발급
   const refreshHandler = (): void => {
     axios
       .post(`${end}/auth/refresh`, null, { withCredentials: true })
@@ -67,16 +68,13 @@ export const UserContextProvider = (props: any) => {
         console.log(res.data.access_token);
         setToken(res.data.access_token);
         setIsLoggedIn(true);
-      }).catch((res)=>{
-        errMsg('로그인 필요');
+      })
+      .catch((res) => {
+        errMsg("로그인 필요");
       });
   };
 
-  useEffect(() => {
-    refreshHandler();
-  }, [token]);
-
-  const fetchMyProfile = () => {
+  const fetchMyProfile = (): void => {
     try {
       authAxios.get(`${end}/owners/me`).then((res) => {
         setUser(res.data.owner);
@@ -85,9 +83,9 @@ export const UserContextProvider = (props: any) => {
       console.log("로그인 필요" + err);
     }
   };
-  useEffect(() => {
-    fetchMyProfile();
-  }, [isLoggedIn]);
+
+  useEffect(() => refreshHandler(), [token]);
+  useEffect(() => fetchMyProfile(), [isLoggedIn]);
 
   return (
     <UserContext.Provider

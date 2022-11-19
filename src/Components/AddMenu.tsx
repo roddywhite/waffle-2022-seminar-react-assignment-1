@@ -10,14 +10,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { end, errMsg, successMsg } from "../utils/common";
 import HeaderStore from "./HeaderStore";
 
-interface menuType {
-  name: string;
-  type: string;
-  price: number;
-  image: string;
-  description: string;
-}
-
 const AddMenu = () => {
   const userCtx = useContext(UserContext);
   const menuCtx = useContext(MenuContext);
@@ -32,9 +24,9 @@ const AddMenu = () => {
 
   // 한글만 입력받도록
   const titleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const regex = /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
+    const regex: RegExp = /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
     if (regex.test(e.target.value)) errMsg("한글만 입력해주세요");
-    const koreanOnly = e.target.value.replace(
+    const koreanOnly: string = e.target.value.replace(
       /[a-z0-9\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,
       ""
     );
@@ -45,14 +37,14 @@ const AddMenu = () => {
   const [enteredPrice, setEnteredPrice] = useState<number>(0);
   const [enteredNum, setEnteredNum] = useState<string>("");
   const changeEnteredNum = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const value: string = e.target.value;
     const removedCommaValue: number = Number(value.replaceAll(",", ""));
     setEnteredPrice(removedCommaValue);
     setEnteredNum(removedCommaValue.toLocaleString());
   };
 
   // 취소할 때 입력값 초기화
-  const resetEntered = () => {
+  const resetEntered = (): void => {
     setEnteredTitle("");
     setEnteredType("");
     setEnteredPrice(0);
@@ -61,7 +53,7 @@ const AddMenu = () => {
     setEnteredDesc("");
   };
 
-  const onAddMenu = (newMenu: menuType) => {
+  const onAddMenu = (newMenu: newMenu) => {
     authAxios
       .post(`${end}/menus`, newMenu)
       .then((res: any) => {
@@ -109,7 +101,7 @@ const AddMenu = () => {
     }
   };
 
-  const cancelHandler = () => {
+  const cancelHandler = (): void => {
     resetEntered();
     navigate(-1);
   };

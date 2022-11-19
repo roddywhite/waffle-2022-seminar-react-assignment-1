@@ -23,12 +23,12 @@ const AddReview = ({
   noStop,
   reviewContainer,
 }: DetailViewProps) => {
-  const [enteredContent, setEnteredContent] = useState("");
-  const [enteredRating, setEnteredRating] = useState(0);
+  const [enteredContent, setEnteredContent] = useState<string>("");
+  const [enteredRating, setEnteredRating] = useState<number>(0);
   const userCtx = useContext(UserContext);
   const { authAxios } = userCtx;
 
-  const postReview = () => {
+  const postReview = (): void => {
     authAxios
       .post(`${end}/reviews`, {
         content: enteredContent,
@@ -66,7 +66,7 @@ const AddReview = ({
     );
   };
 
-  const submitHandler = () => {
+  const submitHandler = (): void => {
     if (!userCtx.isLoggedIn) {
       errMsg("로그인 해주세요");
     } else if (enteredRating < 1) {
@@ -77,8 +77,8 @@ const AddReview = ({
   };
 
   // starChangeMode state를 만들어서 별점을 클릭하고 빠져나가려고 마우스오버만 해도 클릭한 별점이 바뀌는 문제 해결
-  const [viewRating, setViewRating] = useState(0);
-  const [starChangeMode, setStarChangeMode] = useState(false);
+  const [viewRating, setViewRating] = useState<number>(0);
+  const [starChangeMode, setStarChangeMode] = useState<boolean>(false);
 
   return (
     <div className="addReviewSection">
@@ -105,15 +105,20 @@ const AddReview = ({
                   : starFull
               }
               onClick={(e) =>
-                e.clientX - (e.target as HTMLImageElement).getBoundingClientRect().left < 10
+                e.clientX -
+                  (e.target as HTMLImageElement).getBoundingClientRect().left <
+                10
                   ? setEnteredRating(2 * x - 1)
                   : setEnteredRating(2 * x)
               }
               onMouseEnter={(e) =>
-                e.clientX - (e.target as HTMLImageElement).getBoundingClientRect().left < 10
+                e.clientX -
+                  (e.target as HTMLImageElement).getBoundingClientRect().left <
+                10
                   ? setViewRating(2 * x - 1)
                   : setViewRating(2 * x)
               }
+              alt="rating"
             />
           );
         })}

@@ -25,10 +25,9 @@ const DeleteReviewModal = ({
 }: ReviewProps) => {
   const modalCtx = useContext(ModalContext);
   const userCtx = useContext(UserContext);
-  const navigate = useNavigate();
   const { authAxios } = userCtx;
 
-  const submitHandler = () => {
+  const submitHandler = (): void => {
     authAxios
       .delete(`${end}/reviews/${reviewId}`)
       .then((res) => {
@@ -45,23 +44,23 @@ const DeleteReviewModal = ({
       });
   };
 
-  const cancelHandler = () => {
+  const cancelHandler = (): void => {
     modalCtx.onCloseDeleteReview();
     setDeleteMode(false);
     console.log("취소");
   };
 
   //모달 영역 지정해서 바깥 클릭하면 닫히도록
-  const deleteReviewRef: any = useRef();
+  const deleteReviewRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   });
 
-  const handleClickOutside = (e: any) => {
+  const handleClickOutside = (e: MouseEvent) => {
     if (
       modalCtx.deleteReviewOpened &&
-      !deleteReviewRef.current.contains(e.target)
+      !(deleteReviewRef.current as HTMLElement).contains(e.target as HTMLElement)
     ) {
       modalCtx.onCloseDeleteReview();
       setDeleteMode(false);

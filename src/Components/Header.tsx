@@ -7,7 +7,11 @@ import UserContext from "../Contexts/user-context";
 
 const Header = () => {
   const userCtx = useContext(UserContext);
-  const { user, isLoggedIn, onLogout } = userCtx;
+  const {
+    user,
+    isLoggedIn,
+    onLogout,
+  }: { user: user | null; isLoggedIn: boolean; onLogout: () => void } = userCtx;
 
   return (
     <div className="header">
@@ -25,11 +29,11 @@ const Header = () => {
         </Link>
       ) : (
         <div className="logoutBox">
-          <a>{user?.username}님 환영합니다!</a>
-          <Link to={`/stores/${user?.id}`}>
+          <a>{user!?.username}님 환영합니다!</a>
+          <Link to={`/stores/${user!?.id}`}>
             <button className="market">내 가게</button>
           </Link>
-          <Link to={`/profile/${user?.id}`}>
+          <Link to={`/profile/${user!?.id}`}>
             <button className="profile">내 정보</button>
           </Link>
           <button className="logout" onClick={onLogout}>
