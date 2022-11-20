@@ -7,7 +7,6 @@ import HeaderStore from "./HeaderStore";
 import SearchContext from "../Contexts/search-context";
 
 const Store = () => {
-  const { storeId } = useParams();
   const searchCtx = useContext(SearchContext);
   // 스토어 진입하면 스토어검색어 초기화
   useEffect(() => {
@@ -17,7 +16,7 @@ const Store = () => {
     <div>
       <HeaderStore />
       <Search />
-      <List storeId={storeId} />
+      <List />
     </div>
   );
 };

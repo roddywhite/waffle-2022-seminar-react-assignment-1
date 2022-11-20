@@ -8,7 +8,7 @@ import refreshButton from "../assets/refresh.svg";
 
 const Search = () => {
   const searchCtx = useContext(SearchContext);
-  const [filterMode, setFilterMode] = useState(false);
+  const [filterMode, setFilterMode] = useState<boolean>(false);
   const filterOn = () => setFilterMode(true);
   const filterOff = () => setFilterMode(false);
   return (
@@ -27,11 +27,13 @@ const Search = () => {
         className="searchImg"
         src={searchCtx.enteredMenu ? xButton : searchImg}
         onClick={searchCtx.resetEnteredMenu}
+        alt='err'
       />
       <img
         className={filterMode ? 'iconImg2' : 'iconImg'}
         src={filterMode ? xButton : filterButton}
         onClick={filterMode ? filterOff : filterOn}
+        alt='err'
       />
       {filterMode && (
         <div className="filterContainer">
@@ -61,6 +63,7 @@ const Search = () => {
             className="iconImg2"
             src={refreshButton}
             onClick={searchCtx.resetFilter}
+            alt='err'
           />
         </div>
       )}

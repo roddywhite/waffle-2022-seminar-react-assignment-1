@@ -8,8 +8,8 @@ import "./Table.css";
 
 const Table = () => {
   const searchCtx = useContext(SearchContext);
-  const { storeId } = useParams();
-  const [menus, setMenus] = useState([]);
+  const { storeId } = useParams<{storeId: string}>();
+  const [menus, setMenus] = useState<menu[]>([]);
 
   useEffect(() => {
     let timer = setTimeout(() => {
@@ -44,7 +44,7 @@ const Table = () => {
                   menu.type === searchCtx.enteredType
               : menu.rating >= searchCtx.enteredRating;
           })
-          .map((menu, idx) => <Item key={idx} menu={menu} menus={menus} />)}
+          .map((menu, idx) => <Item key={idx} menu={menu} />)}
     </>
   );
 };

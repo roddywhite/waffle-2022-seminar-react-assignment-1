@@ -12,14 +12,14 @@ const Profile = () => {
   const navigate = useNavigate();
   const { ownerId } = useParams();
   const { authAxios } = userCtx;
-  const my = userCtx?.user;
+  const my: user | null = userCtx?.user;
 
-  const [enteredName, setEnteredName] = useState(my?.store_name);
-  const [enteredDesc, setEnteredDesc] = useState(my?.store_description);
+  const [enteredName, setEnteredName] = useState(my!?.store_name);
+  const [enteredDesc, setEnteredDesc] = useState(my!?.store_description);
 
   useEffect(() => {
-    setEnteredName(my?.store_name);
-    setEnteredDesc(my?.store_description);
+    setEnteredName(my!?.store_name);
+    setEnteredDesc(my!?.store_description);
   }, []);
 
   const submitHandler = async () => {
@@ -51,7 +51,7 @@ const Profile = () => {
     if (!userCtx.isLoggedIn) {
       errMsg("로그인 해주세요");
       setTimeout(() => navigate(-1), 3000);
-    } else if (userCtx.user?.id !== Number(ownerId)) {
+    } else if ((userCtx.user as user | null)?.id !== Number(ownerId)) {
       errMsg("접근 권한이 없습니다");
       setTimeout(() => navigate(-1), 3000);
     }
@@ -68,8 +68,8 @@ const Profile = () => {
           <input
             className="inputBox"
             type="text"
-            minLength="1"
-            maxLength="20"
+            minLength={1}
+            maxLength={20}
             placeholder="가게 이름을 적어주세요"
             value={enteredName}
             onChange={(e) => setEnteredName(e.target.value)}
@@ -78,7 +78,6 @@ const Profile = () => {
           <label className="inputLabel">가게 설명</label>
           <textarea
             className="inputBoxDesc"
-            type="text"
             placeholder="가게에 대해 설명해주세요"
             value={enteredDesc}
             onChange={(e) => setEnteredDesc(e.target.value)}

@@ -1,19 +1,17 @@
 import React, { useState, useContext } from "react";
 import UserContext from "../Contexts/user-context";
 import "react-toastify/dist/ReactToastify.css";
-import { errMsg, successMsg } from "../utils/common";
+import { errMsg } from "../utils/common";
 
 import Header from "./Header";
 import "./LoginForm.css";
 
 const LoginForm = () => {
   const userCtx = useContext(UserContext);
-  const [userId, setUserId] = useState("");
-  const [userPassword, setUserPassword] = useState("");
+  const [userId, setUserId] = useState<string>("");
+  const [userPassword, setUserPassword] = useState<string>("");
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-
+  const submitHandler = (): void => {
     if (userId && userPassword) {
       userCtx.onLogin(userId, userPassword);
     } else {

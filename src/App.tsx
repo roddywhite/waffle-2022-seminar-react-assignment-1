@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/stores/:storeId" element={<Store />} />
         <Route path="/stores/:storeId/menus/new" element={<AddMenu />} />

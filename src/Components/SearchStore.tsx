@@ -22,6 +22,7 @@ const Search = () => {
         className="searchImgHome"
         src={searchCtx.enteredStore ? xButton : searchImg}
         onClick={searchCtx.resetEnteredStore}
+        alt='error'
       />
     </div>
   );

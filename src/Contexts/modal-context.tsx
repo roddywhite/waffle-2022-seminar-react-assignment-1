@@ -9,14 +9,14 @@ const ModalContext = createContext({
   onCloseDeleteReview: ()=>{}
 });
 
-export const ModalContextProvider = (props) => {
+export const ModalContextProvider = (props: any) => {
   const [deleteMenuOpened, setDeleteMenuOpened] = useState(false);
-  const openDeleteMenu = () => setDeleteMenuOpened(true);
-  const closeDeleteMenu = () => setDeleteMenuOpened(false);
+  const openDeleteMenu = (): void => setDeleteMenuOpened(true);
+  const closeDeleteMenu = (): void => setDeleteMenuOpened(false);
 
   const [deleteReviewOpened, setDeleteReviewOpened] = useState(false);
-  const openDeleteReview = () => setDeleteReviewOpened(true);
-  const closeDeleteReview = () => setDeleteReviewOpened(false);
+  const openDeleteReview = (): void => setDeleteReviewOpened(true);
+  const closeDeleteReview = (): void => setDeleteReviewOpened(false);
 
   return (
     <ModalContext.Provider

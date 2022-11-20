@@ -16,6 +16,17 @@ import UserContext from "../Contexts/user-context";
 import DeleteReviewModal from "./DeleteReviewModal";
 import ModalContext from "../Contexts/modal-context";
 
+interface DetailViewProps {
+  reviewId: string,
+  author: user,
+  content: string,
+  createdAt: string,
+  rating: number,
+  fetchLatestData: ()=>void,
+  fetchFirstReviews: ()=>void,
+  noStop: ()=>void,
+}
+
 const Review = ({
   reviewId,
   author,
@@ -25,18 +36,18 @@ const Review = ({
   fetchLatestData,
   fetchFirstReviews,
   noStop,
-}) => {
+}: DetailViewProps) => {
   const userCtx = useContext(UserContext);
   const modalCtx = useContext(ModalContext);
   const { authAxios } = userCtx;
 
-  const [mouseOver, setMouseOver] = useState(false);
-  const [editMode, setEditMode] = useState(false);
-  const [deleteMode, setDeleteMode] = useState(false);
-  const [enteredContent, setEnteredContent] = useState(content);
-  const [enteredRating, setEnteredRating] = useState(rating);
-  const [viewRating, setViewRating] = useState(0);
-  const [starChangeMode, setStarChangeMode] = useState(false);
+  const [mouseOver, setMouseOver] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [deleteMode, setDeleteMode] = useState<boolean>(false);
+  const [enteredContent, setEnteredContent] = useState<string>(content);
+  const [enteredRating, setEnteredRating] = useState<number>(rating);
+  const [viewRating, setViewRating] = useState<number>(0);
+  const [starChangeMode, setStarChangeMode] = useState<boolean>(false);
 
   const submitHandler = () => {
     authAxios
@@ -95,7 +106,7 @@ const Review = ({
             </span>
             <div
               className={
-                mouseOver && author.id === userCtx.user?.id
+                mouseOver && author.id === (userCtx.user as user | null)?.id
                   ? "buttonBox1"
                   : "hidden"
               }
@@ -143,12 +154,12 @@ const Review = ({
                       ? starHalf
                       : starFull
                   }
-                  onClick={(e) =>
+                  onClick={(e: any) =>
                     e.clientX - e.target.getBoundingClientRect().left < 10
                       ? setEnteredRating(2 * x - 1)
                       : setEnteredRating(2 * x)
                   }
-                  onMouseEnter={(e) =>
+                  onMouseEnter={(e: any) =>
                     e.clientX - e.target.getBoundingClientRect().left < 10
                       ? setViewRating(2 * x - 1)
                       : setViewRating(2 * x)

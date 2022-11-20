@@ -6,10 +6,22 @@ import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 import "./StoreShortcut.css";
 
-const StoreShortcut = ({ storeId, storeName, ownerName, storeDesc }) => {
-  const [rating, setRating] = useState(0);
+interface homeProps {
+  storeId: number;
+  storeName: string;
+  ownerName: string;
+  storeDesc: string;
+}
 
-  const getRating = () => {
+const StoreShortcut = ({
+  storeId,
+  storeName,
+  ownerName,
+  storeDesc,
+}: homeProps) => {
+  const [rating, setRating] = useState<number>(0);
+
+  const getRating = (): void => {
     axios
       .get(`${end}/owners/${storeId}`)
       .then((res) => {

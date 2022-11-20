@@ -5,10 +5,10 @@ import starEmpty from "../assets/starEmpty.svg";
 import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
 
-const Item = ({ menu }) => {
+const Item = ({ menu }: { menu: menu }) => {
   const menuCtx = useContext(MenuContext);
-  const isSelected =
-    menuCtx.selectedMenu && menuCtx.selectedMenu.id === menu.id;
+  const { selectedMenu } = menuCtx;
+  const isSelected = selectedMenu && (selectedMenu as menu)?.id === menu.id;
   const stars = [1, 2, 3, 4, 5];
 
   return (

@@ -8,11 +8,11 @@ import UserContext from "../Contexts/user-context";
 
 interface ReviewProps {
   reviewId: string;
-  fetchLatestData: () => {};
-  fetchFirstReviews: () => {};
+  fetchLatestData: () => void;
+  fetchFirstReviews: () => void;
   deleteMode: boolean;
   setDeleteMode: (value: React.SetStateAction<boolean>) => void;
-  noStop: () => {};
+  noStop: () => void;
 }
 
 const DeleteReviewModal = ({

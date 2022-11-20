@@ -1,6 +1,5 @@
-
 import { useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
 import "./List.css";
@@ -9,24 +8,32 @@ import Table from "./Table";
 import AddButton from "./AddButton";
 import SelectedView from "./SelectedView";
 
-const List = ({ storeId }) => {
+const List = () => {
+  const { storeId } = useParams<{storeId: string}>();
   const menuCtx = useContext(MenuContext);
   const userCtx = useContext(UserContext);
-  const { menus, fetchMenuData } = menuCtx;
+  const {
+    fetchMenuData,
+    selectedMenu,
+  }: {
+    fetchMenuData: (storeId: string) => void;
+    selectedMenu: menu | null;
+  } = menuCtx;
+  const { user }: { user: user | null } = userCtx;
 
-  useEffect(() => fetchMenuData(storeId), [menuCtx.selectedMenu]);
+  useEffect(() => fetchMenuData(storeId as string), [selectedMenu]);
 
   return (
     <div className="bigContainer">
       <div className="container">
-        <Table menus={menus} />
-        {userCtx.user?.id === Number(storeId) && (
+        <Table />
+        {user!?.id === Number(storeId) && (
           <Link to={`/stores/${storeId}/menus/new`}>
             <AddButton />
           </Link>
         )}
       </div>
-      {menuCtx.selectedMenu && <SelectedView menus={menus} />}
+      {selectedMenu && <SelectedView />}
     </div>
   );
 };

@@ -6,7 +6,7 @@ const MenuContext = createContext({
   menus: null,
   selectedMenu: null,
   fetchMenuData: (storeId: string) => {},
-  onSelectMenu: (menu: menu) => {},
+  onSelectMenu: (menu: menu | null) => {},
   onSelectReset: () => {},
 });
 

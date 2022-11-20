@@ -1,52 +1,52 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 
 const SearchContext = createContext({
   enteredStore: "",
-  onSearchStore: () => {},
+  onSearchStore: (e: React.ChangeEvent<HTMLInputElement>) => {},
   resetEnteredStore: () => {},
   enteredMenu: "",
-  onSearchMenu: () => {},
+  onSearchMenu: (e: React.ChangeEvent<HTMLInputElement>) => {},
   resetEnteredMenu: () => {},
   enteredRating: 0,
-  onFilterRating: () => {},
+  onFilterRating: (e: React.ChangeEvent<HTMLSelectElement>) => {},
   enteredType: "",
-  onFilterType: () => {},
+  onFilterType: (e: React.ChangeEvent<HTMLSelectElement>) => {},
   resetFilter: () => {},
 });
 
-export const SearchContextProvider = (props) => {
-  const [enteredStore, setEnteredStore] = useState("");
-  const [enteredMenu, setEnteredMenu] = useState("");
-  const [enteredRating, setEnteredRating] = useState(0);
-  const [enteredType, setEnteredType] = useState("");
+export const SearchContextProvider = (props: any) => {
+  const [enteredStore, setEnteredStore] = useState<string>("");
+  const [enteredMenu, setEnteredMenu] = useState<string>("");
+  const [enteredRating, setEnteredRating] = useState<number>(0);
+  const [enteredType, setEnteredType] = useState<string>("");
 
-  const searchStoreHandler = (e) => {
+  const searchStoreHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEnteredStore(e.target.value);
   };
-  const searchMenuHandler = (e) => {
+  const searchMenuHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEnteredMenu(e.target.value);
   };
 
-  const filterRatingHandler = (e) => {
+  const filterRatingHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setEnteredRating(Number(e.target.value));
   };
 
-  const filterTypeHandler = (e) => {
+  const filterTypeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setEnteredType(e.target.value);
   };
 
-  const resetEnteredStore = () => {
+  const resetEnteredStore = (): void => {
     setEnteredStore("");
   };
 
-  const resetEnteredMenu = () => {
+  const resetEnteredMenu = (): void => {
     setEnteredMenu("");
   };
 
-  const resetFilter = () => {
+  const resetFilter = (): void => {
     setEnteredRating(0);
     setEnteredType("");
-  }
+  };
 
   return (
     <SearchContext.Provider
