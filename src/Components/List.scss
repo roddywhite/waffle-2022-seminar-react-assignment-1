@@ -1,0 +1,19 @@
+.bigContainer {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+
+  .container {
+    display: flex;
+    width: 95vw;
+    height: 70vh;
+    position: absolute;
+    margin: 10px 0 10px 10px;
+    border-radius: 15px;
+    border: solid 1px;
+    flex-direction: column;
+    overflow: auto;
+    position: relative;
+  }
+}

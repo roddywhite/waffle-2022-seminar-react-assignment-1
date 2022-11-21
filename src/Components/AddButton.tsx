@@ -1,4 +1,4 @@
-import "./AddButton.css";
+import "./AddButton.scss";
 import buttonImg from "../assets/buttonImg.svg";
 
 const AddButton = () => {

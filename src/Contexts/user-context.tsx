@@ -67,10 +67,12 @@ export const UserContextProvider = (props: any) => {
       .then((res) => {
         console.log(res.data.access_token);
         setToken(res.data.access_token);
-        setIsLoggedIn(true);
+        if(!isLoggedIn) setIsLoggedIn(true);
       })
       .catch((res) => {
+        if (res.response.status === 401) {
         errMsg("로그인 필요");
+        }
       });
   };
 
@@ -84,7 +86,7 @@ export const UserContextProvider = (props: any) => {
     }
   };
 
-  useEffect(() => refreshHandler(), [token]);
+  useEffect(() => refreshHandler(), []);
   useEffect(() => fetchMyProfile(), [isLoggedIn]);
 
   return (

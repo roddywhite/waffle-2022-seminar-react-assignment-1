@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { end, errMsg, successMsg } from "../utils/common";
-import "./HeaderStore.css";
+import "./HeaderStore.scss";
 import logo from "../assets/logo.svg";
 import UserContext from "../Contexts/user-context";
 
@@ -39,9 +39,9 @@ const HeaderStore = () => {
             <a>와플스튜디오 메뉴 관리</a>
           </div>
           <div className="store">
-            <a className="storeName">{storeName}</a>
+            <a>{storeName}</a>
             <div className="owner">
-              <a className="ownerName">by {storeOwner}</a>
+              <a>by {storeOwner}</a>
             </div>
           </div>
         </div>

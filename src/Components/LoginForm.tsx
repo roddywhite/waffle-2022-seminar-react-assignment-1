@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { errMsg } from "../utils/common";
 
 import Header from "./Header";
-import "./LoginForm.css";
+import "./LoginForm.scss";
 
 const LoginForm = () => {
   const userCtx = useContext(UserContext);
@@ -27,20 +27,18 @@ const LoginForm = () => {
       <div className="fullfull">
         <div className="loginBox">
           <a className="title">로그인</a>
-          <div className="leftBox">
+          <div>
             <div className="inputCon">
-              <label className="label">ID</label>
+              <label>ID</label>
               <input
-                className="idBox"
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
                 placeholder="블루베리스무디"
               />
             </div>
             <div className="inputCon">
-              <label className="label">PASSWORD</label>
+              <label>PASSWORD</label>
               <input
-                className="idBox"
                 value={userPassword}
                 onChange={(e) => setUserPassword(e.target.value)}
                 placeholder="블루베리스무디"

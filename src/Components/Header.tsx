@@ -1,4 +1,4 @@
-import "./Header.css";
+import "./Header.scss";
 import logo from "../assets/logo.svg";
 
 import React, { useContext } from "react";

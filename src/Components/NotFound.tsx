@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Header from "./Header";
-import "./NotFound.css";
+import "./NotFound.scss";
 
 const NotFound = () => {
   return (

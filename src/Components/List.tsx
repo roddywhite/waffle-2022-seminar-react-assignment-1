@@ -2,7 +2,7 @@ import { useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import UserContext from "../Contexts/user-context";
 import MenuContext from "../Contexts/menu-context";
-import "./List.css";
+import "./List.scss";
 
 import Table from "./Table";
 import AddButton from "./AddButton";

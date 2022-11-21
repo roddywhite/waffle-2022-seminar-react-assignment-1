@@ -1,4 +1,4 @@
-import "./AddMenu.css";
+import "./AddMenu.scss";
 import "./AddButton";
 import { useState, useEffect, useContext } from "react";
 import "react-toastify/dist/ReactToastify.css";
@@ -123,11 +123,9 @@ const AddMenu = () => {
       <HeaderStore />
       <div className="addBigContainer">
         <div className="addContainer">
-          <h3 className="title">새 메뉴 추가</h3>
-
-          <label className="inputLabel">이름</label>
+          <h3>새 메뉴 추가</h3>
+          <label>이름</label>
           <input
-            className="inputBox"
             type="text"
             required={true}
             minLength={1}
@@ -137,10 +135,9 @@ const AddMenu = () => {
             onChange={titleChangeHandler}
           />
 
-          <label className="inputLabel">종류</label>
+          <label>종류</label>
           <select
             name="type"
-            className="dropdown"
             onChange={(e) => setEnteredType(e.target.value)}
           >
             <option value="">상품의 종류를 선택하세요</option>
@@ -149,9 +146,8 @@ const AddMenu = () => {
             <option value="coffee">커피</option>
           </select>
 
-          <label className="inputLabel">가격</label>
+          <label>가격</label>
           <input
-            className="inputBox"
             type="text"
             maxLength={7}
             placeholder="5,000"
@@ -159,18 +155,16 @@ const AddMenu = () => {
             onChange={changeEnteredNum}
           />
 
-          <label className="inputLabel">상품 이미지</label>
+          <label>상품 이미지</label>
           <input
-            className="inputBox"
             type="text"
             placeholder="https://foobar/baz.png"
             value={enteredUrl}
             onChange={(e) => setEnteredUrl(e.target.value)}
           />
 
-          <label className="inputLabel">설명</label>
+          <label>설명</label>
           <textarea
-            className="inputBoxDesc"
             placeholder="상품에 대한 자세한 설명을 입력해주세요"
             value={enteredDesc}
             onChange={(e) => setEnteredDesc(e.target.value)}

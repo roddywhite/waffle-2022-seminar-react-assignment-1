@@ -1,4 +1,4 @@
-import "./DeleteMenuModal.css";
+import "./DeleteMenuModal.scss";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";

@@ -83,7 +83,7 @@ const AddReview = ({
   return (
     <div className="addReviewSection">
       <div
-        className="starBox"
+        className="addStarBox"
         onMouseEnter={() => setStarChangeMode(true)}
         onMouseLeave={() => setStarChangeMode(false)}
       >

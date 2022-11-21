@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { end, errMsg, successMsg } from "../utils/common";
 
 import Header from "./Header";
-import "./Profile.css";
+import "./Profile.scss";
 
 const Profile = () => {
   const userCtx = useContext(UserContext);
@@ -62,9 +62,9 @@ const Profile = () => {
       <Header />
       <div className="fullfull">
         <div className="profileCon">
-          <h3 className="title">내 정보 수정</h3>
+          <h3>내 정보 수정</h3>
 
-          <label className="inputLabel">가게 이름</label>
+          <label>가게 이름</label>
           <input
             className="inputBox"
             type="text"
@@ -75,7 +75,7 @@ const Profile = () => {
             onChange={(e) => setEnteredName(e.target.value)}
           />
 
-          <label className="inputLabel">가게 설명</label>
+          <label>가게 설명</label>
           <textarea
             className="inputBoxDesc"
             placeholder="가게에 대해 설명해주세요"

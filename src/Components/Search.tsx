@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import SearchContext from "../Contexts/search-context";
-import "./Search.css";
+import "./Search.scss";
 import searchImg from "../assets/search.png";
 import xButton from "../assets/closeButton.svg";
 import filterButton from "../assets/filter.svg";

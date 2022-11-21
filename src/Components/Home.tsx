@@ -6,7 +6,7 @@ import SearchContext from "../Contexts/search-context";
 import Header from "./Header";
 import SearchStore from "./SearchStore";
 import StoreShortcut from "./StoreShortcut";
-import "./Home.css";
+import "./Home.scss";
 import { end } from "../utils/common";
 
 

@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { end, errMsg, successMsg } from "../utils/common";
 import Moment from "react-moment";
 import "moment/locale/ko";
-import "./Review.css";
+import "./Review.scss";
 import "./AddReview.css";
 
 import deleteButton from "../assets/deleteButton.svg";

@@ -4,7 +4,7 @@ import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { end, errMsg, successMsg } from "../utils/common";
-import "./DetailView.css";
+import "./DetailView.scss";
 
 import NotFound from "./NotFound";
 import DeleteMenuModal from "./DeleteMenuModal";
@@ -150,7 +150,7 @@ const DetailView = () => {
                 <span>{menu.description ? menu.description : "설명 없음"}</span>
 
                 {(userCtx.user as any)?.id === Number(storeId) && (
-                  <div className="viewButtonContainer">
+                  <div>
                     <Link to={`/stores/${storeId}/menus/${menuId}/edit`}>
                       <img className="editButton" src={editButton} alt="Edit" />
                     </Link>
@@ -184,13 +184,6 @@ const DetailView = () => {
                   })}
                 </div>
                 <a>{reviews?.length ? menuRating.toFixed(2) : "0.00"}</a>
-                {/* {reviews?.length ? (
-                  <span className="totalReviews">
-                    총 {entireReviews?.length}개의 리뷰
-                  </span>
-                ) : (
-                  ""
-                )} */}
               </div>
               <div className="reviewList" ref={reviewContainer}>
                 {reviews &&
