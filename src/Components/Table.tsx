@@ -4,7 +4,7 @@ import axios from "axios";
 import { end } from "../utils/common";
 import SearchContext from "../Contexts/search-context";
 import Item from "./Item";
-import "./Table.css";
+import "./Table.scss";
 
 const Table = () => {
   const searchCtx = useContext(SearchContext);
@@ -25,7 +25,7 @@ const Table = () => {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [searchCtx.enteredMenu]);
+  }, [storeId, searchCtx.enteredMenu]);
 
   return (
     <>

@@ -4,7 +4,7 @@ import { end, errMsg } from "../utils/common";
 import starEmpty from "../assets/starEmpty.svg";
 import starHalf from "../assets/starHalf.svg";
 import starFull from "../assets/starFull.svg";
-import "./StoreShortcut.css";
+import "./StoreShortcut.scss";
 
 interface homeProps {
   storeId: number;

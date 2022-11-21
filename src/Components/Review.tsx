@@ -17,7 +17,7 @@ import DeleteReviewModal from "./DeleteReviewModal";
 import ModalContext from "../Contexts/modal-context";
 
 interface DetailViewProps {
-  reviewId: string,
+  reviewId: number,
   author: user,
   content: string,
   createdAt: string,

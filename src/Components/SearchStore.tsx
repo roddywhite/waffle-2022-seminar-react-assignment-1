@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import SearchContext from "../Contexts/search-context";
-import "./SearchStore.css";
+import "./SearchStore.scss";
 import searchImg from "../assets/search.png";
 import xButton from "../assets/closeButton.svg";
 
@@ -11,7 +11,6 @@ const Search = () => {
       <label>
         가게 검색:
         <input
-          className="searchBox"
           type="text"
           value={searchCtx.enteredStore}
           onChange={(e) => searchCtx.onSearchStore(e)}

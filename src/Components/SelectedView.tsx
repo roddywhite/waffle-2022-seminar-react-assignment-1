@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { end } from "../utils/common";
 import MenuContext from "../Contexts/menu-context";
-import "./SelectedView.css";
+import "./SelectedView.scss";
 import closeButton from "../assets/closeButton.svg";
 import altImg from "../assets/logo.svg";
 

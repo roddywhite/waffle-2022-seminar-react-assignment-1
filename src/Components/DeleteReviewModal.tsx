@@ -7,7 +7,7 @@ import ModalContext from "../Contexts/modal-context";
 import UserContext from "../Contexts/user-context";
 
 interface ReviewProps {
-  reviewId: string;
+  reviewId: number;
   fetchLatestData: () => void;
   fetchFirstReviews: () => void;
   deleteMode: boolean;

@@ -21,7 +21,7 @@ const List = () => {
   } = menuCtx;
   const { user }: { user: user | null } = userCtx;
 
-  useEffect(() => fetchMenuData(storeId as string), [selectedMenu]);
+  useEffect(() => fetchMenuData(storeId as string), [selectedMenu, storeId]);
 
   return (
     <div className="bigContainer">

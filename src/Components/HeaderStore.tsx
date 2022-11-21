@@ -26,7 +26,7 @@ const HeaderStore = () => {
         setStoreOwner(res.data.owner.username);
       })
       .catch((res) => errMsg(res.response.data.message));
-  }, []);
+  }, [storeId]);
 
   return (
     <div className="header">
