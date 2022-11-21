@@ -4,13 +4,12 @@ import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { end, errMsg, successMsg } from "../utils/common";
-import "./DetailView.scss";
+import "./DetailView.css";
 
 import NotFound from "./NotFound";
 import DeleteMenuModal from "./DeleteMenuModal";
 import Review from "./Review";
 import AddReview from "./AddReview";
-
 import ModalContext from "../Contexts/modal-context";
 
 import backArrow from "../assets/backArrow.svg";
@@ -34,7 +33,7 @@ const DetailView = () => {
   const [menu, setMenu] = useState<menu | null>(null);
   const [reviews, setReviews] = useState<Array<review>>([]);
   const [menuRating, setMenuRating] = useState<number>(0);
-  const nextLoad: any = useRef<string>("");
+  const nextLoad = useRef<string>("");
 
   // 메뉴 최신정보 불러오기
   const fetchLatestData = (): void => {
@@ -54,23 +53,24 @@ const DetailView = () => {
   };
   useEffect(() => fetchFirstReviews(), []);
 
-  const fetchMoreReview = (): void => {
-    axios
-      .get(`${end}/reviews/?from=${nextLoad.current}&count=6&menu=${menuId}`)
-      .then((res) => {
-        if (res.data.data[0]) {
-          const reviewList = res.data.data;
-          setReviews((prev) => [...prev, ...reviewList]);
-          nextLoad.current = res.data.next;
-        } else {
-          errMsg("더이상 불러올 리뷰가 없습니다");
-        }
-      });
-  };
+  // const fetchMoreReview = (): void => {
+  //   axios
+  //     .get(`${end}/reviews/?from=${nextLoad.current}&count=6&menu=${menuId}`)
+  //     .then((res) => {
+  //       if (res.data.data[0]) {
+  //         const reviewList = res.data.data;
+  //         setReviews((prev) => [...prev, ...reviewList]);
+  //         nextLoad.current = res.data.next;
+  //       } else {
+  //         errMsg("더이상 불러올 리뷰가 없습니다");
+  //       }
+  //     });
+  // };
 
   // 무한스크롤 구현
   const [target, setTarget] = useState<HTMLElement | null>(null);
   const reviewContainer = useRef<HTMLDivElement | null>(null);
+  const isFetching = useRef<boolean>(false);
   const stopLoad = useRef<boolean>(false);
   // 리뷰 추가, 수정, 삭제시 다시 스크롤 내릴 수 있도록
   const noStop = (): void => {
@@ -78,7 +78,8 @@ const DetailView = () => {
     nextLoad.current = "";
   };
 
-  const moreData = async () => {
+  const moreData = useCallback(async () => {
+    isFetching.current = true;
     const res = await axios.get(
       `${end}/reviews/?from=${nextLoad.current}&count=6&menu=${menuId}`
     );
@@ -89,10 +90,11 @@ const DetailView = () => {
     } else {
       stopLoad.current = true;
     }
-  };
+    isFetching.current = false;
+  }, [])
 
   const onIntersect = async ([entry]: any, observer: any) => {
-    if (entry.isIntersecting && !stopLoad.current) {
+    if (entry.isIntersecting && !isFetching.current && !stopLoad.current) {
       observer.unobserve(target);
       await moreData();
       observer.observe(target);
@@ -110,6 +112,8 @@ const DetailView = () => {
     }
     return () => observer && observer.disconnect();
   }, [target, reviews, stopLoad.current]);
+
+  console.log(nextLoad.current, stopLoad.current)
 
   return (
     <>
@@ -149,7 +153,7 @@ const DetailView = () => {
                 <span>{menu.price.toLocaleString()}원</span>
                 <span>{menu.description ? menu.description : "설명 없음"}</span>
 
-                {(userCtx.user as any)?.id === Number(storeId) && (
+                {(userCtx.user as user | null)?.id === Number(storeId) && (
                   <div>
                     <Link to={`/stores/${storeId}/menus/${menuId}/edit`}>
                       <img className="editButton" src={editButton} alt="Edit" />
@@ -187,7 +191,7 @@ const DetailView = () => {
               </div>
               <div className="reviewList" ref={reviewContainer}>
                 {reviews &&
-                  reviews.map((review: any, idx) => (
+                  reviews.map((review: review, idx) => (
                     <Review
                       key={idx}
                       reviewId={review.id}
@@ -200,7 +204,7 @@ const DetailView = () => {
                       noStop={noStop}
                     />
                   ))}
-                <button className="loadMore" onClick={fetchMoreReview}>
+                <button className="loadMore">
                   {!stopLoad ? "Load more..." : "더이상 불러올 리뷰가 없습니다"}
                 </button>
                 <div className="loader" ref={setTarget} />
