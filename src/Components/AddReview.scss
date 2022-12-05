@@ -1,0 +1,48 @@
+@import "common.scss";
+
+.addReviewSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-self: center;
+
+  textarea {
+    position: relative;
+    align-items: baseline;
+    align-self: center;
+    margin-top: 10px;
+    border-radius: 10px;
+    width: 90%;
+    min-height: 70px;
+    padding-left: 2%;
+    padding-top: 4px;
+    border: 1px solid black;
+    resize: none;
+  }
+
+  button {
+    position: relative;
+    border: 1px solid #8a8a8a;
+    border-radius: 5px;
+    background: $greenBtn;
+    width: 45px;
+    height: 30px;
+    margin-top: 10px;
+    font-weight: 600;
+    margin-right: 4%;
+    align-self: flex-end;
+  }
+}
+
+.starBox {
+  display: inline-block;
+  width: 100px;
+  height: 20px;
+  margin-left: 3.5%;
+  margin-top: 10px;
+
+  .star {
+    width: 20px;
+  }
+}

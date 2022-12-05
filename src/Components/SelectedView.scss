@@ -1,0 +1,45 @@
+.selectedView {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 10px 10px 10px 20px;
+  width: 50vw;
+  height: 70vh;
+  border: 1px solid black;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+}
+
+.menuImg {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  margin-bottom: 15px;
+  border-radius: 30px;
+}
+
+.detailButtonContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 66px;
+  height: 50px;
+  margin-top: 30px;
+}
+
+.detailButton {
+  width: 70px;
+  height: 30px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid gray;
+}

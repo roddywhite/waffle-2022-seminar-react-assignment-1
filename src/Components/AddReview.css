@@ -6,9 +6,9 @@
   align-self: center;
 }
 
-.addReviewSection .starBox {
-  display: inline-block;
-  width: 100px;
+.addReviewSection .addStarBox {
+  display: flex;
+  width: 140px;
   height: 20px;
   margin-left: 3.5%;
   margin-top: 10px;
@@ -16,6 +16,7 @@
 
 .addReviewSection .star {
   width: 20px;
+  margin-right: 3px;
 }
 
 /* .starBox:hover .star {

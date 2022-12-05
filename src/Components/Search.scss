@@ -1,0 +1,62 @@
+.search {
+  margin-top: 20px;
+  margin-left: 3%;
+  display: flex;
+  align-items: center;
+  flex: none;
+  order: 0;
+  flex-grow: 1;
+
+  .searchBox {
+    width: 400px;
+    height: 20px;
+    margin-left: 10px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .searchImg {
+    width: 18px;
+    height: 18px;
+    position: relative;
+    right: 30px;
+    background: white;
+  }
+
+  .iconImg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .iconImg2 {
+    width: 22px;
+    height: 22px;
+  }
+
+  .filterContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: -6px;
+    margin-left: 10px;
+    gap: 0 6px;
+  }
+}
+
+.buttonBox {
+  display: flex;
+  flex-direction: row;
+  width: 40px;
+  height: 18px;
+  position: relative;
+  right: 40px;
+  justify-content: center;
+}
+
+.hiddenIcon {
+  visibility: hidden;
+}
