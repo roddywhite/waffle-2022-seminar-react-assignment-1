@@ -1,7 +1,7 @@
 # waffle-2022-seminar-react-assignment-4
 
-S3 - http://waffle-studio-assignment-1.s3-website.ap-northeast-2.amazonaws.com/
-CloudFront - https://d3u2m390lw3raa.cloudfront.net/
+- S3: http://waffle-studio-assignment-1.s3-website.ap-northeast-2.amazonaws.com/
+- CloudFront: https://d3u2m390lw3raa.cloudfront.net/
 
 * Auth 관련 (`user-context.tsx`)
     - `user-context`에서 토큰, 로그인 관리. 사실상 auth context.
