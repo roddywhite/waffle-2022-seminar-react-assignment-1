@@ -1,5 +1,8 @@
 # waffle-2022-seminar-react-assignment-4
 
+- S3: http://waffle-studio-assignment-1.s3-website.ap-northeast-2.amazonaws.com/
+- CloudFront: https://d3u2m390lw3raa.cloudfront.net/
+
 * Auth 관련 (`user-context.tsx`)
     - `user-context`에서 토큰, 로그인 관리. 사실상 auth context.
     - axios config : 인증이 필요한 요청을 해야하는 컴포넌트에서는 userContext로부터 authAxios를 받아 사용할 수 있도록 함
