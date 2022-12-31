@@ -43,7 +43,7 @@ const Home = () => {
     <div>
       <Header />
       <SearchStore />
-      <a>안녕하세요 자동배포 테스트입니다. 2:26pm 한번더 정말 한번더</a>
+      <a>안녕하세요 자동배포 테스트입니다. 2:26pm 한번더 정말 한번더 한번만 더</a>
       <div className="bigContainer">
         <div className="homeContainer">
           {stores &&
