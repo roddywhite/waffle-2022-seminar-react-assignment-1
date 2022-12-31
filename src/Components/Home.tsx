@@ -43,7 +43,7 @@ const Home = () => {
     <div>
       <Header />
       <SearchStore />
-      <a>안녕하세요!!!!</a>
+      <a>안녕하세요ㅎㅎ</a>
       <div className="bigContainer">
         <div className="homeContainer">
           {stores &&
