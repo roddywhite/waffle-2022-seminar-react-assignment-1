@@ -1,0 +1,37 @@
+name: React build
+on: 
+  push:                               # master Branch에서 push 이벤트가 일어났을 때만 실행
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout source code.   # 레포지토리 체크아웃
+        uses: actions/checkout@master
+
+      - name: Cache node modules      # node modules 캐싱
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - name: Install Dependencies    # 의존 파일 설치
+        run: npm install
+
+      - name: Build                   # React Build
+        run: npm run build
+
+      - name: Deploy                  # S3에 배포하기
+        env:
+          AWS_ACCESS_KEY_ID: AKIAWTNFOQOUHOJRBFWR
+          AWS_SECRET_ACCESS_KEY: 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
+        run: |
+          aws s3 cp \
+            --recursive \
+            --region ap-northeast-1 \
+            build s3://waffle-studio-assignment-1
